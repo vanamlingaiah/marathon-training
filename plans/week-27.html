@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Week 27 · June 29 – July 5, 2026 · Run-Walk Method</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,700;0,900;1,700&family=JetBrains+Mono:wght@400;600&family=Inter+Tight:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0b0d12;--bg2:#10131b;--ink:#f5f1e8;--soft:#a8a594;--line:#1f2330;
+  --z1:#3aa17a;--z2:#3b82f6;--str:#a855f7;--long:#ef6c4d;
+  --rest:#52525b;--pt:#14b8a6;--fuel:#eab308;--core:#ec4899;--dawn:#fbbf24;--walk:#06b6d4;
+  --win:#22c55e;--fix:#ef4444;--warn:#f59e0b;
+  --r:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:'Inter Tight',sans-serif;
+  background:radial-gradient(1100px 500px at 75% -5%,rgba(34,197,94,.07),transparent 60%),
+             radial-gradient(800px 400px at -5% 35%,rgba(6,182,212,.05),transparent 55%),var(--bg);
+  color:var(--ink);line-height:1.5;min-height:100vh;padding:36px 20px 80px;
+}
+.wrap{max-width:1180px;margin:0 auto}
+
+/* HERO */
+.hero{border:1px solid var(--line);border-radius:var(--r);padding:28px;background:linear-gradient(135deg,#0e1320,#0e1a17);position:relative;overflow:hidden;margin-bottom:18px}
+.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(700px 300px at 90% 0%,rgba(34,197,94,.13),transparent);pointer-events:none}
+.eyebrow{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--soft);margin-bottom:10px}
+h1{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(28px,5vw,52px);letter-spacing:-.02em;line-height:1.02;margin-bottom:8px}
+h1 em{font-style:italic;color:#86efac;font-weight:400}
+.hero-sub{color:var(--soft);font-size:14px;max-width:740px;line-height:1.6}
+.stat-row{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:20px;position:relative;z-index:1}
+.stat{border:1px solid var(--line);border-radius:10px;padding:12px 14px;background:rgba(255,255,255,.02)}
+.stat .k{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--soft)}
+.stat .v{font-family:'Fraunces',serif;font-size:20px;font-weight:700;margin-top:3px;line-height:1}
+.stat .d{font-size:11px;color:var(--win);margin-top:2px;font-family:'JetBrains Mono',monospace}
+.stat .d.warn{color:#fbbf24}.stat .d.walk{color:#67e8f9}.stat .d.dawn{color:#fcd34d}
+
+/* SUMMARY SECTION */
+.summary-card{border:1px solid var(--line);border-radius:var(--r);background:var(--bg2);padding:20px 22px;margin-bottom:16px}
+.summary-card h2{font-family:'Fraunces',serif;font-size:20px;margin-bottom:4px}
+.summary-card .sub{font-size:13px;color:var(--soft);margin-bottom:14px}
+
+/* COMPARISON TABLE */
+.cmp-table{width:100%;border-collapse:collapse;font-size:13px}
+.cmp-table th{text-align:left;padding:9px 12px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--soft);border-bottom:1px solid var(--line)}
+.cmp-table th:nth-child(2),.cmp-table th:nth-child(3){text-align:center}
+.cmp-table td{padding:10px 12px;border-bottom:1px dashed #1c2030;vertical-align:middle}
+.cmp-table td:first-child{font-weight:500}
+.cmp-table .num{font-family:'JetBrains Mono',monospace;text-align:center}
+.cmp-table .arrow{text-align:center;font-family:'JetBrains Mono',monospace;font-size:12px}
+.cmp-table .up{color:#4ade80}
+.cmp-table .same{color:var(--soft)}
+.cmp-table tr:last-child td{border-bottom:none}
+
+/* DETAILED SESSION GRID */
+.sessions-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:12px}
+.sess-c{border:1px solid var(--line);border-radius:8px;padding:12px;background:rgba(255,255,255,.02)}
+.sess-c.run{border-left:3px solid var(--z1)}
+.sess-c.bike{border-left:3px solid var(--z2)}
+.sess-c .top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px}
+.sess-c .day{font-weight:600;font-size:13px}
+.sess-c .time{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--soft)}
+.sess-c .metrics{display:flex;gap:12px;flex-wrap:wrap;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--soft)}
+.sess-c .metrics b{color:var(--ink);font-weight:600}
+.sess-c .am{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(251,191,36,.12);color:#fcd34d;margin-left:6px}
+.sess-c .pm{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(82,82,91,.2);color:var(--soft);margin-left:6px}
+
+/* WINS BANNER */
+.wins-banner{
+  border:2px solid rgba(34,197,94,.4);background:linear-gradient(135deg,rgba(34,197,94,.08),rgba(20,184,166,.04));
+  border-radius:var(--r);padding:20px 24px;margin-bottom:16px;
+  display:flex;gap:18px;align-items:flex-start;
+}
+.wins-banner .ico{font-size:32px;flex-shrink:0;margin-top:2px}
+.wins-banner h2{font-family:'Fraunces',serif;font-size:22px;color:#86efac;margin-bottom:6px;letter-spacing:-.01em}
+.wins-banner p{font-size:14px;line-height:1.6;color:var(--ink)}
+.wins-banner p strong{color:#86efac}
+
+/* RUN-WALK PROTOCOL CARD */
+.rw-card{border:2px solid rgba(6,182,212,.4);background:rgba(6,182,212,.05);border-radius:var(--r);padding:20px 22px;margin-bottom:16px}
+.rw-card h2{font-family:'Fraunces',serif;font-size:20px;color:#67e8f9;margin-bottom:6px}
+.rw-card .lead{font-size:13px;color:var(--soft);margin-bottom:14px;line-height:1.55}
+.rw-flow{display:flex;align-items:stretch;gap:8px;flex-wrap:wrap}
+.rw-step{flex:1;min-width:130px;border:1px solid var(--line);border-radius:10px;padding:13px;background:var(--bg2);position:relative}
+.rw-step .ico{font-size:18px;margin-bottom:5px}
+.rw-step .h{font-weight:700;font-size:13px;margin-bottom:3px}
+.rw-step .d{font-size:11px;color:var(--soft);line-height:1.45}
+.rw-step.run-step{border-color:rgba(58,161,122,.3)}
+.rw-step.run-step .h{color:#5dd6a3}
+.rw-step.walk-step{border-color:rgba(6,182,212,.3)}
+.rw-step.walk-step .h{color:#67e8f9}
+.rw-arrow{display:flex;align-items:center;color:var(--soft);font-size:18px;font-family:'JetBrains Mono',monospace}
+.rw-validation{margin-top:12px;border:1px solid rgba(34,197,94,.25);background:rgba(34,197,94,.04);border-radius:8px;padding:11px 13px}
+.rw-validation .h{font-family:'JetBrains Mono',monospace;font-size:10px;color:#86efac;letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px}
+.rw-validation .b{font-size:12px;color:var(--soft);line-height:1.5}
+
+/* CALLOUTS */
+.callout{border-radius:10px;padding:14px 18px;margin-bottom:14px;display:flex;gap:14px;align-items:flex-start}
+.callout.green{border:1px solid rgba(34,197,94,.3);background:rgba(34,197,94,.06)}
+.callout.amber{border:1px solid rgba(245,158,11,.3);background:rgba(245,158,11,.06)}
+.callout.blue{border:1px solid rgba(59,130,246,.3);background:rgba(59,130,246,.06)}
+.callout .ico{font-size:22px;flex-shrink:0;margin-top:2px}
+.callout h3{font-family:'Fraunces',serif;font-size:17px;margin-bottom:4px}
+.callout.green h3{color:#86efac}.callout.amber h3{color:#fde68a}.callout.blue h3{color:#7dd3fc}
+.callout p{font-size:13px;line-height:1.55;color:var(--ink)}
+.callout p strong{color:#fde68a}
+
+/* SECTION HEADERS */
+.section-title{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--soft);margin:22px 0 12px;display:flex;align-items:center;gap:10px}
+.section-title::after{content:"";flex:1;height:1px;background:var(--line)}
+
+/* LEGEND */
+.legend{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.chip{display:inline-flex;align-items:center;gap:7px;padding:6px 12px;border:1px solid var(--line);border-radius:30px;font-size:11px;font-family:'JetBrains Mono',monospace;letter-spacing:.05em;background:var(--bg2)}
+.dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+
+/* DAY CARDS */
+.days{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-bottom:20px}
+.day{border:1px solid var(--line);border-radius:var(--r);background:var(--bg2);overflow:hidden;display:flex;flex-direction:column}
+.day-hdr{padding:13px 17px 11px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:flex-end;gap:10px;position:relative}
+.day-hdr::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--dc,#fff)}
+.day-name{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--soft)}
+.day-date{font-family:'Fraunces',serif;font-size:24px;font-weight:700;line-height:1;margin-top:2px}
+.day-focus{text-align:right;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;padding:4px 8px;border-radius:4px;background:rgba(255,255,255,.04);border:1px solid var(--line);color:var(--soft);max-width:180px}
+.cal-badge{font-family:'JetBrains Mono',monospace;font-size:9px;padding:2px 6px;border-radius:3px;margin-top:3px;display:inline-block}
+.cal-badge.high{background:rgba(239,108,77,.12);color:#fca97f}
+.cal-badge.low{background:rgba(59,130,246,.12);color:#7dd3fc}
+.day-body{padding:14px 17px 16px;flex:1;display:flex;flex-direction:column;gap:11px}
+
+.blk{border-left:3px solid var(--bc,#fff);padding:9px 13px;background:rgba(255,255,255,.012);border-radius:0 8px 8px 0}
+.blk .lbl{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--soft);display:flex;justify-content:space-between;align-items:center;margin-bottom:3px}
+.blk .dur{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink);background:rgba(255,255,255,.06);padding:2px 6px;border-radius:3px}
+.blk .ttl{font-size:13px;font-weight:600;margin-bottom:4px}
+.blk .det{font-size:12px;color:var(--soft);line-height:1.55}
+.blk .det strong{color:var(--ink)}
+
+.blk.z2{--bc:var(--z2)}.blk.z1{--bc:var(--z1)}.blk.str{--bc:var(--str)}
+.blk.long{--bc:var(--long)}.blk.rest{--bc:var(--rest)}.blk.pt{--bc:var(--pt)}
+.blk.fuel{--bc:var(--fuel)}.blk.core{--bc:var(--core)}.blk.walk{--bc:var(--walk)}
+
+.day[data-c="z2"]{--dc:var(--z2)}.day[data-c="run"]{--dc:var(--z1)}
+.day[data-c="str"]{--dc:var(--str)}.day[data-c="long"]{--dc:var(--long)}
+.day[data-c="rest"]{--dc:var(--rest)}
+
+.ex-grid{display:grid;grid-template-columns:1fr 1fr;gap:3px 12px;margin-top:6px}
+.ex-row{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink)}
+.ex-row span{color:var(--soft)}
+.ex-row.core{color:#f9a8d4}.ex-row.core span{color:rgba(249,168,212,.7)}
+
+.rw-banner{border:1px solid rgba(6,182,212,.4);background:rgba(6,182,212,.06);border-radius:8px;padding:10px 12px;margin-bottom:6px}
+.rw-banner .h{font-weight:700;font-size:12px;color:#67e8f9;margin-bottom:2px}
+.rw-banner .b{font-size:11px;color:var(--soft);line-height:1.45}
+
+.core-banner{border:1px solid rgba(236,72,153,.4);background:rgba(236,72,153,.06);border-radius:8px;padding:10px 12px;margin-bottom:6px}
+.core-banner .h{font-weight:700;font-size:12px;color:#f9a8d4;margin-bottom:2px}
+.core-banner .b{font-size:11px;color:var(--soft);line-height:1.45}
+
+.time-flag{display:inline-flex;align-items:center;gap:5px;font-family:'JetBrains Mono',monospace;font-size:10px;padding:2px 7px;border-radius:4px;background:rgba(251,191,36,.12);color:#fcd34d;border:1px solid rgba(251,191,36,.3);margin-left:6px}
+
+/* SECTION */
+.sec{border:1px solid var(--line);border-radius:var(--r);padding:18px 20px;background:var(--bg2);margin-bottom:16px}
+.sec h2{font-family:'Fraunces',serif;font-size:19px;font-weight:700;margin-bottom:6px}
+.sec .sub{font-size:13px;color:var(--soft);margin-bottom:12px;line-height:1.5}
+
+.ntbl{width:100%;border-collapse:collapse;font-size:12px}
+.ntbl th{text-align:left;padding:8px 12px;background:rgba(234,179,8,.07);font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#fde68a;border-bottom:1px solid var(--line)}
+.ntbl td{padding:9px 12px;border-bottom:1px dashed #1c2030;vertical-align:top}
+.ntbl td:first-child{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--soft);width:130px}
+
+/* TIPS */
+.tips{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.tip{border:1px solid var(--line);border-radius:10px;padding:14px;background:rgba(255,255,255,.02)}
+.tip .n{font-family:'Fraunces',serif;font-size:32px;font-weight:900;color:#fbbf77;line-height:1;margin-bottom:5px}
+.tip .h{font-weight:600;font-size:13px;margin-bottom:3px}
+.tip .b{font-size:12px;color:var(--soft);line-height:1.5}
+
+footer{margin-top:28px;text-align:center;color:var(--soft);font-size:11px;font-family:'JetBrains Mono',monospace;letter-spacing:.1em}
+
+@media(max-width:860px){
+  .days,.tips,.stat-row,.sessions-grid,.rw-flow{grid-template-columns:1fr}
+  .stat-row{grid-template-columns:repeat(2,1fr)}
+  .rw-flow{flex-direction:column}.rw-arrow{transform:rotate(90deg)}
+  .ex-grid{grid-template-columns:1fr}
+  body{padding:18px 12px 60px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- HERO -->
+<section class="hero">
+  <div class="eyebrow">Week 27 · June 29 – July 5, 2026 · Houston Marathon 2027 · 28 weeks out · Aubrey, TX</div>
+  <h1>The run-walk method<br>is <em>working</em>.</h1>
+  <p class="hero-sub">Two full weeks back-to-back, and the data shows real progress — your Saturday run got a full minute per mile faster at the same heart rate. Your run-walk pattern (run to 140, walk to 128, repeat) is textbook heat-adapted Zone 2 training, and it's keeping your max HR capped at 145 instead of spiking. This week we formalize that method and keep building.</p>
+  <div class="stat-row">
+    <div class="stat"><div class="k">Volume Target</div><div class="v">4.7 hr</div><div class="d">↑ steady build</div></div>
+    <div class="stat"><div class="k">Run Method</div><div class="v">Run-Walk</div><div class="d walk">140 / 128 cycle</div></div>
+    <div class="stat"><div class="k">Sat Pace</div><div class="v">13:18/mi</div><div class="d">↓ 1 min faster!</div></div>
+    <div class="stat"><div class="k">Long Run</div><div class="v">60 min</div><div class="d">↑ from 54</div></div>
+    <div class="stat"><div class="k">Cadence</div><div class="v">142 spm</div><div class="d">↑ creeping up</div></div>
+  </div>
+</section>
+
+<!-- WINS -->
+<div class="wins-banner">
+  <div class="ico">📈</div>
+  <div>
+    <h2>Two weeks of genuine progress</h2>
+    <p>Saturday's run went from <strong>14:18/mi → 13:18/mi — a full minute per mile faster at the same heart rate (132–133)</strong>. That's your aerobic fitness improving, plain and simple: more speed for the same effort. Wednesday's run was both longer AND faster than the week before (32 min/2.24mi → 47 min/3.47mi). Two complete weeks, no setbacks, cadence creeping up. This is exactly what consistent base-building looks like.</p>
+  </div>
+</div>
+
+<!-- TWO WEEK COMPARISON -->
+<div class="summary-card">
+  <h2>Week 25 → Week 26 progression</h2>
+  <p class="sub">Both weeks from your upload (Jun 15–27). The trend is the story.</p>
+  <table class="cmp-table">
+    <thead><tr><th>Metric</th><th>Week 25</th><th>Week 26</th><th></th></tr></thead>
+    <tbody>
+      <tr><td>Total volume</td><td class="num">4.4 hr</td><td class="num">4.5 hr</td><td class="arrow up">↑</td></tr>
+      <tr><td>Run distance</td><td class="num">8.55 mi</td><td class="num">10.29 mi</td><td class="arrow up">↑ +1.7mi</td></tr>
+      <tr><td>Run time</td><td class="num">125 min</td><td class="num">142 min</td><td class="arrow up">↑</td></tr>
+      <tr><td>Saturday long run pace</td><td class="num">14:18/mi</td><td class="num">13:18/mi</td><td class="arrow up">↑ 1 min faster</td></tr>
+      <tr><td>Wednesday run pace</td><td class="num">14:42/mi</td><td class="num">13:30/mi</td><td class="arrow up">↑ faster</td></tr>
+      <tr><td>Avg run cadence (spm)</td><td class="num">139</td><td class="num">142</td><td class="arrow up">↑</td></tr>
+      <tr><td>Max HR control</td><td class="num">hit 150 ×4</td><td class="num">capped 145</td><td class="arrow up">↑ discipline</td></tr>
+      <tr><td>Saturday start time</td><td class="num">7:29 AM</td><td class="num">6:40 AM</td><td class="arrow up">↑ cooler</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- WEEK 26 DETAILED SESSIONS -->
+<div class="summary-card">
+  <h2>Week 26 — every session</h2>
+  <p class="sub">Detailed breakdown of all 6 sessions, June 22–27.</p>
+  <div class="sessions-grid">
+    <div class="sess-c run">
+      <div class="top"><span class="day">Mon · Easy Run<span class="pm">6:23 PM</span></span><span class="time">41 min · 2.80 mi</span></div>
+      <div class="metrics"><span>HR <b>136</b>/150</span><span>cad <b>136 spm</b></span><span>pace <b>14:42</b></span><span>287 cal</span></div>
+    </div>
+    <div class="sess-c bike">
+      <div class="top"><span class="day">Tue · Zwift Z2<span class="am">8:30 AM</span></span><span class="time">51 min · 11.6 mi</span></div>
+      <div class="metrics"><span>HR <b>118</b>/128</span><span><b>92W</b></span><span>60 rpm</span></div>
+    </div>
+    <div class="sess-c run">
+      <div class="top"><span class="day">Wed · Cadence Run<span class="am">6:42 AM</span></span><span class="time">47 min · 3.47 mi</span></div>
+      <div class="metrics"><span>HR <b>135</b>/145</span><span>cad <b>146 spm</b></span><span>pace <b>13:30</b></span><span>357 cal</span></div>
+    </div>
+    <div class="sess-c bike">
+      <div class="top"><span class="day">Thu · Recovery Spin<span class="am">8:30 AM</span></span><span class="time">32 min · 6.56 mi</span></div>
+      <div class="metrics"><span>HR <b>107</b>/116</span><span><b>56W</b></span><span>easy</span></div>
+    </div>
+    <div class="sess-c bike">
+      <div class="top"><span class="day">Fri · Zwift Z2<span class="am">8:24 AM</span></span><span class="time">47 min · 9.97 mi</span></div>
+      <div class="metrics"><span>HR <b>112</b>/138</span><span><b>92W</b></span><span>61 rpm</span></div>
+    </div>
+    <div class="sess-c run">
+      <div class="top"><span class="day">Sat · Long Run 🏆<span class="am">6:40 AM</span></span><span class="time">54 min · 4.02 mi</span></div>
+      <div class="metrics"><span>HR <b>133</b>/145</span><span>cad <b>144 spm</b></span><span>pace <b>13:18</b></span><span>433 cal</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- RUN-WALK METHOD VALIDATED -->
+<div class="rw-card">
+  <h2>🌊 Your run-walk method — validated by the data</h2>
+  <p class="lead">I analyzed Wednesday's run minute-by-minute. Your pattern of running to 140 then walking to 128 is working exactly as intended — and it's a legitimate, coach-endorsed method for heat training. Here's the cycle, formalized:</p>
+  <div class="rw-flow">
+    <div class="rw-step run-step">
+      <div class="ico">🏃</div>
+      <div class="h">RUN at 150 cadence</div>
+      <div class="d">Hold your turnover. Let HR climb naturally as you run.</div>
+    </div>
+    <div class="rw-arrow">→</div>
+    <div class="rw-step run-step">
+      <div class="ico">⬆️</div>
+      <div class="h">HR hits 140</div>
+      <div class="d">The trigger. Don't push past it — transition to walk.</div>
+    </div>
+    <div class="rw-arrow">→</div>
+    <div class="rw-step walk-step">
+      <div class="ico">🚶</div>
+      <div class="h">WALK briskly</div>
+      <div class="d">Keep moving. HR drifts down as you recover.</div>
+    </div>
+    <div class="rw-arrow">→</div>
+    <div class="rw-step walk-step">
+      <div class="ico">⬇️</div>
+      <div class="h">HR drops to 128</div>
+      <div class="d">Recovery complete. Resume running. Repeat the cycle.</div>
+    </div>
+  </div>
+  <div class="rw-validation">
+    <div class="h">✅ Wednesday's data proves it works</div>
+    <div class="b">Run time 29 min / walk time 18 min (62% running). HR spent 53% in your target 128–140 zone, avg held at 135, max only 145. You completed 3.47 mi at 13:30/mi pace — faster than the week before. This is textbook heat-adapted aerobic training. Keep doing exactly this.</div>
+  </div>
+</div>
+
+<!-- KEY OBSERVATIONS -->
+<div class="callout green">
+  <div class="ico">🎯</div>
+  <div>
+    <h3>Why the run-walk method is the right call (not a compromise)</h3>
+    <p>This is the <strong>Jeff Galloway method</strong> — used by hundreds of thousands of marathoners, including for full race distances. In Texas summer it's not just acceptable, it's optimal: it keeps you in true Zone 2, protects your PFPS knee from continuous loading, and lets you accumulate more total running volume than grinding out a slow continuous jog. As temps drop in fall, the walk breaks naturally shorten. You're not "failing to run continuously" — you're training smart.</p>
+  </div>
+</div>
+
+<div class="callout amber">
+  <div class="ico">🌅</div>
+  <div>
+    <h3>One thing to protect: the morning runs (bikes can stay flexible)</h3>
+    <p>Your <strong>runs</strong> moved earlier (Sat 6:40 AM — great), but Monday is still drifting to evening (6:23 PM at 85°F+). The bikes drifting to 8:30 AM is totally fine since they're indoor and climate-controlled. The priority: <strong>get all three runs into the 6:00–6:45 AM window.</strong> Monday especially — an evening run in the heat is why its pace (14:42) lagged the morning runs (13:18–13:30).</p>
+  </div>
+</div>
+
+<div class="callout blue">
+  <div class="ico">📊</div>
+  <div>
+    <h3>Cadence note — you're closer to target than it looks</h3>
+    <p>Your Garmin reports cadence as a per-leg count (68–73), so your actual step rate is roughly <strong>136–146 spm</strong> — and Wednesday hit 146. That's solid progress from the 127 of weeks ago, closing in on the 150 intermediate target. Keep the metronome on. Next milestone after 150 is working toward 170 over the coming months.</p>
+  </div>
+</div>
+
+<!-- LEGEND -->
+<div class="legend">
+  <span class="chip"><span class="dot" style="background:var(--z1)"></span>Run (run-walk)</span>
+  <span class="chip"><span class="dot" style="background:var(--z2)"></span>Bike / Zwift</span>
+  <span class="chip"><span class="dot" style="background:var(--str)"></span>Strength</span>
+  <span class="chip"><span class="dot" style="background:var(--core)"></span>Core / Abs</span>
+  <span class="chip"><span class="dot" style="background:var(--long)"></span>Long Run</span>
+  <span class="chip"><span class="dot" style="background:var(--walk)"></span>Walk interval</span>
+  <span class="chip"><span class="dot" style="background:var(--rest)"></span>Rest</span>
+</div>
+
+<div class="section-title">Week 27 · June 29 – July 5 · Run-Walk Method Formalized</div>
+
+<!-- DAYS -->
+<div class="days">
+
+  <!-- MONDAY -->
+  <div class="day" data-c="run">
+    <div class="day-hdr">
+      <div><div class="day-name">Monday</div><div class="day-date">Jun 29</div><span class="cal-badge low">🔵 mild deficit</span></div>
+      <div class="day-focus">Run-Walk + Strength A</div>
+    </div>
+    <div class="day-body">
+      <div class="blk fuel"><div class="lbl">🍎 6:00 AM · Wake + fuel <span class="time-flag">🌅 GET THIS ONE EARLY</span></div><div class="det">16 oz water. <strong>½ cup oats + honey</strong> or banana. Out by 6:15 — this is the run that's been slipping to evening. Morning = faster + cooler.</div></div>
+      <div class="blk pt">
+        <div class="lbl">🩺 Dynamic warm-up <span class="dur">6 min</span></div>
+        <div class="det">Leg swings × 10 each · walking lunges × 8 · high knees × 20m · butt kicks × 20m · 3 strides at 150 spm.</div>
+      </div>
+      <div class="blk z1">
+        <div class="lbl">🏃 Run-walk · 6:15 AM <span class="dur">35 min</span></div>
+        <div class="ttl">2.5–2.8 mi · Aubrey flat · run-walk method</div>
+        <div class="rw-banner"><div class="h">🌊 The cycle: run → 140 → walk → 128 → repeat</div><div class="b">Metronome at 150 spm while running. Run until HR hits 140, walk until it drops to 128, resume. Let the watch HR alert guide you.</div></div>
+        <div class="det"><strong>Pace target:</strong> doesn't matter — the method controls effort. <strong>Carry water.</strong></div>
+      </div>
+      <div class="blk str">
+        <div class="lbl">💪 Strength A + Core <span class="dur">18 min</span></div>
+        <div class="ttl">Post-run, indoors. Full protocol.</div>
+        <div class="ex-grid">
+          <div class="ex-row">Glute bridge <span>· 3 × 15</span></div>
+          <div class="ex-row">Clamshells <span>· 3 × 15/side</span></div>
+          <div class="ex-row">Bodyweight squat <span>· 3 × 12</span></div>
+          <div class="ex-row">Step-ups <span>· 2 × 10/side</span></div>
+          <div class="ex-row core">Dead-bug <span>· 3 × 12/side ★</span></div>
+          <div class="ex-row core">Hollow hold <span>· 3 × 25 sec ★</span></div>
+        </div>
+        <div class="core-banner"><div class="h">★ Deep abs for the lower belly</div><div class="b">Dead-bug + hollow hold target the transverse abdominis. Keep lower back flat to floor.</div></div>
+      </div>
+      <div class="blk fuel"><div class="lbl">🍎 Post · within 30 min</div><div class="det">Overnight oats + whey. 16 oz water. (Easy day — moderate portions.)</div></div>
+    </div>
+  </div>
+
+  <!-- TUESDAY -->
+  <div class="day" data-c="z2">
+    <div class="day-hdr">
+      <div><div class="day-name">Tuesday</div><div class="day-date">Jun 30</div><span class="cal-badge low">🔵 mild deficit</span></div>
+      <div class="day-focus">Zwift Z2 Endurance</div>
+    </div>
+    <div class="day-body">
+      <div class="blk fuel"><div class="lbl">🍎 Wake + fuel <span class="time-flag">🌅 flexible (indoor)</span></div><div class="det">16 oz water + electrolyte. <strong>Toast + almond butter + ½ banana</strong>, 20 min before. Bike's indoor — time is flexible but earlier is better for the habit.</div></div>
+      <div class="blk z2">
+        <div class="lbl">🚴 Zwift Z2 endurance <span class="dur">55 min</span></div>
+        <div class="ttl">Volcano Flat · the aerobic builder · indoor comfort</div>
+        <div class="det">
+          <strong>Target:</strong> HR 120–132, watts 95–115, cadence 85–95 rpm.<br>
+          <strong>Structure:</strong> 10 min @ 80W warm-up → 40 min @ 105W steady → 5 min cool-down.<br>
+          <strong>Fan on, sip every 15 min.</strong> Comfortable indoors — make this a quality steady ride.
+        </div>
+      </div>
+      <div class="blk pt">
+        <div class="lbl">🩺 Post · Hip mobility <span class="dur">8 min</span></div>
+        <div class="det">Hip flexor stretch 60 sec/side · pigeon 60 sec/side · couch stretch 60 sec/side · cat-cow × 10.</div>
+      </div>
+      <div class="blk fuel"><div class="lbl">🍎 Post · within 30 min</div><div class="det">Protein smoothie: whey + milk + ½ banana + spinach. (Easy day — skip the PB.)</div></div>
+    </div>
+  </div>
+
+  <!-- WEDNESDAY -->
+  <div class="day" data-c="run">
+    <div class="day-hdr">
+      <div><div class="day-name">Wednesday</div><div class="day-date">Jul 1</div><span class="cal-badge high">🔴 maintenance</span></div>
+      <div class="day-focus">Run-Walk Cadence + Core</div>
+    </div>
+    <div class="day-body">
+      <div class="blk fuel"><div class="lbl">🍎 6:00 AM · Wake + fuel <span class="time-flag">🌅 6 AM</span></div><div class="det">16 oz water. <strong>½ cup oats + honey + berries</strong>. Out by 6:15.</div></div>
+      <div class="blk pt">
+        <div class="lbl">🩺 Dynamic warm-up <span class="dur">6 min</span></div>
+        <div class="det">Leg swings × 10 each · walking lunges × 8 · high knees × 20m · butt kicks × 20m · 3 strides at 150 spm.</div>
+      </div>
+      <div class="blk z1">
+        <div class="lbl">🏃 Run-walk · cadence focus · 6:15 AM <span class="dur">40 min</span></div>
+        <div class="ttl">3.0–3.5 mi · the cadence builder — your best run last week</div>
+        <div class="rw-banner"><div class="h">🌊 Run → 140 → walk → 128 → repeat · cadence 150</div><div class="b">Same method. Last Wednesday you hit 146 spm and 13:30 pace with this — push cadence toward 150 this time.</div></div>
+        <div class="det"><strong>HRM-600:</strong> watch live cadence + ground contact time. Aim GCT under 290 ms during run intervals.</div>
+      </div>
+      <div class="blk core">
+        <div class="lbl">🎯 Core circuit · post-run <span class="dur">12 min</span></div>
+        <div class="ttl">Dedicated abs — 2 rounds</div>
+        <div class="ex-grid">
+          <div class="ex-row core">Plank <span>· 3 × 45 sec</span></div>
+          <div class="ex-row core">Side plank <span>· 2 × 30 sec/side</span></div>
+          <div class="ex-row core">Dead-bug <span>· 3 × 12/side</span></div>
+          <div class="ex-row core">Bicycle crunch <span>· 2 × 15/side</span></div>
+          <div class="ex-row core">Hollow hold <span>· 3 × 25 sec</span></div>
+          <div class="ex-row core">Leg raises <span>· 2 × 12</span></div>
+        </div>
+      </div>
+      <div class="blk fuel"><div class="lbl">🍎 Post · within 30 min</div><div class="det">2 eggs + toast + ½ avocado + orange. (Maintenance day — full fuel.)</div></div>
+    </div>
+  </div>
+
+  <!-- THURSDAY -->
+  <div class="day" data-c="str">
+    <div class="day-hdr">
+      <div><div class="day-name">Thursday</div><div class="day-date">Jul 2</div><span class="cal-badge low">🔵 mild deficit</span></div>
+      <div class="day-focus">Strength B + Recovery Spin</div>
+    </div>
+    <div class="day-body">
+      <div class="blk fuel"><div class="lbl">🍎 Wake + fuel <span class="time-flag">🌅 flexible (indoor)</span></div><div class="det">16 oz water. <strong>1 banana</strong>, 15 min before. (Easy day.)</div></div>
+      <div class="blk str">
+        <div class="lbl">💪 Strength B + Core <span class="dur">20 min</span></div>
+        <div class="ttl">Gateway rule: mat before bike. Lower body + deep core.</div>
+        <div class="ex-grid">
+          <div class="ex-row">Reverse lunge <span>· 3 × 8/side</span></div>
+          <div class="ex-row">Step-ups <span>· 2 × 10/side</span></div>
+          <div class="ex-row">Glute bridge <span>· 3 × 15</span></div>
+          <div class="ex-row">Calf raise (slow) <span>· 3 × 15</span></div>
+          <div class="ex-row core">Pallof press (band) <span>· 3 × 10/side ★</span></div>
+          <div class="ex-row core">Bird-dog <span>· 3 × 10/side ★</span></div>
+        </div>
+      </div>
+      <div class="blk z1">
+        <div class="lbl">🚴 Recovery spin <span class="dur">25 min</span></div>
+        <div class="ttl">Zwift Z1 — flush legs</div>
+        <div class="det"><strong>Target:</strong> HR ≤115, watts &lt;88, cadence 85–95 rpm. Conversational only.</div>
+      </div>
+      <div class="blk fuel"><div class="lbl">🍎 Post · within 30 min</div><div class="det">Greek yogurt + berries + small granola. (Lighter — easy day.)</div></div>
+    </div>
+  </div>
+
+  <!-- FRIDAY -->
+  <div class="day" data-c="z2">
+    <div class="day-hdr">
+      <div><div class="day-name">Friday</div><div class="day-date">Jul 3</div><span class="cal-badge high">🔴 maintenance</span></div>
+      <div class="day-focus">Zwift Z2 + Long Run Prep</div>
+    </div>
+    <div class="day-body">
+      <div class="blk fuel"><div class="lbl">🍎 Wake + fuel <span class="time-flag">🌅 flexible (indoor)</span></div><div class="det">16 oz water + electrolyte. <strong>1 banana + 1 tbsp PB</strong>, 20 min before.</div></div>
+      <div class="blk z2">
+        <div class="lbl">🚴 Zwift Z2 base <span class="dur">45 min</span></div>
+        <div class="ttl">Tempus Fugit · controlled — Saturday's long run is the priority</div>
+        <div class="det">
+          <strong>Target:</strong> HR 118–130, watts 95–115, cadence 88–95 rpm.<br>
+          <strong>Structure:</strong> 10 min warm-up → 30 min @ 105W → 5 min cool-down.<br>
+          Keep it easy. <strong>No group ride this week</strong> — stay Z2, protect the legs.
+        </div>
+      </div>
+      <div class="blk pt">
+        <div class="lbl">🩺 Post · Pre-long-run mobility <span class="dur">10 min</span></div>
+        <div class="det">Foam roll IT band 60 sec/side · pigeon 90 sec/side · hip 90/90 60 sec/side · calf stretch 45 sec/side.</div>
+      </div>
+      <div class="blk fuel"><div class="lbl">🍎 Post + Saturday prep</div><div class="det">Overnight oats + whey. <strong>Carb-load lunch:</strong> sweet potato + lean protein + greens (maintenance — eat full). Lay out gear tonight. Hydrate 80+ oz. No alcohol.</div></div>
+    </div>
+  </div>
+
+  <!-- SATURDAY -->
+  <div class="day" data-c="long">
+    <div class="day-hdr">
+      <div><div class="day-name">Saturday</div><div class="day-date">Jul 4</div><span class="cal-badge high">🔴 maintenance</span></div>
+      <div class="day-focus">LONG RUN-WALK · 60 min</div>
+    </div>
+    <div class="day-body">
+      <div class="blk fuel"><div class="lbl">🍎 6:00 AM · Protect the window <span class="time-flag">🌅 6 AM — earned it last week</span></div><div class="det">16 oz water on waking. <strong>1 cup oats + honey + ½ banana + almond butter</strong>, eat fast. Electrolyte 10 min before. (Maintenance — full fuel for the long effort.)</div></div>
+      <div class="blk pt">
+        <div class="lbl">🩺 Dynamic warm-up <span class="dur">8 min</span></div>
+        <div class="det">Leg swings × 10 each · walking lunges × 10 · A-skips × 20m × 2 · butt kicks × 20m · 4 strides at 150 spm.</div>
+      </div>
+      <div class="blk long">
+        <div class="lbl">🏃 Long Run-Walk · 6:15 AM · Aubrey <span class="dur">60 min</span></div>
+        <div class="ttl">4.2–4.6 mi · +6 min over last week · run-walk method</div>
+        <div class="rw-banner"><div class="h">🌊 Run → 140 → walk → 128 → repeat for 60 min</div><div class="b">Same cycle that got you to 13:18 pace last week. Over 60 min the walk breaks let you go further without HR creep. Cadence 150 on the run intervals.</div></div>
+        <div class="det">
+          <strong>HR ceiling 140</strong> (the walk trigger). <strong>Cadence 150 spm</strong> on run intervals.<br>
+          <strong>Fuel:</strong> water + electrolyte sip at 25 + 45 min. Optional gel at 40 min.<br>
+          <strong>Finish before 7:20 AM</strong> to stay ahead of the heat. <strong>4th of July — get it done early, enjoy the day.</strong>
+        </div>
+      </div>
+      <div class="blk pt">
+        <div class="lbl">🩺 Post · Recovery flow <span class="dur">15 min</span></div>
+        <div class="det">5 min easy walk → <strong>Legs up the wall 5 min</strong> → foam roll quads + calves + IT band 60 sec each → pigeon 90 sec/side → couch stretch 90 sec/side.</div>
+      </div>
+      <div class="blk fuel"><div class="lbl">🍎 Post · most important meal of the week</div><div class="det"><strong>Within 20 min:</strong> recovery shake — whey + chocolate milk + banana + PB.<br><strong>Within 90 min:</strong> 3 eggs + 2 slices toast + ½ avocado + sweet potato + berries. (Full maintenance.)</div></div>
+    </div>
+  </div>
+
+  <!-- SUNDAY -->
+  <div class="day" data-c="rest">
+    <div class="day-hdr">
+      <div><div class="day-name">Sunday</div><div class="day-date">Jul 5</div><span class="cal-badge low">🔵 mild deficit</span></div>
+      <div class="day-focus">Full Rest + Optional Core</div>
+    </div>
+    <div class="day-body">
+      <div class="blk rest">
+        <div class="lbl">🛌 Complete rest</div>
+        <div class="ttl">Three full weeks of consistency now. Recovery is adaptation.</div>
+        <div class="det"><strong>Optional:</strong> 20–30 min easy evening walk when it cools. <strong>Required:</strong> 8+ hr sleep. Keep the 6 AM rhythm even today.</div>
+      </div>
+      <div class="blk core">
+        <div class="lbl">🎯 Optional · Light core <span class="dur">8 min</span></div>
+        <div class="ttl">Only if you feel good</div>
+        <div class="det">Dead-bug 2 × 12/side · plank 2 × 30 sec · bird-dog 2 × 10/side · posterior pelvic tilts 2 × 15. Lower-belly + pelvic tilt work.</div>
+      </div>
+      <div class="blk fuel">
+        <div class="lbl">🍎 Fuel + Week 28 prep</div>
+        <div class="det">3 balanced meals, high protein (120–155g). Make 4 overnight oats jars. If Week 27 held, Week 28 pushes the long run toward 65 min and adds a 4th run day.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- RUN-WALK QUICK REFERENCE -->
+<section class="sec">
+  <h2>Run-Walk Method — Quick Reference Card</h2>
+  <p class="sub">Print this in your head before every run. The method does the thinking so you don't have to.</p>
+  <table class="ntbl">
+    <thead><tr><th>Phase</th><th>What to do</th><th>Trigger to switch</th></tr></thead>
+    <tbody>
+      <tr><td>RUN</td><td>Run at 150 spm cadence, relaxed and easy</td><td>HR climbs to <strong>140</strong> → switch to walk</td></tr>
+      <tr><td>WALK</td><td>Brisk walk, keep moving, arms relaxed</td><td>HR drops to <strong>128</strong> → switch to run</td></tr>
+      <tr><td>REPEAT</td><td>Cycle continues for the full session</td><td>—</td></tr>
+      <tr><td>Watch setup</td><td>Set HR high alert at 140, low alert at 128</td><td>Let the beeps guide you, eyes up</td></tr>
+      <tr><td>Cooler days</td><td>Walk breaks naturally get shorter</td><td>In fall you'll run longer between walks</td></tr>
+      <tr><td>If HR won't drop</td><td>Walk longer — don't force the run resume</td><td>Heat/fatigue day: more walking is fine</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- TOP 3 -->
+<div class="section-title">The 3 things that define Week 27</div>
+<div class="tips">
+  <div class="tip">
+    <div class="n">01</div>
+    <div class="h">Get Monday's run into the morning</div>
+    <div class="b">It's the last one still slipping to evening. The data is clear: morning runs are a full minute/mile faster than the hot evening ones. Out the door by 6:15 Monday — all 3 runs in the cool window.</div>
+  </div>
+  <div class="tip">
+    <div class="n">02</div>
+    <div class="h">Trust the run-walk method</div>
+    <div class="b">Run to 140, walk to 128, repeat. It's working — Saturday got a minute/mile faster at the same HR. Set the watch alerts and let them guide you. This is real Zone 2 training, not a compromise.</div>
+  </div>
+  <div class="tip">
+    <div class="n">03</div>
+    <div class="h">Long run to 60 min Saturday</div>
+    <div class="b">Up from 54. The walk breaks let you extend without HR creep. July 4th — get it done early at 6:15, then enjoy the holiday. Three consecutive complete weeks is the real milestone here.</div>
+  </div>
+</div>
+
+<footer>HOUSTON MARATHON 2027 · 28 WEEKS TO RACE DAY · WEEK 27 · RUN-WALK METHOD · CONSISTENCY COMPOUNDING</footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,130 @@
+========================================================
+  MARATHON TRAINING APP - WINDOWS SETUP
+  Follow these steps in order. Takes about 10 minutes.
+========================================================
+
+You only do STEPS 1-5 ONCE. After that, publishing a new
+week is a single command (see "EVERY WEEK" at the bottom).
+
+
+--------------------------------------------------------
+STEP 1 - INSTALL THE TWO TOOLS YOU NEED
+--------------------------------------------------------
+Open PowerShell (click Start, type "PowerShell", press Enter)
+and run these two lines one at a time:
+
+    winget install --id Git.Git
+    winget install --id GitHub.cli
+
+When both finish, CLOSE PowerShell completely and open a
+NEW PowerShell window (this is required so it sees the new
+tools).
+
+Check they installed - run these two lines:
+
+    git --version
+    gh --version
+
+You should see version numbers for both. If either says
+"not recognized", the install didn't finish or PowerShell
+wasn't reopened. Reopen and try again.
+
+
+--------------------------------------------------------
+STEP 2 - UNZIP THE APP FOLDER
+--------------------------------------------------------
+1. Find marathon-training.zip in your Downloads folder.
+2. Right-click it -> "Extract All..."
+3. Extract to:  C:\Users\LingaiahVanam\
+4. You now have a folder that contains index.html.
+   IMPORTANT: the folder you want is the one with
+   index.html directly inside it. If you see a folder
+   inside a folder (marathon-training\marathon-training),
+   the correct one is the INNER one with index.html.
+
+
+--------------------------------------------------------
+STEP 3 - OPEN POWERSHELL INSIDE THAT FOLDER (easy trick)
+--------------------------------------------------------
+This avoids typing any folder paths:
+
+1. Open File Explorer and go INTO the folder that has
+   index.html.
+2. Click the address bar at the top (where the folder
+   path is shown).
+3. Type this word over the path:   powershell
+4. Press Enter.
+
+A PowerShell window opens, already inside the right folder.
+
+Confirm you are in the right place - run:
+
+    dir index.html
+
+If it lists index.html, you are ready. If it says the file
+is not found, you are in the wrong folder - go back to
+step 2.
+
+
+--------------------------------------------------------
+STEP 4 - ALLOW THE SCRIPT TO RUN (this window only)
+--------------------------------------------------------
+Run this line:
+
+    Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+
+(This only affects the current window and resets when you
+close it. It is the normal, safe way to run a local script.)
+
+
+--------------------------------------------------------
+STEP 5 - RUN THE SETUP SCRIPT
+--------------------------------------------------------
+Run:
+
+    .\setup.ps1
+
+What happens:
+- A browser opens asking you to log into GitHub. Approve it.
+  (You are logging in yourself - the script never sees your
+  password.)
+- The script creates your repository, uploads the files,
+  and turns on web hosting.
+- At the end it prints your live web address, like:
+      https://YOURNAME.github.io/marathon-training/
+
+
+--------------------------------------------------------
+STEP 6 - ADD IT TO YOUR IPHONE
+--------------------------------------------------------
+1. Open that web address in SAFARI on your iPhone
+   (must be Safari, not Chrome).
+2. Tap the Share button (square with an up arrow).
+3. Scroll down, tap "Add to Home Screen".
+4. Name it "Marathon", tap Add.
+
+Done - it now behaves like an app and works offline.
+
+
+========================================================
+  EVERY WEEK AFTER THIS
+========================================================
+1. I (Claude) give you three files: week-NN.html, a new
+   index.html, and a new sw.js.
+2. Put week-NN.html into the "plans" folder. Replace the
+   index.html and sw.js in the main folder with the new
+   ones.
+3. Open PowerShell in the folder (Step 3 trick) and run:
+
+    .\publish.ps1 "Add week 29"
+
+Your app updates automatically in about a minute.
+
+
+========================================================
+  IF SOMETHING GOES WRONG
+========================================================
+Copy the exact red error text and send it to Claude.
+The most common issue is forgetting to reopen PowerShell
+after installing git or gh in Step 1.
+========================================================

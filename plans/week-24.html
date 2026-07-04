@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Week 24 · June 8–14, 2026 · Colonoscopy Week</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,700;0,900;1,700&family=JetBrains+Mono:wght@400;600&family=Inter+Tight:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0b0d12;--bg2:#10131b;--ink:#f5f1e8;--soft:#a8a594;--line:#1f2330;
+  --z1:#3aa17a;--z2:#3b82f6;--str:#a855f7;--long:#ef6c4d;
+  --rest:#52525b;--pt:#14b8a6;--fuel:#eab308;
+  --win:#22c55e;--fix:#ef4444;--warn:#f59e0b;--medical:#06b6d4;--prep:#f97316;
+  --r:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:'Inter Tight',sans-serif;
+  background:radial-gradient(1100px 500px at 75% -5%,rgba(6,182,212,.08),transparent 60%),
+             radial-gradient(800px 400px at -5% 35%,rgba(249,115,22,.05),transparent 55%),var(--bg);
+  color:var(--ink);line-height:1.5;min-height:100vh;padding:36px 20px 80px;
+}
+.wrap{max-width:1180px;margin:0 auto}
+
+/* HERO */
+.hero{border:1px solid var(--line);border-radius:var(--r);padding:28px;background:linear-gradient(135deg,#0e1320,#131829);position:relative;overflow:hidden;margin-bottom:18px}
+.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(700px 300px at 90% 0%,rgba(6,182,212,.15),transparent);pointer-events:none}
+.eyebrow{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--soft);margin-bottom:10px}
+h1{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(28px,5vw,50px);letter-spacing:-.02em;line-height:1.02;margin-bottom:8px}
+h1 em{font-style:italic;color:#67e8f9;font-weight:400}
+.hero-sub{color:var(--soft);font-size:14px;max-width:720px;line-height:1.6}
+.stat-row{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:20px;position:relative;z-index:1}
+.stat{border:1px solid var(--line);border-radius:10px;padding:12px 14px;background:rgba(255,255,255,.02)}
+.stat .k{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--soft)}
+.stat .v{font-family:'Fraunces',serif;font-size:20px;font-weight:700;margin-top:3px;line-height:1}
+.stat .d{font-size:11px;color:var(--win);margin-top:2px;font-family:'JetBrains Mono',monospace}
+.stat .d.warn{color:#fbbf24}.stat .d.medical{color:#67e8f9}.stat .d.prep{color:#fdba74}.stat .d.fix{color:#f87171}
+
+/* PROCEDURE BANNER */
+.proc-banner{
+  border:2px solid rgba(6,182,212,.45);background:linear-gradient(135deg,rgba(6,182,212,.08),rgba(249,115,22,.04));
+  border-radius:var(--r);padding:20px 24px;margin-bottom:16px;
+  display:flex;gap:18px;align-items:flex-start;
+}
+.proc-banner .ico{font-size:32px;flex-shrink:0;margin-top:2px}
+.proc-banner h2{font-family:'Fraunces',serif;font-size:22px;color:#67e8f9;margin-bottom:6px;letter-spacing:-.01em}
+.proc-banner p{font-size:14px;line-height:1.6;color:var(--ink)}
+.proc-banner p strong{color:#67e8f9}
+.proc-meta{display:flex;gap:10px;margin-top:10px;flex-wrap:wrap}
+.proc-meta div{font-family:'JetBrains Mono',monospace;font-size:11px;padding:5px 11px;border-radius:5px;background:rgba(6,182,212,.1);color:#67e8f9;border:1px solid rgba(6,182,212,.3)}
+
+/* CRITICAL CALLOUTS */
+.callout{border-radius:10px;padding:14px 18px;margin-bottom:14px;display:flex;gap:14px;align-items:flex-start}
+.callout.teal{border:1px solid rgba(20,184,166,.3);background:rgba(20,184,166,.06)}
+.callout.orange{border:1px solid rgba(249,115,22,.35);background:rgba(249,115,22,.07)}
+.callout.red{border:1px solid rgba(239,68,68,.4);background:rgba(239,68,68,.07)}
+.callout.amber{border:1px solid rgba(245,158,11,.3);background:rgba(245,158,11,.06)}
+.callout .ico{font-size:22px;flex-shrink:0;margin-top:2px}
+.callout h3{font-family:'Fraunces',serif;font-size:17px;margin-bottom:4px}
+.callout.teal h3{color:#5eead4}.callout.orange h3{color:#fdba74}.callout.red h3{color:#fca5a5}.callout.amber h3{color:#fde68a}
+.callout p{font-size:13px;line-height:1.55;color:var(--ink)}
+.callout p strong{color:#fde68a}
+
+/* SECTION HEADERS */
+.section-title{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--soft);margin:22px 0 12px;display:flex;align-items:center;gap:10px}
+.section-title::after{content:"";flex:1;height:1px;background:var(--line)}
+
+/* TIMELINE BOX */
+.timeline-card{
+  border:1px solid var(--line);border-radius:var(--r);background:var(--bg2);
+  padding:20px 22px;margin-bottom:18px;
+}
+.timeline-card h2{font-family:'Fraunces',serif;font-size:19px;margin-bottom:14px}
+.tl-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+.tl-col{padding:14px;border-radius:10px;border:1px solid var(--line);background:rgba(255,255,255,.02)}
+.tl-col.prep{border-color:rgba(249,115,22,.3);background:rgba(249,115,22,.05)}
+.tl-col.proc{border-color:rgba(6,182,212,.3);background:rgba(6,182,212,.05)}
+.tl-col.recovery{border-color:rgba(20,184,166,.3);background:rgba(20,184,166,.05)}
+.tl-col .h{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:8px}
+.tl-col.prep .h{color:#fdba74}.tl-col.proc .h{color:#67e8f9}.tl-col.recovery .h{color:#5eead4}
+.tl-col .day{font-family:'Fraunces',serif;font-size:18px;font-weight:700;margin-bottom:8px}
+.tl-col ul{list-style:none}
+.tl-col li{font-family:'JetBrains Mono',monospace;font-size:11px;padding:4px 0;color:var(--ink);display:flex;gap:6px;line-height:1.5}
+.tl-col li .t{color:var(--soft);min-width:55px;flex-shrink:0}
+
+/* LEGEND */
+.legend{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.chip{display:inline-flex;align-items:center;gap:7px;padding:6px 12px;border:1px solid var(--line);border-radius:30px;font-size:11px;font-family:'JetBrains Mono',monospace;letter-spacing:.05em;background:var(--bg2)}
+.dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+
+/* DAY CARDS */
+.days{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-bottom:20px}
+.day{border:1px solid var(--line);border-radius:var(--r);background:var(--bg2);overflow:hidden;display:flex;flex-direction:column}
+.day-hdr{padding:13px 17px 11px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:flex-end;gap:10px;position:relative}
+.day-hdr::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--dc,#fff)}
+.day-name{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--soft)}
+.day-date{font-family:'Fraunces',serif;font-size:24px;font-weight:700;line-height:1;margin-top:2px}
+.day-focus{text-align:right;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;padding:4px 8px;border-radius:4px;background:rgba(255,255,255,.04);border:1px solid var(--line);color:var(--soft);max-width:180px}
+.day-body{padding:14px 17px 16px;flex:1;display:flex;flex-direction:column;gap:11px}
+
+.blk{border-left:3px solid var(--bc,#fff);padding:9px 13px;background:rgba(255,255,255,.012);border-radius:0 8px 8px 0}
+.blk .lbl{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--soft);display:flex;justify-content:space-between;align-items:center;margin-bottom:3px}
+.blk .dur{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink);background:rgba(255,255,255,.06);padding:2px 6px;border-radius:3px}
+.blk .ttl{font-size:13px;font-weight:600;margin-bottom:4px}
+.blk .det{font-size:12px;color:var(--soft);line-height:1.55}
+.blk .det strong{color:var(--ink)}
+
+.blk.z2{--bc:var(--z2)}.blk.z1{--bc:var(--z1)}.blk.str{--bc:var(--str)}
+.blk.long{--bc:var(--long)}.blk.rest{--bc:var(--rest)}.blk.pt{--bc:var(--pt)}
+.blk.fuel{--bc:var(--fuel)}.blk.medical{--bc:var(--medical)}.blk.prep{--bc:var(--prep)}
+
+.day[data-c="z2"]{--dc:var(--z2)}.day[data-c="run"]{--dc:var(--z1)}
+.day[data-c="str"]{--dc:var(--str)}.day[data-c="rest"]{--dc:var(--rest)}
+.day[data-c="medical"]{--dc:var(--medical)}.day[data-c="prep"]{--dc:var(--prep)}
+
+.ex-grid{display:grid;grid-template-columns:1fr 1fr;gap:3px 12px;margin-top:6px}
+.ex-row{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink)}
+.ex-row span{color:var(--soft)}
+.ex-row.new{color:#86efac}.ex-row.new span{color:rgba(134,239,172,.7)}
+
+.str-banner{border:1px solid rgba(168,85,247,.4);background:rgba(168,85,247,.06);border-radius:8px;padding:10px 12px;margin-bottom:6px}
+.str-banner .h{font-weight:700;font-size:12px;color:#d8b4fe;margin-bottom:2px}
+.str-banner .b{font-size:11px;color:var(--soft);line-height:1.45}
+
+.medical-step{border:1px solid rgba(6,182,212,.3);background:rgba(6,182,212,.04);border-radius:6px;padding:9px 11px;margin-top:5px}
+.medical-step .h{font-family:'JetBrains Mono',monospace;font-size:10px;color:#67e8f9;letter-spacing:.08em;text-transform:uppercase;margin-bottom:3px}
+.medical-step .b{font-size:11px;color:var(--soft);line-height:1.5}
+.medical-step .b strong{color:var(--ink)}
+
+.prep-step{border:1px solid rgba(249,115,22,.3);background:rgba(249,115,22,.05);border-radius:6px;padding:9px 11px;margin-top:5px}
+.prep-step .h{font-family:'JetBrains Mono',monospace;font-size:10px;color:#fdba74;letter-spacing:.08em;text-transform:uppercase;margin-bottom:3px}
+.prep-step .b{font-size:11px;color:var(--soft);line-height:1.5}
+.prep-step .b strong{color:var(--ink)}
+
+/* SHOPPING LIST */
+.sec{border:1px solid var(--line);border-radius:var(--r);padding:18px 20px;background:var(--bg2);margin-bottom:16px}
+.sec h2{font-family:'Fraunces',serif;font-size:19px;font-weight:700;margin-bottom:12px}
+.shop-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.shop-c{border:1px solid var(--line);border-radius:10px;padding:14px}
+.shop-c.allowed{background:rgba(34,197,94,.04);border-color:rgba(34,197,94,.25)}
+.shop-c.avoid{background:rgba(239,68,68,.04);border-color:rgba(239,68,68,.25)}
+.shop-c .h{font-weight:700;font-size:13px;margin-bottom:8px}
+.shop-c.allowed .h{color:#86efac}
+.shop-c.avoid .h{color:#fca5a5}
+.shop-c ul{list-style:none}
+.shop-c li{font-size:12px;color:var(--ink);padding:3px 0;display:flex;gap:8px}
+.shop-c.allowed li::before{content:"✓";color:#4ade80;font-weight:700}
+.shop-c.avoid li::before{content:"✗";color:#f87171;font-weight:700}
+
+.check-list{list-style:none;margin-top:6px}
+.check-list li{font-size:13px;color:var(--ink);padding:6px 0;display:flex;gap:10px;align-items:flex-start;line-height:1.5}
+.check-list li::before{content:"☐";color:#67e8f9;font-weight:700;flex-shrink:0;font-size:14px;margin-top:1px}
+.check-list li strong{color:#67e8f9}
+
+/* TIPS */
+.tips{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.tip{border:1px solid var(--line);border-radius:10px;padding:14px;background:rgba(255,255,255,.02)}
+.tip .n{font-family:'Fraunces',serif;font-size:32px;font-weight:900;color:#fbbf77;line-height:1;margin-bottom:5px}
+.tip .h{font-weight:600;font-size:13px;margin-bottom:3px}
+.tip .b{font-size:12px;color:var(--soft);line-height:1.5}
+
+footer{margin-top:28px;text-align:center;color:var(--soft);font-size:11px;font-family:'JetBrains Mono',monospace;letter-spacing:.1em}
+
+@media(max-width:860px){
+  .days,.tips,.stat-row,.tl-grid,.shop-grid{grid-template-columns:1fr}
+  .stat-row{grid-template-columns:repeat(2,1fr)}
+  .ex-grid{grid-template-columns:1fr}
+  body{padding:18px 12px 60px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- HERO -->
+<section class="hero">
+  <div class="eyebrow">Week 24 · June 8–14, 2026 · Houston Marathon 2027 · 31 weeks out · Colonoscopy Week</div>
+  <h1>Big procedure.<br>Smart <em>training around it</em>.</h1>
+  <p class="hero-sub">A colonoscopy is the gold standard for evaluating recurring hemorrhoids — and lets the doctor see the entire colon. This week is built around it: full training Mon/Tue, modest prep day Wednesday, procedure rest Thursday, gentle recovery Friday, and a flexible weekend. Volume drops from 4.3 hr → ~2.5 hr — and that's the right call.</p>
+  <div class="stat-row">
+    <div class="stat"><div class="k">Volume Target</div><div class="v">2.5 hr</div><div class="d warn">↓ from 4.3 planned</div></div>
+    <div class="stat"><div class="k">Prep Day</div><div class="v">Wed 6/10</div><div class="d prep">light food + liquids</div></div>
+    <div class="stat"><div class="k">Procedure</div><div class="v">Thu 11 AM</div><div class="d medical">full rest</div></div>
+    <div class="stat"><div class="k">Recovery</div><div class="v">Fri 6/12</div><div class="d medical">walk only</div></div>
+    <div class="stat"><div class="k">Long Run</div><div class="v">DEFER</div><div class="d fix">Week 25</div></div>
+  </div>
+</section>
+
+<!-- PROCEDURE BANNER -->
+<div class="proc-banner">
+  <div class="ico">🩺</div>
+  <div>
+    <h2>Thursday June 11 · 11:00 AM Colonoscopy</h2>
+    <p><strong>Dr. Salim Jabbour</strong> · A colonoscopy is the right call for a recurring 2-year issue. It examines the entire colon, can take biopsies if needed, and any hemorrhoid banding/treatment can often be done during the same procedure. This is more involved than I'd planned for — Wednesday and Friday both need significant adjustment.</p>
+    <div class="proc-meta">
+      <div>📅 Thursday June 11</div>
+      <div>⏰ 11:00 AM procedure</div>
+      <div>⏰ ~9:30 AM check-in</div>
+      <div>🚗 Ride home required</div>
+      <div>🍽️ Prep starts Wed evening</div>
+    </div>
+  </div>
+</div>
+
+<!-- TOP 3 CRITICAL LOGISTICS -->
+<div class="callout red">
+  <div class="ico">🚗</div>
+  <div>
+    <h3>Confirm your ride home — required, not optional</h3>
+    <p>Sedation means <strong>no driving for 24 hours and no Uber/Lyft/rideshare</strong> — must be a "responsible adult." Confirm this today. Have a backup. Without a confirmed ride, the procedure may be postponed when you arrive.</p>
+  </div>
+</div>
+
+<div class="callout orange">
+  <div class="ico">⏰</div>
+  <div>
+    <h3>Your specific prep schedule — procedure between 9:45 AM and 12:00 PM</h3>
+    <p>Based on your 11:00 AM procedure (and likely 9:30 AM check-in), your second prep dose is at <strong>3:30 AM Thursday</strong> — 6 hours before check-in. Set TWO alarms. After 3:30 AM you cannot eat or drink anything — not even water — until after the procedure.</p>
+  </div>
+</div>
+
+<div class="callout amber">
+  <div class="ico">💧</div>
+  <div>
+    <h3>Hydration is the secret weapon</h3>
+    <p>Wednesday's clear liquid diet creates calorie + sodium deficit. Lean heavily on <strong>Gatorade, Powerade, broth, and electrolyte drinks</strong> — not just water. This keeps headache and weakness at bay during prep. As an endurance athlete, your sodium needs are already higher than baseline.</p>
+  </div>
+</div>
+
+<!-- 3-PHASE TIMELINE -->
+<div class="timeline-card">
+  <h2>The 3 phases of this week</h2>
+  <div class="tl-grid">
+    <div class="tl-col prep">
+      <div class="h">Phase 1 · Prep</div>
+      <div class="day">Wed June 10</div>
+      <ul>
+        <li><span class="t">Morning</span>Light breakfast by 7–8 AM</li>
+        <li><span class="t">10 AM</span>Cut-off for solid food</li>
+        <li><span class="t">All day</span>Clear liquids + electrolytes</li>
+        <li><span class="t">5 PM</span>Buy clear liquids if not done</li>
+        <li><span class="t">7 PM</span>Anti-nausea pill (Zofran)</li>
+        <li><span class="t">8 PM</span>First half of prep + 16 oz water</li>
+        <li><span class="t">10 PM</span>All water done · sleep early</li>
+      </ul>
+    </div>
+    <div class="tl-col proc">
+      <div class="h">Phase 2 · Procedure</div>
+      <div class="day">Thu June 11</div>
+      <ul>
+        <li><span class="t">3:30 AM</span>Second half of prep + 16 oz water</li>
+        <li><span class="t">4:30 AM</span>Done eating/drinking · NOTHING</li>
+        <li><span class="t">~6 AM</span>Try to rest, even nap</li>
+        <li><span class="t">9:30 AM</span>Check-in at facility</li>
+        <li><span class="t">11:00 AM</span>Procedure (~30–45 min)</li>
+        <li><span class="t">12–1 PM</span>Recovery room, sedation wears off</li>
+        <li><span class="t">PM</span>Ride home · rest · light food</li>
+      </ul>
+    </div>
+    <div class="tl-col recovery">
+      <div class="h">Phase 3 · Recovery</div>
+      <div class="day">Fri–Sat June 12–13</div>
+      <ul>
+        <li><span class="t">Fri AM</span>Easy walk only, normal food</li>
+        <li><span class="t">Fri</span>Rebuild hydration aggressively</li>
+        <li><span class="t">Fri PM</span>Mobility, sleep early</li>
+        <li><span class="t">Sat</span>Modified workout (see day card)</li>
+        <li><span class="t">Sat</span>Likely bike, not run</li>
+        <li><span class="t">Sun</span>Full rest as planned</li>
+        <li><span class="t">Mon</span>Resume Week 25 normally</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- LEGEND -->
+<div class="legend">
+  <span class="chip"><span class="dot" style="background:var(--z2)"></span>Bike Z2</span>
+  <span class="chip"><span class="dot" style="background:var(--z1)"></span>Easy Run / Walk</span>
+  <span class="chip"><span class="dot" style="background:var(--str)"></span>Strength</span>
+  <span class="chip"><span class="dot" style="background:var(--pt)"></span>PT / Mobility</span>
+  <span class="chip"><span class="dot" style="background:var(--fuel)"></span>Fuel</span>
+  <span class="chip"><span class="dot" style="background:var(--prep)"></span>Prep Day</span>
+  <span class="chip"><span class="dot" style="background:var(--medical)"></span>Procedure / Recovery</span>
+  <span class="chip"><span class="dot" style="background:var(--rest)"></span>Rest</span>
+</div>
+
+<div class="section-title">Week 24 · June 8–14 · Colonoscopy-Adjusted Plan</div>
+
+<!-- DAYS -->
+<div class="days">
+
+  <!-- MONDAY -->
+  <div class="day" data-c="str">
+    <div class="day-hdr">
+      <div><div class="day-name">Monday</div><div class="day-date">June 8</div></div>
+      <div class="day-focus">Strength A + Bike Z2</div>
+    </div>
+    <div class="day-body">
+      <div class="blk fuel"><div class="lbl">🍎 Pre · 5:00 AM</div><div class="det">16 oz water + electrolyte. <strong>Overnight oats from the fridge</strong>, 45 min before session.</div></div>
+      <div class="blk str">
+        <div class="lbl">💪 Strength A — full session <span class="dur">18 min</span></div>
+        <div class="ttl">Get a quality strength session in before the week compresses.</div>
+        <div class="ex-grid">
+          <div class="ex-row">Glute bridge <span>· 3 × 15 · 2s hold</span></div>
+          <div class="ex-row">Clamshells <span>· 3 × 15/side</span></div>
+          <div class="ex-row">Side-lying leg raise <span>· 2 × 12/side</span></div>
+          <div class="ex-row">Bird-dog <span>· 2 × 10/side</span></div>
+          <div class="ex-row new">Wall squat hold <span>· 2 × 30 sec ↩</span></div>
+          <div class="ex-row new">Bodyweight squat <span>· 2 × 10 (slow) ↩</span></div>
+        </div>
+      </div>
+      <div class="blk z2">
+        <div class="lbl">🚴 Zwift Z2 base <span class="dur">45 min</span></div>
+        <div class="ttl">Tempus Fugit · ERG · standard Z2 ride</div>
+        <div class="det"><strong>Target:</strong> HR 118–130, watts 80–92, cadence 85–95 rpm.</div>
+      </div>
+      <div class="blk fuel"><div class="lbl">🍎 Post · within 30 min</div><div class="det">Overnight oats + whey from fridge. 16 oz water.</div></div>
+      <div class="blk medical">
+        <div class="lbl">📋 Tonight — shopping list</div>
+        <div class="det">Buy clear liquids for Wednesday (see shopping list below). Pick up anti-nausea pill if not already filled. Confirm Thursday's ride home.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TUESDAY -->
+  <div class="day" data-c="run">
+    <div class="day-hdr">
+      <div><div class="day-name">Tuesday</div><div class="day-date">June 9</div></div>
+      <div class="day-focus">Outdoor Cadence Run</div>
+    </div>
+    <div class="day-body">
+      <div class="blk fuel"><div class="lbl">🍎 Pre · 5:00 AM</div><div class="det">16 oz water. <strong>½ cup oats + honey + berries</strong>, 25 min before.</div></div>
+      <div class="blk pt">
+        <div class="lbl">🩺 Dynamic warm-up <span class="dur">8 min</span></div>
+        <div class="det">Leg swings × 10 each · walking lunges × 10 · high knees × 20m · butt kicks × 20m · 4 strides at 150 spm.</div>
+      </div>
+      <div class="blk z1">
+        <div class="lbl">🏃 Outdoor easy run · 5:30 AM <span class="dur">35 min</span></div>
+        <div class="ttl">Last quality session before the prep week starts · Denton County flat</div>
+        <div class="det">
+          <strong>Metronome → 150 spm. On the whole run.</strong> Real cadence test.<br>
+          <strong>HR ceiling 136.</strong> Walk 60 sec if you cross it.<br>
+          <strong>Pace:</strong> 13:30–15:00/mi. Cadence first.<br>
+          <strong>HRM-600 bonus:</strong> running dynamics stream live to your watch face.
+        </div>
+      </div>
+      <div class="blk pt">
+        <div class="lbl">🩺 Post · Core + cool-down <span class="dur">10 min</span></div>
+        <div class="det">5 min walk → Plank 3 × 45 sec · Dead-bug 3 × 10/side · Glute squeeze hold 3 × 30 sec · foam roll quads + calves 60 sec each.</div>
+      </div>
+      <div class="blk fuel"><div class="lbl">🍎 Post + dinner</div><div class="det">Morning: 2 eggs + toast + avocado + fruit. <strong>Tonight's dinner:</strong> normal but moderate portion — eating heavy the night before prep day isn't ideal.</div></div>
+    </div>
+  </div>
+
+  <!-- WEDNESDAY — PREP DAY -->
+  <div class="day" data-c="prep">
+    <div class="day-hdr">
+      <div><div class="day-name">Wednesday</div><div class="day-date">June 10</div></div>
+      <div class="day-focus">PREP DAY · Clear Liquids</div>
+    </div>
+    <div class="day-body">
+      <div class="blk prep">
+        <div class="lbl">⚠️ Prep day rules</div>
+        <div class="ttl">No structured workout. Hydrate aggressively. Follow timing strictly.</div>
+        <div class="det">Today is logistics, not training. Skipping the workout is the correct call — you can't fuel properly, will be calorie-deprived all afternoon, and bowel prep evening makes any session miserable.</div>
+      </div>
+      <div class="blk fuel">
+        <div class="lbl">🍎 Light breakfast · finish by 8 AM (latest 10 AM)</div>
+        <div class="det"><strong>Light on stomach</strong> — avoid heavy fiber today (counterintuitive, but you want the colon clearing easily). Good options: scrambled eggs + plain white toast + small banana. Skip the overnight oats and high-fiber stuff today only.</div>
+      </div>
+      <div class="blk prep">
+        <div class="lbl">💧 10 AM onward · Clear liquid diet</div>
+        <div class="det">
+          <strong>Aim for 80–100 oz total liquid through the day</strong> — far more than a normal day. Mix between:<br>
+          • Water · 30 oz<br>
+          • Gatorade / Powerade · 32 oz (sodium + carbs critical)<br>
+          • Clear broth · 16 oz at lunch and dinner times<br>
+          • Apple juice or white grape juice · 16 oz<br>
+          • Coffee (no milk/cream) · OK in moderation<br>
+          <strong>Avoid:</strong> all red, orange, purple liquids/jellos — they look like blood during the procedure.
+        </div>
+      </div>
+      <div class="blk pt">
+        <div class="lbl">🚶 Optional · Easy walk only <span class="dur">20 min</span></div>
+        <div class="det">Late morning if you feel up to it. Around the neighborhood, slow pace. Helps mental focus and prevents stiffness from a sedentary day. <strong>Do NOT bike or run.</strong></div>
+      </div>
+      <div class="blk prep">
+        <div class="lbl">⏰ 7:00 PM · Anti-nausea pill</div>
+        <div class="det">Take one Zofran/Ondansetron tablet 1 hour before prep starts. This makes the prep much more tolerable. Don't skip this step.</div>
+        <div class="prep-step"><div class="h">Pro tip</div><div class="b">Chill the prep solution in the fridge for 2 hours before drinking — much easier to get down cold. Use a straw, drink fast, suck on a lemon wedge or hard candy (clear) between glasses to mask the taste.</div></div>
+      </div>
+      <div class="blk prep">
+        <div class="lbl">⏰ 8:00 PM · First half of prep</div>
+        <div class="det">Drink first half of prep solution. <strong>Then 16 oz water minimum before 10 PM.</strong> Expect bowel movements 1–3 hours later — they'll continue until clear yellow liquid. Stay near the bathroom.</div>
+      </div>
+      <div class="blk medical">
+        <div class="lbl">🛌 Pre-bed · 10:30 PM</div>
+        <div class="det">Sleep early — Thursday is a 3:30 AM start for second prep dose. Set TWO alarms. Lay out comfortable clothes for tomorrow (loose fit, easy on/off). Place water bottle and second prep dose by the bed.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- THURSDAY — PROCEDURE DAY -->
+  <div class="day" data-c="medical">
+    <div class="day-hdr">
+      <div><div class="day-name">Thursday</div><div class="day-date">June 11</div></div>
+      <div class="day-focus">🏥 Colonoscopy · 11 AM</div>
+    </div>
+    <div class="day-body">
+      <div class="blk medical">
+        <div class="lbl">⏰ 3:30 AM · Second half of prep</div>
+        <div class="det">Second half of prep solution + 16 oz water within the hour (before 4:30 AM). This timing is calculated as 6 hours before your 9:30 AM check-in.</div>
+        <div class="medical-step"><div class="h">After 4:30 AM</div><div class="b"><strong>NOTHING by mouth.</strong> No water. No coffee. No gum. No mints. Even a sip of water within 6 hours of procedure can cause postponement.</div></div>
+      </div>
+      <div class="blk medical">
+        <div class="lbl">🛌 5:00–8:30 AM · Rest</div>
+        <div class="det">Try to nap or rest in bed. Don't exercise, don't go for a walk. You've been up since 3:30 AM and the body needs reserve energy for the procedure and sedation recovery.</div>
+      </div>
+      <div class="blk medical">
+        <div class="lbl">🚗 8:30 AM · Leave for facility</div>
+        <div class="det">Bring: photo ID, insurance card, list of medications, ride home contact info. Wear: comfortable loose clothing (slip-on shoes, easy waist). Leave: jewelry, contact lenses (wear glasses), watch (you won't have your Fenix today).</div>
+      </div>
+      <div class="blk medical">
+        <div class="lbl">🏥 9:30 AM · Check-in → 11:00 AM Procedure</div>
+        <div class="det">Procedure typically takes 30–45 minutes. Recovery room 30–60 minutes for sedation to wear off. <strong>Total time at facility: about 3–4 hours.</strong> Plan to be home by 2 PM at the latest.</div>
+      </div>
+      <div class="blk fuel">
+        <div class="lbl">🍎 Post-procedure · Light food</div>
+        <div class="det"><strong>First hour back:</strong> water, broth, crackers. <strong>Hours 2–4:</strong> normal but light meal — soup, plain rice, eggs, banana. Avoid heavy meals, alcohol, raw vegetables, or anything spicy for 24 hours.</div>
+      </div>
+      <div class="blk rest">
+        <div class="lbl">🛌 Afternoon + Evening · Total rest</div>
+        <div class="det"><strong>No driving, no work decisions, no exercise.</strong> Sedation effects can last 12–24 hours even if you feel fine. Nap, watch TV, hydrate. Take notes on whatever doctor told you — sedation can affect memory of post-procedure conversation.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FRIDAY — RECOVERY -->
+  <div class="day" data-c="medical">
+    <div class="day-hdr">
+      <div><div class="day-name">Friday</div><div class="day-date">June 12</div></div>
+      <div class="day-focus">Post-Procedure Recovery</div>
+    </div>
+    <div class="day-body">
+      <div class="blk medical">
+        <div class="lbl">🩺 24-hour rule</div>
+        <div class="det"><strong>No strenuous exercise for 24 hours post-procedure.</strong> No bike, no run, no strength. Easy walking is OK and encouraged. Listen to body — if any cramping, bloating, or unusual symptoms, just rest and call doctor's office.</div>
+      </div>
+      <div class="blk fuel">
+        <div class="lbl">🍎 Morning · Rebuild nutrition</div>
+        <div class="det"><strong>Real breakfast finally:</strong> 2 eggs + toast + avocado + berries + 16 oz water. Skip the high-fiber oats for one more day to be gentle on the gut. Coffee OK now.</div>
+      </div>
+      <div class="blk z1">
+        <div class="lbl">🚶 Mid-morning · Easy walk <span class="dur">25–30 min</span></div>
+        <div class="ttl">Around the neighborhood, slow pace · 65–70°F early AM</div>
+        <div class="det">
+          <strong>HR ≤115.</strong> Conversational pace. Helps reactivate the gut and prevents stiffness from rest day.<br>
+          <strong>If you feel weak, dizzy, or have any abdominal pain:</strong> turn around immediately. Today's walk is bonus, not required.
+        </div>
+      </div>
+      <div class="blk fuel">
+        <div class="lbl">🍎 Lunch + Dinner · Light but full</div>
+        <div class="det">Soup + sandwich for lunch. Salmon/chicken + rice + cooked vegetables for dinner. <strong>Hydrate aggressively all day</strong> — your fluid balance is still recovering from prep. 100+ oz water + electrolytes. No alcohol.</div>
+      </div>
+      <div class="blk pt">
+        <div class="lbl">🩺 Evening · Gentle mobility <span class="dur">10 min</span></div>
+        <div class="det">Child's pose 90 sec · cat-cow × 10 · supine glute stretch 60 sec/side · legs up the wall 10 min before bed. Nothing intense.</div>
+      </div>
+      <div class="blk medical">
+        <div class="lbl">📋 Review with doctor's findings</div>
+        <div class="det">Look at any written notes from the procedure. Schedule follow-up if recommended. If the doctor gave dietary advice or activity restrictions for next week, log them so we can adjust Week 25.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SATURDAY -->
+  <div class="day" data-c="z2">
+    <div class="day-hdr">
+      <div><div class="day-name">Saturday</div><div class="day-date">June 13</div></div>
+      <div class="day-focus">Modified Easy Session</div>
+    </div>
+    <div class="day-body">
+      <div class="blk medical">
+        <div class="lbl">📋 48 hours post-procedure</div>
+        <div class="det">Generally cleared for normal exercise. But the body has been through prep + sedation + low fuel — <strong>not the day for a long run.</strong> Stick with bike (zero impact, no abdominal strain) or a very short easy run.</div>
+      </div>
+      <div class="blk fuel"><div class="lbl">🍎 Pre · 5:30 AM</div><div class="det">16 oz water + electrolyte. <strong>½ cup oats + honey + banana</strong>, 30 min before. Should be back to normal fueling.</div></div>
+      <div class="blk z2">
+        <div class="lbl">🚴 RECOMMENDED · Zwift Z2 bike <span class="dur">45 min</span></div>
+        <div class="ttl">Volcano Flat · easy Z2 effort · zero impact</div>
+        <div class="det">
+          <strong>This replaces the long run this week.</strong><br>
+          <strong>Target:</strong> HR 115–128, watts 75–88, cadence 85–95 rpm.<br>
+          Steady, comfortable, no surges. Wear padded shorts. The long run picks up next week if all clear.
+        </div>
+      </div>
+      <div class="blk z1">
+        <div class="lbl">🏃 ALTERNATE · Easy outdoor run <span class="dur">25 min</span></div>
+        <div class="ttl">ONLY if you feel completely normal — otherwise stick with bike</div>
+        <div class="det">
+          Denton County flat · 5:45 AM start.<br>
+          Cadence 150 spm. HR ceiling 130. Pace irrelevant.<br>
+          <strong>Stop immediately</strong> if any cramping or discomfort. Walk home.
+        </div>
+      </div>
+      <div class="blk pt">
+        <div class="lbl">🩺 Post · Easy mobility <span class="dur">10 min</span></div>
+        <div class="det">Foam roll quads + calves 60 sec each · pigeon 60 sec/side · couch stretch 60 sec/side · legs up the wall 5 min.</div>
+      </div>
+      <div class="blk fuel">
+        <div class="lbl">🍎 Post + the rest of the day</div>
+        <div class="det">Recovery shake (whey + milk + banana + PB). Normal meals through the day. Still hydrating well — body's electrolyte balance takes 48–72 hours to fully reset after colon prep.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SUNDAY -->
+  <div class="day" data-c="rest">
+    <div class="day-hdr">
+      <div><div class="day-name">Sunday</div><div class="day-date">June 14</div></div>
+      <div class="day-focus">Full Rest</div>
+    </div>
+    <div class="day-body">
+      <div class="blk rest">
+        <div class="lbl">🛌 Complete rest</div>
+        <div class="ttl">Body is fully restored. Sleep + eat + prep for Week 25.</div>
+        <div class="det"><strong>Optional:</strong> 20–30 min easy family walk. <strong>Required:</strong> 8+ hr sleep. 3 full meals.</div>
+      </div>
+      <div class="blk pt">
+        <div class="lbl">🩺 Evening mobility <span class="dur">15 min</span></div>
+        <div class="det">Full body foam roll · pigeon 2 min/side · hip 90/90 2 min/side · couch stretch 90 sec/side · legs up the wall 10 min before bed.</div>
+      </div>
+      <div class="blk fuel">
+        <div class="lbl">🍎 Week 25 prep</div>
+        <div class="det">Back to overnight oats meal prep tonight if symptoms are 100% clear. If Dr. Jabbour gave any dietary recommendations, integrate them. Week 25 returns to full plan: long run, both strength sessions, full volume.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- CLEAR LIQUID SHOPPING LIST -->
+<section class="sec">
+  <h2>Wednesday's Clear Liquid Shopping List</h2>
+  <p style="font-size:13px;color:var(--soft);margin-bottom:8px">Buy these Monday or Tuesday so you have everything ready Wednesday morning. The endurance athlete priority: get sodium + carbs in, not just water.</p>
+  <div class="shop-grid">
+    <div class="shop-c allowed">
+      <div class="h">✓ ALLOWED — Stock up</div>
+      <ul>
+        <li>Gatorade or Powerade · 64 oz (yellow, lemon-lime, blue) · KEY for sodium</li>
+        <li>White grape juice · 32 oz</li>
+        <li>Apple juice · 32 oz (no pulp)</li>
+        <li>Chicken or beef broth (clear) · 4 cans</li>
+        <li>Sprite or 7-Up · 12-pack</li>
+        <li>Jell-O · lemon or lime only (no red/orange)</li>
+        <li>Popsicles · clear or yellow only</li>
+        <li>Coffee · black, no milk</li>
+        <li>Hard candy · butterscotch, lemon (clear)</li>
+      </ul>
+    </div>
+    <div class="shop-c avoid">
+      <div class="h">✗ AVOID — These cause issues</div>
+      <ul>
+        <li>Anything RED, ORANGE, or PURPLE (looks like blood)</li>
+        <li>Milk, cream, or any dairy</li>
+        <li>Orange juice or any juice with pulp</li>
+        <li>Tomato juice or V8</li>
+        <li>Smoothies or protein shakes</li>
+        <li>Alcohol of any kind</li>
+        <li>Coffee with milk or cream</li>
+        <li>Soups with meat, noodles, or vegetables</li>
+        <li>Anything you have to chew</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- PRE-PROCEDURE CHECKLIST -->
+<section class="sec">
+  <h2>Monday/Tuesday Checklist — Get Ready</h2>
+  <ul class="check-list">
+    <li><strong>Confirm your ride home</strong> for Thursday afternoon. Backup person if primary falls through. No Uber/Lyft allowed.</li>
+    <li><strong>Pick up anti-nausea prescription</strong> (Zofran/Ondansetron) from pharmacy if not already filled.</li>
+    <li><strong>Pick up prep solution</strong> from pharmacy and read the label. Note any specific timing the pharmacist mentions.</li>
+    <li><strong>Buy all clear liquids</strong> from the list above. Chill Gatorade and the prep solution Wednesday afternoon.</li>
+    <li><strong>Set TWO alarms for 3:30 AM Thursday</strong> for second prep dose. Place phone across the room so you have to get up.</li>
+    <li><strong>Block your calendar Thursday all day + Friday morning.</strong> No meetings, no calls, no decisions.</li>
+    <li><strong>Lay out comfortable clothes Wednesday night:</strong> loose-fitting pants with elastic waist, slip-on shoes, easy shirt.</li>
+    <li><strong>Stock easy post-procedure food:</strong> bananas, plain rice, crackers, soup, eggs, applesauce — for Thursday afternoon/evening.</li>
+    <li><strong>Prepare questions for Dr. Jabbour</strong> to ask in pre-procedure consultation (recurrence patterns, prevention, dietary advice).</li>
+  </ul>
+</section>
+
+<!-- TOP 3 -->
+<div class="section-title">The 3 things that define this week</div>
+<div class="tips">
+  <div class="tip">
+    <div class="n">01</div>
+    <div class="h">Wednesday is logistics, not training</div>
+    <div class="b">Skip the workout. Crush hydration with electrolyte drinks (not just water). Follow prep timing strictly: 7 PM Zofran, 8 PM prep, 3:30 AM second dose. The day before sets up everything.</div>
+  </div>
+  <div class="tip">
+    <div class="n">02</div>
+    <div class="h">Thursday: zero exercise, total rest</div>
+    <div class="b">Sedation lasts 12–24 hours even if you feel fine. No driving, no work, no walks. Just hydrate and eat light foods. Take notes on doctor's findings before sedation memory fades.</div>
+  </div>
+  <div class="tip">
+    <div class="n">03</div>
+    <div class="h">Saturday: bike, not run</div>
+    <div class="b">The long run defers to Week 25. 45-min easy Zwift Z2 ride instead. Zero impact, no abdominal strain, lets the body fully reset before next week's full schedule returns.</div>
+  </div>
+</div>
+
+<footer>HOUSTON MARATHON 2027 · 31 WEEKS TO RACE DAY · COLONOSCOPY WEEK · TRAINING RESUMES WEEK 25</footer>
+</div>
+</body>
+</html>

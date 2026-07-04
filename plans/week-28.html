@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Week 28 · July 6–12, 2026 · First Swim Week</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,700;0,900;1,700&family=JetBrains+Mono:wght@400;600&family=Inter+Tight:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0b0d12;--bg2:#10131b;--ink:#f5f1e8;--soft:#a8a594;--line:#1f2330;
+  --z1:#3aa17a;--z2:#3b82f6;--str:#a855f7;--long:#ef6c4d;
+  --rest:#52525b;--pt:#14b8a6;--fuel:#eab308;--core:#ec4899;--dawn:#fbbf24;
+  --swim:#22d3ee;--gun:#f97316;
+  --win:#22c55e;--fix:#ef4444;--warn:#f59e0b;
+  --r:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:'Inter Tight',sans-serif;
+  background:radial-gradient(1100px 500px at 75% -5%,rgba(34,211,238,.08),transparent 60%),
+             radial-gradient(800px 400px at -5% 35%,rgba(58,161,122,.05),transparent 55%),var(--bg);
+  color:var(--ink);line-height:1.5;min-height:100vh;padding:36px 20px 80px;
+}
+.wrap{max-width:1180px;margin:0 auto}
+
+/* HERO */
+.hero{border:1px solid var(--line);border-radius:var(--r);padding:28px;background:linear-gradient(135deg,#0e1320,#0d1a1f);position:relative;overflow:hidden;margin-bottom:18px}
+.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(700px 300px at 90% 0%,rgba(34,211,238,.14),transparent);pointer-events:none}
+.eyebrow{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--soft);margin-bottom:10px}
+h1{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(28px,5vw,52px);letter-spacing:-.02em;line-height:1.02;margin-bottom:8px}
+h1 em{font-style:italic;color:#67e8f9;font-weight:400}
+.hero-sub{color:var(--soft);font-size:14px;max-width:740px;line-height:1.6}
+.stat-row{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:20px;position:relative;z-index:1}
+.stat{border:1px solid var(--line);border-radius:10px;padding:12px 14px;background:rgba(255,255,255,.02)}
+.stat .k{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--soft)}
+.stat .v{font-family:'Fraunces',serif;font-size:20px;font-weight:700;margin-top:3px;line-height:1}
+.stat .d{font-size:11px;color:var(--win);margin-top:2px;font-family:'JetBrains Mono',monospace}
+.stat .d.warn{color:#fbbf24}.stat .d.swim{color:#67e8f9}.stat .d.dawn{color:#fcd34d}
+
+/* SCORECARD */
+.review-strip{border:1px solid var(--line);border-radius:var(--r);background:var(--bg2);padding:18px 20px;margin-bottom:16px}
+.review-strip h2{font-family:'Fraunces',serif;font-size:19px;margin-bottom:12px}
+.rev-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.rev-c{border:1px solid var(--line);border-radius:8px;padding:12px;background:rgba(255,255,255,.02)}
+.rev-c .icon{font-size:18px;margin-bottom:4px}
+.rev-c .h{font-weight:600;font-size:13px;margin-bottom:3px}
+.rev-c .d{font-size:11px;color:var(--soft);line-height:1.4}
+.rev-c.win{border-color:rgba(34,197,94,.25)}
+.rev-c.warn{border-color:rgba(245,158,11,.25)}
+
+/* SWIM BANNER */
+.swim-banner{
+  border:2px solid rgba(34,211,238,.45);background:linear-gradient(135deg,rgba(34,211,238,.08),rgba(59,130,246,.04));
+  border-radius:var(--r);padding:20px 24px;margin-bottom:16px;
+  display:flex;gap:18px;align-items:flex-start;
+}
+.swim-banner .ico{font-size:32px;flex-shrink:0;margin-top:2px}
+.swim-banner h2{font-family:'Fraunces',serif;font-size:22px;color:#67e8f9;margin-bottom:6px;letter-spacing:-.01em}
+.swim-banner p{font-size:14px;line-height:1.6;color:var(--ink)}
+.swim-banner p strong{color:#67e8f9}
+.swim-meta{display:flex;gap:10px;margin-top:10px;flex-wrap:wrap}
+.swim-meta div{font-family:'JetBrains Mono',monospace;font-size:11px;padding:5px 11px;border-radius:5px;background:rgba(34,211,238,.1);color:#67e8f9;border:1px solid rgba(34,211,238,.3)}
+
+/* CALLOUTS */
+.callout{border-radius:10px;padding:14px 18px;margin-bottom:14px;display:flex;gap:14px;align-items:flex-start}
+.callout.green{border:1px solid rgba(34,197,94,.3);background:rgba(34,197,94,.06)}
+.callout.amber{border:1px solid rgba(245,158,11,.3);background:rgba(245,158,11,.06)}
+.callout.cyan{border:1px solid rgba(34,211,238,.3);background:rgba(34,211,238,.06)}
+.callout .ico{font-size:22px;flex-shrink:0;margin-top:2px}
+.callout h3{font-family:'Fraunces',serif;font-size:17px;margin-bottom:4px}
+.callout.green h3{color:#86efac}.callout.amber h3{color:#fde68a}.callout.cyan h3{color:#67e8f9}
+.callout p{font-size:13px;line-height:1.55;color:var(--ink)}
+.callout p strong{color:#fde68a}
+
+/* SECTION HEADERS */
+.section-title{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--soft);margin:22px 0 12px;display:flex;align-items:center;gap:10px}
+.section-title::after{content:"";flex:1;height:1px;background:var(--line)}
+
+/* LEGEND */
+.legend{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.chip{display:inline-flex;align-items:center;gap:7px;padding:6px 12px;border:1px solid var(--line);border-radius:30px;font-size:11px;font-family:'JetBrains Mono',monospace;letter-spacing:.05em;background:var(--bg2)}
+.dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+
+/* DAY CARDS */
+.days{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-bottom:20px}
+.day{border:1px solid var(--line);border-radius:var(--r);background:var(--bg2);overflow:hidden;display:flex;flex-direction:column}
+.day-hdr{padding:13px 17px 11px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:flex-end;gap:10px;position:relative}
+.day-hdr::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--dc,#fff)}
+.day-name{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--soft)}
+.day-date{font-family:'Fraunces',serif;font-size:24px;font-weight:700;line-height:1;margin-top:2px}
+.day-focus{text-align:right;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;padding:4px 8px;border-radius:4px;background:rgba(255,255,255,.04);border:1px solid var(--line);color:var(--soft);max-width:180px}
+.cal-badge{font-family:'JetBrains Mono',monospace;font-size:9px;padding:2px 6px;border-radius:3px;margin-top:3px;display:inline-block}
+.cal-badge.high{background:rgba(239,108,77,.12);color:#fca97f}
+.cal-badge.low{background:rgba(59,130,246,.12);color:#7dd3fc}
+.day-body{padding:14px 17px 16px;flex:1;display:flex;flex-direction:column;gap:11px}
+
+.blk{border-left:3px solid var(--bc,#fff);padding:9px 13px;background:rgba(255,255,255,.012);border-radius:0 8px 8px 0}
+.blk .lbl{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--soft);display:flex;justify-content:space-between;align-items:center;margin-bottom:3px}
+.blk .dur{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink);background:rgba(255,255,255,.06);padding:2px 6px;border-radius:3px}
+.blk .ttl{font-size:13px;font-weight:600;margin-bottom:4px}
+.blk .det{font-size:12px;color:var(--soft);line-height:1.55}
+.blk .det strong{color:var(--ink)}
+
+.blk.z2{--bc:var(--z2)}.blk.z1{--bc:var(--z1)}.blk.str{--bc:var(--str)}
+.blk.long{--bc:var(--long)}.blk.rest{--bc:var(--rest)}.blk.pt{--bc:var(--pt)}
+.blk.fuel{--bc:var(--fuel)}.blk.core{--bc:var(--core)}.blk.swim{--bc:var(--swim)}.blk.gun{--bc:var(--gun)}
+
+.day[data-c="z2"]{--dc:var(--z2)}.day[data-c="run"]{--dc:var(--z1)}
+.day[data-c="str"]{--dc:var(--str)}.day[data-c="long"]{--dc:var(--long)}
+.day[data-c="rest"]{--dc:var(--rest)}.day[data-c="swim"]{--dc:var(--swim)}
+
+.ex-grid{display:grid;grid-template-columns:1fr 1fr;gap:3px 12px;margin-top:6px}
+.ex-row{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink)}
+.ex-row span{color:var(--soft)}
+.ex-row.core{color:#f9a8d4}.ex-row.core span{color:rgba(249,168,212,.7)}
+
+.rw-banner{border:1px solid rgba(6,182,212,.4);background:rgba(6,182,212,.06);border-radius:8px;padding:10px 12px;margin-bottom:6px}
+.rw-banner .h{font-weight:700;font-size:12px;color:#67e8f9;margin-bottom:2px}
+.rw-banner .b{font-size:11px;color:var(--soft);line-height:1.45}
+
+.core-banner{border:1px solid rgba(236,72,153,.4);background:rgba(236,72,153,.06);border-radius:8px;padding:10px 12px;margin-bottom:6px}
+.core-banner .h{font-weight:700;font-size:12px;color:#f9a8d4;margin-bottom:2px}
+.core-banner .b{font-size:11px;color:var(--soft);line-height:1.45}
+
+.gun-banner{border:1px solid rgba(249,115,22,.4);background:rgba(249,115,22,.06);border-radius:8px;padding:10px 12px;margin-top:6px}
+.gun-banner .h{font-weight:700;font-size:12px;color:#fdba74;margin-bottom:2px}
+.gun-banner .b{font-size:11px;color:var(--soft);line-height:1.45}
+
+.time-flag{display:inline-flex;align-items:center;gap:5px;font-family:'JetBrains Mono',monospace;font-size:10px;padding:2px 7px;border-radius:4px;background:rgba(251,191,36,.12);color:#fcd34d;border:1px solid rgba(251,191,36,.3);margin-left:6px}
+
+/* SECTION */
+.sec{border:1px solid var(--line);border-radius:var(--r);padding:18px 20px;background:var(--bg2);margin-bottom:16px}
+.sec h2{font-family:'Fraunces',serif;font-size:19px;font-weight:700;margin-bottom:6px}
+.sec .sub{font-size:13px;color:var(--soft);margin-bottom:12px;line-height:1.5}
+
+/* MASSAGE GUN GRID */
+.gun-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.gun-c{border:1px solid rgba(249,115,22,.25);border-radius:10px;padding:14px;background:rgba(249,115,22,.04)}
+.gun-c .n{font-weight:600;font-size:13px;margin-bottom:5px;color:#fdba74}
+.gun-c ul{list-style:none}
+.gun-c li{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink);padding:2px 0}
+.gun-c li span{color:var(--soft)}
+.gun-c.rules{border-color:rgba(239,68,68,.3);background:rgba(239,68,68,.04)}
+.gun-c.rules .n{color:#fca5a5}
+.gun-c.rules li{font-family:'Inter Tight',sans-serif;font-size:11px;line-height:1.5;color:var(--soft);padding:3px 0}
+.gun-c.rules li strong{color:#fca5a5}
+
+/* SWIM CHECKLIST */
+.swim-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.swim-c{border:1px solid rgba(34,211,238,.25);border-radius:10px;padding:14px;background:rgba(34,211,238,.04)}
+.swim-c .h{font-weight:600;font-size:13px;margin-bottom:6px;color:#67e8f9}
+.swim-c ul{list-style:none}
+.swim-c li{font-size:12px;color:var(--ink);padding:4px 0;display:flex;gap:8px;align-items:flex-start;line-height:1.45}
+.swim-c li::before{content:"☐";color:#67e8f9;font-weight:700;flex-shrink:0}
+.swim-c.info li::before{content:"→";color:#67e8f9}
+
+.ntbl{width:100%;border-collapse:collapse;font-size:12px}
+.ntbl th{text-align:left;padding:8px 12px;background:rgba(234,179,8,.07);font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#fde68a;border-bottom:1px solid var(--line)}
+.ntbl td{padding:9px 12px;border-bottom:1px dashed #1c2030;vertical-align:top}
+.ntbl td:first-child{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--soft);width:130px}
+
+/* TIPS */
+.tips{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.tip{border:1px solid var(--line);border-radius:10px;padding:14px;background:rgba(255,255,255,.02)}
+.tip .n{font-family:'Fraunces',serif;font-size:32px;font-weight:900;color:#fbbf77;line-height:1;margin-bottom:5px}
+.tip .h{font-weight:600;font-size:13px;margin-bottom:3px}
+.tip .b{font-size:12px;color:var(--soft);line-height:1.5}
+
+footer{margin-top:28px;text-align:center;color:var(--soft);font-size:11px;font-family:'JetBrains Mono',monospace;letter-spacing:.1em}
+
+@media(max-width:860px){
+  .days,.tips,.stat-row,.rev-grid,.gun-grid,.swim-grid{grid-template-columns:1fr}
+  .stat-row{grid-template-columns:repeat(2,1fr)}
+  .rev-grid{grid-template-columns:1fr 1fr}
+  .ex-grid{grid-template-columns:1fr}
+  body{padding:18px 12px 60px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- HERO -->
+<section class="hero">
+  <div class="eyebrow">Week 28 · July 6–12, 2026 · Houston Marathon 2027 · 27 weeks out · Aubrey, TX</div>
+  <h1>Three sports.<br>The triathlon <em>begins</em>.</h1>
+  <p class="hero-sub">Week 27 was your best week of the entire block — all six sessions, every run in the morning window, and a 72-minute long run with almost zero cardiac drift. Now the third discipline enters: Saturday July 11 is your first triathlon swim session. The long run moves to Friday to make room, and your massage gun gets a proper protocol so recovery keeps pace with the training.</p>
+  <div class="stat-row">
+    <div class="stat"><div class="k">Volume Target</div><div class="v">4.9 hr</div><div class="d">incl. swim</div></div>
+    <div class="stat"><div class="k">Sports</div><div class="v">3</div><div class="d swim">run · bike · swim</div></div>
+    <div class="stat"><div class="k">Swim Debut</div><div class="v">Sat 7/11</div><div class="d swim">private session</div></div>
+    <div class="stat"><div class="k">Long Run</div><div class="v">Fri 65 min</div><div class="d dawn">moved + capped</div></div>
+    <div class="stat"><div class="k">Best Pace</div><div class="v">13:03/mi</div><div class="d">new PR ✓</div></div>
+  </div>
+</section>
+
+<!-- WEEK 27 SCORECARD -->
+<div class="review-strip">
+  <h2>Week 27 scorecard — your best week yet ✅</h2>
+  <div class="rev-grid">
+    <div class="rev-c win">
+      <div class="icon">🌅</div>
+      <div class="h">Monday moved to morning</div>
+      <div class="d">6:45 AM start — the last evening holdout is fixed. All 3 runs ran in the cool window. And it produced your fastest pace yet: 13:03/mi.</div>
+    </div>
+    <div class="rev-c win">
+      <div class="icon">📊</div>
+      <div class="h">72-min long run, 2 bpm drift</div>
+      <div class="d">HR by quarter: 133→135→136→135. Nearly flat over 72 minutes in July heat. The run-walk method (49% run / 51% walk) is doing exactly its job.</div>
+    </div>
+    <div class="rev-c win">
+      <div class="icon">🚴</div>
+      <div class="h">Friday discipline held</div>
+      <div class="d">No group ride this time — 110W avg, HR 119, textbook Z2. Tuesday also hit the new power zones (114W). You listened, and the legs thank you.</div>
+    </div>
+    <div class="rev-c warn">
+      <div class="icon">⚠️</div>
+      <div class="h">Long run overshoot: 72 vs 60</div>
+      <div class="d">+20% over plan. The fitness is real — but this is exactly how past boom-bust cycles started. This week the long run is capped at 65. Finishing at 65 IS the workout.</div>
+    </div>
+  </div>
+</div>
+
+<!-- SWIM BANNER -->
+<div class="swim-banner">
+  <div class="ico">🏊</div>
+  <div>
+    <h2>Saturday July 11 · First Triathlon Swim Session</h2>
+    <p><strong>Private adult triathlon training — the third leg of your Olympic-distance goal starts here.</strong> This is a milestone, not just a workout. A private session is the ideal way in: technique first (body position, breathing, relaxed stroke), fitness second. One honest heads-up: swimming humbles everyone at first — your run/bike engine won't transfer immediately because swim fitness lives in technique and new muscles. That's normal and temporary. Go in curious, not competitive.</p>
+    <div class="swim-meta">
+      <div>📅 Saturday July 11</div>
+      <div>🏊 Private session</div>
+      <div>🎯 Technique focus</div>
+      <div>🏁 Olympic tri — leg 3 of 3 unlocked</div>
+    </div>
+  </div>
+</div>
+
+<div class="callout cyan">
+  <div class="ico">🔀</div>
+  <div>
+    <h3>Why the long run moves to Friday this week</h3>
+    <p>First swim sessions are deceptively tiring — new muscles (lats, shoulders, neck), new breathing patterns, and more core work than you expect. Stacking it on top of a 65-minute long run the same morning would compromise both. So: <strong>long run Friday 6:15 AM, swim fresh on Saturday, full rest Sunday.</strong> One week only — if the swim becomes a regular slot, we'll restructure properly.</p>
+  </div>
+</div>
+
+<div class="callout amber">
+  <div class="ico">🎯</div>
+  <div>
+    <h3>One variable at a time — that's why we consolidate this week</h3>
+    <p>The Week 28 preview promised a 4th run day and a 65-min long run. The swim is a brand-new stressor, so the 4th run day waits until Week 29. <strong>Rule of thumb from your own history: introduce one new stress per week, never two.</strong> This week's new thing is the water. Everything else holds steady.</p>
+  </div>
+</div>
+
+<!-- LEGEND -->
+<div class="legend">
+  <span class="chip"><span class="dot" style="background:var(--z1)"></span>Run (run-walk)</span>
+  <span class="chip"><span class="dot" style="background:var(--z2)"></span>Bike / Zwift</span>
+  <span class="chip"><span class="dot" style="background:var(--swim)"></span>Swim</span>
+  <span class="chip"><span class="dot" style="background:var(--str)"></span>Strength</span>
+  <span class="chip"><span class="dot" style="background:var(--core)"></span>Core / Abs</span>
+  <span class="chip"><span class="dot" style="background:var(--gun)"></span>Massage Gun</span>
+  <span class="chip"><span class="dot" style="background:var(--rest)"></span>Rest</span>
+</div>
+
+<div class="section-title">Week 28 · July 6–12 · Run · Bike · Swim</div>
+
+<!-- DAYS -->
+<div class="days">
+
+  <!-- MONDAY -->
+  <div class="day" data-c="run">
+    <div class="day-hdr">
+      <div><div class="day-name">Monday</div><div class="day-date">Jul 6</div><span class="cal-badge low">🔵 mild deficit</span></div>
+      <div class="day-focus">Run-Walk + Strength A</div>
+    </div>
+    <div class="day-body">
+      <div class="blk fuel"><div class="lbl">🍎 6:00 AM · Wake + fuel <span class="time-flag">🌅 keep the streak</span></div><div class="det">16 oz water. <strong>½ cup oats + honey</strong> or banana. Out by 6:15 — last Monday's 6:45 AM start produced your fastest run ever. Repeat it.</div></div>
+      <div class="blk pt">
+        <div class="lbl">🩺 Dynamic warm-up <span class="dur">6 min</span></div>
+        <div class="det">Leg swings × 10 each · walking lunges × 8 · high knees × 20m · butt kicks × 20m · 3 strides at 150 spm.</div>
+      </div>
+      <div class="blk z1">
+        <div class="lbl">🏃 Run-walk · 6:15 AM <span class="dur">35 min</span></div>
+        <div class="ttl">2.6–2.9 mi · Aubrey flat · chase last week's 13:03</div>
+        <div class="rw-banner"><div class="h">🌊 Run → 140 → walk → 128 → repeat · cadence 150</div><div class="b">Watch alerts on: high 140, low 128. Cadence crept 145 last Monday — nudge toward 148–150 on run intervals this week.</div></div>
+        <div class="det"><strong>Carry water.</strong> Pace is an output — the method controls effort.</div>
+      </div>
+      <div class="blk str">
+        <div class="lbl">💪 Strength A + Core <span class="dur">18 min</span></div>
+        <div class="ttl">Post-run, indoors. Full protocol.</div>
+        <div class="ex-grid">
+          <div class="ex-row">Glute bridge <span>· 3 × 15</span></div>
+          <div class="ex-row">Clamshells <span>· 3 × 15/side</span></div>
+          <div class="ex-row">Bodyweight squat <span>· 3 × 12</span></div>
+          <div class="ex-row">Step-ups <span>· 2 × 10/side</span></div>
+          <div class="ex-row core">Dead-bug <span>· 3 × 12/side ★</span></div>
+          <div class="ex-row core">Hollow hold <span>· 3 × 25 sec ★</span></div>
+        </div>
+      </div>
+      <div class="blk gun">
+        <div class="lbl">🔫 Massage gun · post-session <span class="dur">6 min</span></div>
+        <div class="det"><strong>Quads 90 sec/leg → calves 60 sec/leg → glutes 60 sec/side.</strong> Float the head, keep it moving, medium speed. <strong>Never on the kneecap or joint line</strong> — work the muscle above and beside it.</div>
+      </div>
+      <div class="blk fuel"><div class="lbl">🍎 Post · within 30 min</div><div class="det">Overnight oats + whey. 16 oz water. (Easy day — moderate portions.)</div></div>
+    </div>
+  </div>
+
+  <!-- TUESDAY -->
+  <div class="day" data-c="z2">
+    <div class="day-hdr">
+      <div><div class="day-name">Tuesday</div><div class="day-date">Jul 7</div><span class="cal-badge low">🔵 mild deficit</span></div>
+      <div class="day-focus">Zwift Z2 Endurance</div>
+    </div>
+    <div class="day-body">
+      <div class="blk fuel"><div class="lbl">🍎 Wake + fuel <span class="time-flag">🌅 flexible (indoor)</span></div><div class="det">16 oz water + electrolyte. <strong>Toast + almond butter + ½ banana</strong>, 20 min before.</div></div>
+      <div class="blk z2">
+        <div class="lbl">🚴 Zwift Z2 endurance <span class="dur">55 min</span></div>
+        <div class="ttl">Volcano Flat · last Tuesday's 114W was right in the zone — repeat it</div>
+        <div class="det">
+          <strong>Target:</strong> HR 120–132, watts 105–115, cadence 85–95 rpm.<br>
+          <strong>Structure:</strong> 10 min @ 80W warm-up → 40 min @ 110W steady → 5 min cool-down.<br>
+          <strong>Fan on, sip every 15 min.</strong>
+        </div>
+      </div>
+      <div class="blk pt">
+        <div class="lbl">🩺 Post · Hip mobility <span class="dur">8 min</span></div>
+        <div class="det">Hip flexor stretch 60 sec/side · pigeon 60 sec/side · couch stretch 60 sec/side · cat-cow × 10.</div>
+      </div>
+      <div class="blk gun">
+        <div class="lbl">🔫 Massage gun · evening <span class="dur">4 min</span></div>
+        <div class="det"><strong>Quads 60 sec/leg → glutes 60 sec/side.</strong> Bike days load the quads quietly — an evening pass keeps Wednesday's run legs fresh.</div>
+      </div>
+      <div class="blk fuel"><div class="lbl">🍎 Post · within 30 min</div><div class="det">Protein smoothie: whey + milk + ½ banana + spinach. (Easy day — skip the PB.)</div></div>
+    </div>
+  </div>
+
+  <!-- WEDNESDAY -->
+  <div class="day" data-c="run">
+    <div class="day-hdr">
+      <div><div class="day-name">Wednesday</div><div class="day-date">Jul 8</div><span class="cal-badge high">🔴 maintenance</span></div>
+      <div class="day-focus">Run-Walk Cadence + Core</div>
+    </div>
+    <div class="day-body">
+      <div class="blk fuel"><div class="lbl">🍎 6:00 AM · Wake + fuel <span class="time-flag">🌅 6 AM</span></div><div class="det">16 oz water. <strong>½ cup oats + honey + berries</strong>. Out by 6:15.</div></div>
+      <div class="blk pt">
+        <div class="lbl">🩺 Dynamic warm-up <span class="dur">6 min</span></div>
+        <div class="det">Leg swings × 10 each · walking lunges × 8 · high knees × 20m · butt kicks × 20m · 3 strides at 152 spm.</div>
+      </div>
+      <div class="blk z1">
+        <div class="lbl">🏃 Run-walk · cadence focus · 6:15 AM <span class="dur">40 min</span></div>
+        <div class="ttl">3.0–3.4 mi · push cadence toward 152 this week</div>
+        <div class="rw-banner"><div class="h">🌊 Run → 140 → walk → 128 → repeat · cadence 152</div><div class="b">The weekly cadence builder. You've held 143–145 three weeks running — time to nudge the metronome to 152 on run intervals. Short, quick, quiet steps.</div></div>
+        <div class="det"><strong>HRM-600:</strong> watch ground contact time — aim under 285 ms on run intervals.</div>
+      </div>
+      <div class="blk core">
+        <div class="lbl">🎯 Core circuit · post-run <span class="dur">12 min</span></div>
+        <div class="ttl">Dedicated abs — 2 rounds</div>
+        <div class="ex-grid">
+          <div class="ex-row core">Plank <span>· 3 × 45 sec</span></div>
+          <div class="ex-row core">Side plank <span>· 2 × 30 sec/side</span></div>
+          <div class="ex-row core">Dead-bug <span>· 3 × 12/side</span></div>
+          <div class="ex-row core">Bicycle crunch <span>· 2 × 15/side</span></div>
+          <div class="ex-row core">Hollow hold <span>· 3 × 25 sec</span></div>
+          <div class="ex-row core">Leg raises <span>· 2 × 12</span></div>
+        </div>
+        <div class="core-banner"><div class="h">★ Bonus: this is swim prep too</div><div class="b">Hollow holds and dead-bugs build exactly the body position swimming demands — a straight, stable line in the water. Your core work has been secretly training for Saturday.</div></div>
+      </div>
+      <div class="blk fuel"><div class="lbl">🍎 Post · within 30 min</div><div class="det">2 eggs + toast + ½ avocado + orange. (Maintenance day — full fuel.)</div></div>
+    </div>
+  </div>
+
+  <!-- THURSDAY -->
+  <div class="day" data-c="str">
+    <div class="day-hdr">
+      <div><div class="day-name">Thursday</div><div class="day-date">Jul 9</div><span class="cal-badge low">🔵 mild deficit</span></div>
+      <div class="day-focus">Strength B + Recovery Spin</div>
+    </div>
+    <div class="day-body">
+      <div class="blk fuel"><div class="lbl">🍎 Wake + fuel <span class="time-flag">🌅 flexible (indoor)</span></div><div class="det">16 oz water. <strong>1 banana</strong>, 15 min before. (Easy day.)</div></div>
+      <div class="blk str">
+        <div class="lbl">💪 Strength B + Core <span class="dur">20 min</span></div>
+        <div class="ttl">Gateway rule: mat before bike. Lower body + anti-rotation.</div>
+        <div class="ex-grid">
+          <div class="ex-row">Reverse lunge <span>· 3 × 8/side</span></div>
+          <div class="ex-row">Step-ups <span>· 2 × 10/side</span></div>
+          <div class="ex-row">Glute bridge <span>· 3 × 15</span></div>
+          <div class="ex-row">Calf raise (slow) <span>· 3 × 15</span></div>
+          <div class="ex-row core">Pallof press (band) <span>· 3 × 10/side ★</span></div>
+          <div class="ex-row core">Bird-dog <span>· 3 × 10/side ★</span></div>
+        </div>
+      </div>
+      <div class="blk z1">
+        <div class="lbl">🚴 Recovery spin <span class="dur">25 min</span></div>
+        <div class="ttl">Zwift Z1 — flush legs before the Friday–Saturday double</div>
+        <div class="det"><strong>Target:</strong> HR ≤115, watts &lt;88, cadence 85–95 rpm. Genuinely easy — big two days ahead.</div>
+      </div>
+      <div class="blk fuel"><div class="lbl">🍎 Post + evening</div><div class="det">Greek yogurt + berries + granola. <strong>Tonight:</strong> lay out long-run gear AND pack the swim bag (see checklist below) — Friday evening will be recovery time, not packing time.</div></div>
+    </div>
+  </div>
+
+  <!-- FRIDAY — LONG RUN -->
+  <div class="day" data-c="long">
+    <div class="day-hdr">
+      <div><div class="day-name">Friday</div><div class="day-date">Jul 10</div><span class="cal-badge high">🔴 maintenance</span></div>
+      <div class="day-focus">LONG RUN · Moved Here</div>
+    </div>
+    <div class="day-body">
+      <div class="blk fuel"><div class="lbl">🍎 6:00 AM · Wake + fuel <span class="time-flag">🌅 6 AM — non-negotiable today</span></div><div class="det">16 oz water on waking. <strong>1 cup oats + honey + ½ banana + almond butter</strong>, eat fast. Electrolyte 10 min before. (Maintenance — full fuel.)</div></div>
+      <div class="blk pt">
+        <div class="lbl">🩺 Dynamic warm-up <span class="dur">8 min</span></div>
+        <div class="det">Leg swings × 10 each · walking lunges × 10 · A-skips × 20m × 2 · butt kicks × 20m · 4 strides at 150 spm.</div>
+      </div>
+      <div class="blk long">
+        <div class="lbl">🏃 Long Run-Walk · 6:15 AM · Aubrey <span class="dur">65 min — HARD CAP</span></div>
+        <div class="ttl">4.4–4.8 mi · the discipline test: stop at 65</div>
+        <div class="rw-banner"><div class="h">🌊 Run → 140 → walk → 128 · cadence 150 · STOP AT 65 MIN</div><div class="b">Last week you ran 72 when the plan said 60. This week finishing at exactly 65 IS the workout. With tomorrow's swim, the extra 7 minutes costs more than it gains. Set a 65-min timer on the watch.</div></div>
+        <div class="det">
+          <strong>Fuel:</strong> water + electrolyte at 25 + 45 min. Optional gel at 40.<br>
+          <strong>Finish by 7:25 AM.</strong> Tomorrow you swim — leave something in the tank.
+        </div>
+      </div>
+      <div class="blk pt">
+        <div class="lbl">🩺 Post · Recovery flow <span class="dur">15 min</span></div>
+        <div class="det">5 min walk → <strong>Legs up the wall 5 min</strong> → pigeon 90 sec/side → couch stretch 90 sec/side.</div>
+      </div>
+      <div class="blk gun">
+        <div class="lbl">🔫 Massage gun · the full session <span class="dur">10 min</span></div>
+        <div class="det"><strong>Quads 90 sec/leg → calves 90 sec/leg → hamstrings 60 sec/leg → glutes 60 sec/side.</strong> Then again in the evening if legs feel heavy. Tomorrow's swim needs relaxed shoulders, not tight legs pulling your posture down.</div>
+      </div>
+      <div class="blk fuel"><div class="lbl">🍎 Post · recover like it matters</div><div class="det"><strong>Within 20 min:</strong> recovery shake — whey + chocolate milk + banana + PB.<br><strong>Within 90 min:</strong> 3 eggs + toast + avocado + sweet potato. Hydrate 100+ oz today — you swim tomorrow.</div></div>
+    </div>
+  </div>
+
+  <!-- SATURDAY — SWIM -->
+  <div class="day" data-c="swim">
+    <div class="day-hdr">
+      <div><div class="day-name">Saturday</div><div class="day-date">Jul 11</div><span class="cal-badge high">🔴 maintenance</span></div>
+      <div class="day-focus">🏊 FIRST SWIM SESSION</div>
+    </div>
+    <div class="day-body">
+      <div class="blk swim">
+        <div class="lbl">🏊 Private triathlon swim session</div>
+        <div class="ttl">The third discipline begins. Technique day — not a fitness test.</div>
+        <div class="det">
+          <strong>What to expect:</strong> body position, breathing rhythm, relaxed freestyle basics. A good coach will have you doing drills that feel "too easy" — they're not. Position and breath ARE swimming.<br>
+          <strong>Effort:</strong> conversational. If you're gasping, slow down — gasping in water means technique broke, not fitness.<br>
+          <strong>Tell the coach:</strong> marathon base + Olympic tri goal + any water-comfort history. Let them set the progression.
+        </div>
+      </div>
+      <div class="blk fuel">
+        <div class="lbl">🍎 Pre-swim fueling</div>
+        <div class="det"><strong>90 min before:</strong> light meal — toast + banana + honey, or half an oats jar. <strong>Nothing heavy within an hour</strong> — a full stomach and horizontal swimming don't mix. Hydrate normally; you sweat in the pool more than you notice.</div>
+      </div>
+      <div class="blk pt">
+        <div class="lbl">🩺 Before getting in <span class="dur">5 min</span></div>
+        <div class="det">Arm circles × 15 each direction · shoulder rolls × 10 · gentle trunk rotations × 10 · a few deep exhale practice breaths (exhaling underwater is the #1 beginner skill).</div>
+      </div>
+      <div class="blk gun">
+        <div class="lbl">🔫 Massage gun · post-swim <span class="dur">5 min</span></div>
+        <div class="det"><strong>Lats 60 sec/side → rear delts 45 sec/side → upper traps 45 sec/side — LIGHT pressure, slowest speed.</strong> These muscles are new to loading; treat them gently. Skip the neck entirely.</div>
+      </div>
+      <div class="blk fuel">
+        <div class="lbl">🍎 Post-swim</div>
+        <div class="det"><strong>Within 30 min:</strong> protein + carbs — recovery shake or eggs + toast. Swimming hunger is real and hits late; eat properly at the next meal too. (Maintenance day.)</div>
+      </div>
+      <div class="blk rest">
+        <div class="lbl">🛌 Rest of the day</div>
+        <div class="det">Nothing else scheduled. If the family 5K walk or errands happen, fine — but no second workout. The swim counts fully.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SUNDAY -->
+  <div class="day" data-c="rest">
+    <div class="day-hdr">
+      <div><div class="day-name">Sunday</div><div class="day-date">Jul 12</div><span class="cal-badge low">🔵 mild deficit</span></div>
+      <div class="day-focus">Full Rest</div>
+    </div>
+    <div class="day-body">
+      <div class="blk rest">
+        <div class="lbl">🛌 Complete rest</div>
+        <div class="ttl">Four consecutive complete weeks. A three-sport week. Let it land.</div>
+        <div class="det"><strong>Expect new soreness:</strong> lats, shoulders, maybe neck — that's the swim, and it's normal. <strong>Optional:</strong> 20–30 min easy evening walk. <strong>Required:</strong> 8+ hr sleep.</div>
+      </div>
+      <div class="blk gun">
+        <div class="lbl">🔫 Massage gun · gentle full-body <span class="dur">8 min</span></div>
+        <div class="det">Light pass: quads, calves, glutes, lats — 45–60 sec each, lowest speed. Sunday's pass is maintenance, not therapy. Follow with legs up the wall 10 min.</div>
+      </div>
+      <div class="blk fuel">
+        <div class="lbl">🍎 Fuel + Week 29 prep</div>
+        <div class="det">3 balanced meals, protein 120–155g. Make 4 overnight oats jars. <strong>Note how the swim felt</strong> — if it's becoming a weekly slot, Week 29 restructures around it properly (and adds the 4th run day).</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- SWIM CHECKLIST -->
+<section class="sec">
+  <h2>Swim Session — Pack List & First-Timer Notes</h2>
+  <p class="sub">Pack Thursday evening so Friday stays a recovery evening. Everything fits in one gym bag.</p>
+  <div class="swim-grid">
+    <div class="swim-c">
+      <div class="h">🎒 Pack (Thursday night)</div>
+      <ul>
+        <li><strong>Goggles</strong> — the one non-negotiable. Anti-fog, snug but not tight. If buying: a basic Speedo/TYR pair is fine, skip the fancy ones for now.</li>
+        <li><strong>Swim cap</strong> — many pools require one; keeps hair out of goggles</li>
+        <li>Jammers or snug trunks — board shorts drag badly and make learning harder</li>
+        <li>Towel + flip flops + toiletries</li>
+        <li>Water bottle — poolside, sip between drills</li>
+        <li>Post-swim snack in the bag (banana + protein bar)</li>
+      </ul>
+    </div>
+    <div class="swim-c info">
+      <div class="h">🧠 First-timer truths</div>
+      <ul>
+        <li>Your run/bike fitness won't transfer yet — swim fitness is technique-first. Expect to feel like a beginner. Everyone does.</li>
+        <li>The #1 skill: exhale UNDERWATER, continuously. Holding your breath is what makes swimming exhausting.</li>
+        <li>Slower is better — drills at easy effort build the stroke; thrashing hard reinforces bad habits.</li>
+        <li>HR behaves differently in water (horizontal + pressure + cooling) — don't chase zones today. The Fenix can track it, but ignore the numbers this session.</li>
+        <li>If your HRM-600 isn't swim-paired, wrist HR is fine for a technique day.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- MASSAGE GUN PROTOCOL -->
+<section class="sec">
+  <h2>🔫 Massage Gun Protocol — your new recovery layer</h2>
+  <p class="sub">Used right, it takes the edge off soreness (DOMS) and keeps muscles supple between sessions. Used wrong — parked on a joint or hammering the knee — it irritates exactly what we're protecting. The routine by session type:</p>
+  <div class="gun-grid">
+    <div class="gun-c">
+      <div class="n">🏃 After runs (6–10 min)</div>
+      <ul>
+        <li>Quads <span>· 90 sec/leg</span></li>
+        <li>Calves <span>· 60–90 sec/leg</span></li>
+        <li>Hamstrings <span>· 60 sec/leg</span></li>
+        <li>Glutes <span>· 60 sec/side</span></li>
+        <li>Speed <span>· medium</span></li>
+        <li>Pressure <span>· float, don't press</span></li>
+      </ul>
+    </div>
+    <div class="gun-c">
+      <div class="n">🚴 After bikes (4 min)</div>
+      <ul>
+        <li>Quads <span>· 60 sec/leg</span></li>
+        <li>Glutes <span>· 60 sec/side</span></li>
+        <li>Hip flexors <span>· 30 sec/side, LIGHT</span></li>
+        <li>Best time <span>· evening, pre-bed</span></li>
+      </ul>
+    </div>
+    <div class="gun-c">
+      <div class="n">🏊 After swims (5 min)</div>
+      <ul>
+        <li>Lats <span>· 60 sec/side</span></li>
+        <li>Rear delts <span>· 45 sec/side</span></li>
+        <li>Upper traps <span>· 45 sec/side</span></li>
+        <li>Speed <span>· LOWEST — new muscles</span></li>
+        <li>Never <span>· front of neck/throat</span></li>
+      </ul>
+    </div>
+    <div class="gun-c rules" style="grid-column:1/-1">
+      <div class="n">⛔ The rules that protect you</div>
+      <ul>
+        <li><strong>Never on the kneecap, joint line, or patellar tendon</strong> — your PFPS knee gets zero direct gun contact. Work the quad muscle above it and the outer/inner thigh beside it; the knee benefits indirectly.</li>
+        <li><strong>Keep it moving</strong> — slow sweeps along the muscle, never parked on one spot; never on bone or spine.</li>
+        <li><strong>Soreness vs pain:</strong> the gun is for dull, both-legs muscle soreness. Sharp, localized, or one-sided joint pain is a signal to REST and tell me — not to massage harder. Especially the right knee.</li>
+        <li><strong>Timing:</strong> within 60 min post-workout and/or evening before bed. 2 minutes max per muscle group.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- TOP 3 -->
+<div class="section-title">The 3 things that define Week 28</div>
+<div class="tips">
+  <div class="tip">
+    <div class="n">01</div>
+    <div class="h">Enjoy the swim — it's a milestone</div>
+    <div class="b">The third leg of your Olympic tri goal starts Saturday. Go in curious, exhale underwater, let the coach lead. Being a beginner at one sport while your run fitness climbs is exactly where a triathlete-in-progress should be.</div>
+  </div>
+  <div class="tip">
+    <div class="n">02</div>
+    <div class="h">65 means 65 on Friday</div>
+    <div class="b">Last week's 72-min run was strong — and 20% over plan, which is how old injury cycles began. Set the watch timer. Stopping on schedule with gas in the tank IS the training adaptation this week.</div>
+  </div>
+  <div class="tip">
+    <div class="n">03</div>
+    <div class="h">Massage gun by the protocol</div>
+    <div class="b">Quads/calves/glutes after runs, lats/delts gently after the swim, never on the knee joint. Float, don't press; keep it moving. It's a recovery layer on top of mobility — not a replacement for it.</div>
+  </div>
+</div>
+
+<footer>HOUSTON MARATHON 2027 · 27 WEEKS TO RACE DAY · WEEK 28 · RUN + BIKE + SWIM · THE TRIATHLON BEGINS</footer>
+</div>
+</body>
+</html>

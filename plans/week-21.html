@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Week 21 · May 18–24, 2026 · Houston Marathon 2027</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,700;0,900;1,700&family=JetBrains+Mono:wght@400;600&family=Inter+Tight:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0b0d12; --bg2:#10131b; --ink:#f5f1e8; --soft:#a8a594; --line:#1f2330;
+  --z1:#3aa17a; --z1b:rgba(58,161,122,.1);
+  --z2:#3b82f6; --z2b:rgba(59,130,246,.1);
+  --str:#a855f7; --strb:rgba(168,85,247,.1);
+  --long:#ef6c4d; --longb:rgba(239,108,77,.12);
+  --rest:#52525b; --restb:rgba(82,82,91,.18);
+  --pt:#14b8a6; --ptb:rgba(20,184,166,.1);
+  --fuel:#eab308; --fuelb:rgba(234,179,8,.08);
+  --win:#22c55e; --winb:rgba(34,197,94,.08);
+  --fix:#ef4444; --fixb:rgba(239,68,68,.08);
+  --warn:#f59e0b; --warnb:rgba(245,158,11,.08);
+  --r:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:'Inter Tight',sans-serif;
+  background:radial-gradient(1100px 500px at 75% -5%,rgba(59,130,246,.07),transparent 60%),
+             radial-gradient(800px 400px at -5% 35%,rgba(239,108,77,.05),transparent 55%),
+             var(--bg);
+  color:var(--ink);line-height:1.5;
+  min-height:100vh;padding:36px 20px 80px;
+}
+.wrap{max-width:1180px;margin:0 auto}
+
+/* HERO */
+.hero{border:1px solid var(--line);border-radius:var(--r);padding:28px;background:linear-gradient(135deg,#0e1320,#131829);position:relative;overflow:hidden;margin-bottom:22px}
+.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(700px 300px at 90% 0%,rgba(59,130,246,.16),transparent);pointer-events:none}
+.eyebrow{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--soft);margin-bottom:12px}
+h1{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(30px,5vw,52px);letter-spacing:-.02em;line-height:1.02;margin-bottom:8px}
+h1 em{font-style:italic;color:#fbbf77;font-weight:400}
+.hero-sub{color:var(--soft);font-size:15px;max-width:700px}
+.stat-row{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:20px;position:relative;z-index:1}
+.stat{border:1px solid var(--line);border-radius:10px;padding:12px 14px;background:rgba(255,255,255,.02)}
+.stat .k{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--soft)}
+.stat .v{font-family:'Fraunces',serif;font-size:22px;font-weight:700;margin-top:3px;line-height:1}
+.stat .d{font-size:11px;color:var(--pt);margin-top:2px;font-family:'JetBrains Mono',monospace}
+
+/* VALIDATION */
+.val-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:22px}
+.val-col{border:1px solid var(--line);border-radius:var(--r);padding:20px;background:var(--bg2)}
+.val-col h2{font-family:'Fraunces',serif;font-size:20px;font-weight:700;margin-bottom:14px}
+.val-list{list-style:none}
+.val-item{display:flex;gap:10px;align-items:flex-start;padding:9px 0;border-bottom:1px dashed #1c2030;font-size:13px;line-height:1.5}
+.val-item:last-child{border-bottom:none}
+.tag{flex-shrink:0;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:600;padding:3px 8px;border-radius:4px;letter-spacing:.04em;margin-top:1px}
+.tag.win{background:var(--winb);color:#4ade80;border:1px solid rgba(34,197,94,.25)}
+.tag.fix{background:var(--fixb);color:#f87171;border:1px solid rgba(239,68,68,.25)}
+.tag.warn{background:var(--warnb);color:#fbbf24;border:1px solid rgba(245,158,11,.25)}
+.tag.info{background:var(--ptb);color:#5eead4;border:1px solid rgba(20,184,166,.25)}
+
+/* SESSION TABLE */
+.table-card{border:1px solid var(--line);border-radius:var(--r);background:var(--bg2);overflow:hidden;margin-bottom:22px}
+.table-card h2{font-family:'Fraunces',serif;font-size:20px;padding:18px 22px;border-bottom:1px solid var(--line)}
+.tbl{width:100%;border-collapse:collapse;font-size:13px}
+.tbl th{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--soft);padding:10px 14px;border-bottom:1px solid var(--line);text-align:left;background:rgba(255,255,255,.01)}
+.tbl td{padding:11px 14px;border-bottom:1px dashed #1c2030;vertical-align:middle}
+.tbl tr:last-child td{border-bottom:none}
+.tbl .mono{font-family:'JetBrains Mono',monospace;font-size:12px}
+.badge{display:inline-block;padding:3px 8px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:600}
+.badge.ok{background:var(--winb);color:#4ade80}
+.badge.miss{background:var(--fixb);color:#f87171}
+.badge.warn{background:var(--warnb);color:#fbbf24}
+.cad-bar{display:flex;align-items:center;gap:8px}
+.cad-fill{height:8px;border-radius:4px;background:var(--z2);min-width:4px}
+.cad-num{font-family:'JetBrains Mono',monospace;font-size:12px}
+
+/* CALLOUTS */
+.callout{border-radius:10px;padding:14px 18px;margin-bottom:16px;display:flex;gap:14px;align-items:flex-start}
+.callout.red{border:1px solid rgba(239,68,68,.35);background:var(--fixb)}
+.callout.green{border:1px solid rgba(34,197,94,.3);background:var(--winb)}
+.callout.amber{border:1px solid rgba(245,158,11,.3);background:var(--warnb)}
+.callout .ico{font-size:22px;flex-shrink:0;margin-top:1px}
+.callout h3{font-family:'Fraunces',serif;font-size:17px;margin-bottom:4px}
+.callout.red h3{color:#fca5a5}
+.callout.green h3{color:#86efac}
+.callout.amber h3{color:#fde68a}
+.callout p{font-size:13px;line-height:1.55;color:var(--ink)}
+.callout p strong{color:#fde68a}
+
+/* LEGEND */
+.legend{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px}
+.chip{display:inline-flex;align-items:center;gap:7px;padding:6px 12px;border:1px solid var(--line);border-radius:30px;font-size:12px;font-family:'JetBrains Mono',monospace;letter-spacing:.05em;background:var(--bg2)}
+.dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+
+/* DAY GRID */
+.days{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-bottom:22px}
+.day{border:1px solid var(--line);border-radius:var(--r);background:var(--bg2);overflow:hidden;display:flex;flex-direction:column}
+.day-hdr{padding:14px 18px 12px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:flex-end;gap:10px;position:relative}
+.day-hdr::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--dc,#fff)}
+.day-name{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--soft)}
+.day-date{font-family:'Fraunces',serif;font-size:26px;font-weight:700;line-height:1;margin-top:2px}
+.day-focus{text-align:right;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding:4px 9px;border-radius:4px;background:rgba(255,255,255,.04);border:1px solid var(--line);color:var(--soft)}
+.day-body{padding:16px 18px 18px;flex:1;display:flex;flex-direction:column;gap:12px}
+
+.blk{border-left:3px solid var(--bc,#fff);padding:9px 13px;background:rgba(255,255,255,.012);border-radius:0 8px 8px 0}
+.blk .lbl{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--soft);display:flex;justify-content:space-between;align-items:center;margin-bottom:3px}
+.blk .dur{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink);background:rgba(255,255,255,.06);padding:2px 6px;border-radius:3px}
+.blk .ttl{font-size:14px;font-weight:600;margin-bottom:5px}
+.blk .det{font-size:12px;color:var(--soft);line-height:1.55}
+.blk .det strong{color:var(--ink)}
+
+.blk.z2{--bc:var(--z2)}
+.blk.z1{--bc:var(--z1)}
+.blk.str{--bc:var(--str)}
+.blk.long{--bc:var(--long)}
+.blk.rest{--bc:var(--rest)}
+.blk.pt{--bc:var(--pt)}
+.blk.fuel{--bc:var(--fuel)}
+
+.day[data-c="z2"]{--dc:var(--z2)}
+.day[data-c="run"]{--dc:var(--z1)}
+.day[data-c="str"]{--dc:var(--str)}
+.day[data-c="long"]{--dc:var(--long)}
+.day[data-c="rest"]{--dc:var(--rest)}
+
+.ex-grid{display:grid;grid-template-columns:1fr 1fr;gap:3px 12px;margin-top:5px}
+.ex-row{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink)}
+.ex-row span{color:var(--soft)}
+
+/* STRENGTH ANCHOR BANNER */
+.str-banner{border:1px solid rgba(168,85,247,.4);background:rgba(168,85,247,.06);border-radius:10px;padding:13px 16px;margin-bottom:4px}
+.str-banner .h{font-weight:700;font-size:13px;color:#d8b4fe;margin-bottom:3px}
+.str-banner .b{font-size:12px;color:var(--soft);line-height:1.5}
+
+/* PT SECTION */
+.sec{border:1px solid var(--line);border-radius:var(--r);padding:20px 22px;background:var(--bg2);margin-bottom:18px}
+.sec h2{font-family:'Fraunces',serif;font-size:20px;font-weight:700;margin-bottom:14px}
+.sec h3{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--soft);margin:14px 0 10px}
+.pt-g{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.pt-c{border:1px solid var(--line);border-radius:10px;padding:13px;background:rgba(20,184,166,.03)}
+.pt-c .n{font-weight:600;font-size:13px;margin-bottom:3px}
+.pt-c .d{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--pt);margin-bottom:5px}
+.pt-c .w{font-size:12px;color:var(--soft);line-height:1.45}
+
+/* NUTRITION TABLE */
+.ntbl{width:100%;border-collapse:collapse;font-size:13px;margin-top:6px}
+.ntbl th{text-align:left;padding:8px 12px;background:rgba(234,179,8,.07);font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#fde68a;border-bottom:1px solid var(--line)}
+.ntbl td{padding:9px 12px;border-bottom:1px dashed #1c2030;vertical-align:top}
+.ntbl td:first-child{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--soft);width:130px}
+
+/* PROGRESS BAR */
+.prog-row{display:flex;gap:12px;align-items:center;margin-bottom:12px}
+.prog-label{font-family:'JetBrains Mono',monospace;font-size:11px;width:120px;flex-shrink:0;color:var(--soft)}
+.prog-track{flex:1;height:10px;background:rgba(255,255,255,.05);border-radius:5px;overflow:hidden}
+.prog-fill{height:100%;border-radius:5px}
+.prog-val{font-family:'JetBrains Mono',monospace;font-size:11px;width:60px;text-align:right;flex-shrink:0}
+
+/* TOP 3 */
+.tips{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px}
+.tip{border:1px solid var(--line);border-radius:10px;padding:14px;background:rgba(255,255,255,.02)}
+.tip .n{font-family:'Fraunces',serif;font-size:34px;font-weight:900;color:#fbbf77;line-height:1;margin-bottom:6px}
+.tip .h{font-weight:600;font-size:13px;margin-bottom:4px}
+.tip .b{font-size:12px;color:var(--soft);line-height:1.5}
+
+footer{margin-top:30px;text-align:center;color:var(--soft);font-size:11px;font-family:'JetBrains Mono',monospace;letter-spacing:.1em}
+
+@media(max-width:860px){
+  .days,.val-grid,.pt-g,.tips,.stat-row{grid-template-columns:1fr}
+  .stat-row{grid-template-columns:repeat(2,1fr)}
+  .ex-grid{grid-template-columns:1fr}
+  body{padding:18px 12px 60px}
+}
+@media print{
+  body{background:#fff;color:#000;padding:10px}
+  .hero,.day,.val-col,.sec,.table-card,.callout{background:#fff;border-color:#ccc;break-inside:avoid}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- HERO -->
+<section class="hero">
+  <div class="eyebrow">Week 21 · May 18–24, 2026 · Houston Marathon 2027 · 34 weeks out</div>
+  <h1>Strength is <em>non-negotiable</em><br>now.</h1>
+  <p class="hero-sub">Week 20 delivered your first 60+ minute run since Irving Half — a genuine breakthrough. But zero strength for two straight weeks is the injury risk accumulating silently. This week we fix that with a 5-exercise "gateway" rule, step cadence to 150 spm, and push the long run to 70 min.</p>
+  <div class="stat-row">
+    <div class="stat"><div class="k">Volume Target</div><div class="v">5.1 hr</div><div class="d">↑ from 4.7h</div></div>
+    <div class="stat"><div class="k">Long Run</div><div class="v">70 min</div><div class="d">↑ from 62 min</div></div>
+    <div class="stat"><div class="k">Cadence Target</div><div class="v">150 spm</div><div class="d">↑ from 140 avg</div></div>
+    <div class="stat"><div class="k">HR Ceiling</div><div class="v">136 bpm</div><div class="d">hold the line</div></div>
+    <div class="stat"><div class="k">Strength</div><div class="v">2 × 15</div><div class="d">was 0 × last 2 wks</div></div>
+  </div>
+</section>
+
+<!-- WEEK 20 VALIDATION -->
+<section class="val-grid">
+  <div class="val-col">
+    <h2>✅ Week 20 — What worked</h2>
+    <ul class="val-list">
+      <li class="val-item"><span class="tag win">WIN</span><div><strong>First 60+ min outdoor run since Irving Half (March 29).</strong> 62 min · 4.07 mi · HR 133 · Denton County. Eight weeks of rebuild paid off in one session.</div></li>
+      <li class="val-item"><span class="tag win">WIN</span><div><strong>HR compliance: 2 consecutive perfect weeks.</strong> Max avg HR this week was 133 — every session under the 136 ceiling. This is the pattern that breaks the boom-bust cycle.</div></li>
+      <li class="val-item"><span class="tag win">WIN</span><div><strong>Cadence improved +6.5 spm.</strong> W19 avg 133.5 → W20 avg 140.0 spm. Tuesday hit 143, showing the metronome is working.</div></li>
+      <li class="val-item"><span class="tag win">WIN</span><div><strong>Volume up 20%.</strong> 3.94 hr → 4.72 hr. Bike distance jumped from 27 mi to 38 mi. Aerobic engine expanding without injury risk.</div></li>
+      <li class="val-item"><span class="tag win">WIN</span><div><strong>Moved to hillier Denton County route.</strong> 227 ft gain on the long run vs flat Plano. Building functional strength and real-world terrain resilience.</div></li>
+    </ul>
+  </div>
+  <div class="val-col">
+    <h2>⚠️ Week 20 — What needs fixing</h2>
+    <ul class="val-list">
+      <li class="val-item"><span class="tag fix">FIX NOW</span><div><strong>Zero strength sessions for 2 consecutive weeks.</strong> Monday and Thursday strength were skipped both weeks. PFPS and back tightness will not resolve without glute activation. Week 21 uses a simpler 5-exercise gateway — no excuses.</div></li>
+      <li class="val-item"><span class="tag fix">CADENCE</span><div><strong>Saturday long run cadence fell to 137 spm</strong> — down from Tuesday's 143. Fatigue and hills reduce cadence naturally. Metronome must stay on for the full Saturday session, even on climbs.</div></li>
+      <li class="val-item"><span class="tag warn">SENSOR</span><div><strong>Wednesday Zwift avg HR 101, max 143 on a 52-min ride.</strong> Clear chest strap or optical sensor dropout — real average was probably 115–125. Wet HR strap contacts before every Zwift session to prevent this.</div></li>
+      <li class="val-item"><span class="tag warn">NOTE</span><div><strong>Run miles 7.27 vs 9.5 planned.</strong> No strength-substitute run was added. That's fine — the long run quality matters more than mileage at this stage. Target 9+ mi in Week 21.</div></li>
+    </ul>
+  </div>
+</section>
+
+<!-- SESSION BY SESSION TABLE -->
+<div class="table-card">
+  <h2>Week 20 — Session Scorecard</h2>
+  <table class="tbl">
+    <thead>
+      <tr><th>Day</th><th>Planned</th><th>Actual</th><th>Duration</th><th>Avg HR</th><th>Max HR</th><th>Cadence</th><th>Power</th><th>Status</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="mono">Mon 5/11</td>
+        <td>Strength A + Bike Z2</td>
+        <td>Zwift Tempus Fugit</td>
+        <td class="mono">41 min</td>
+        <td class="mono">120</td>
+        <td class="mono">128</td>
+        <td class="mono">—</td>
+        <td class="mono">68 W</td>
+        <td><span class="badge warn">Partial</span> No strength</td>
+      </tr>
+      <tr>
+        <td class="mono">Tue 5/12</td>
+        <td>Cadence Run 170 spm</td>
+        <td>Denton County Run</td>
+        <td class="mono">47 min</td>
+        <td class="mono">132</td>
+        <td class="mono">144</td>
+        <td><div class="cad-bar"><div class="cad-fill" style="width:55px"></div><span class="cad-num">143</span></div></td>
+        <td class="mono">176 W</td>
+        <td><span class="badge ok">Good</span> Cad ↑</td>
+      </tr>
+      <tr>
+        <td class="mono">Wed 5/13</td>
+        <td>Bike Z2 55 min</td>
+        <td>Zwift Volcano Flat</td>
+        <td class="mono">52 min</td>
+        <td class="mono">101*</td>
+        <td class="mono">143</td>
+        <td class="mono">—</td>
+        <td class="mono">79 W</td>
+        <td><span class="badge warn">Sensor?</span> HR dropout</td>
+      </tr>
+      <tr>
+        <td class="mono">Thu 5/14</td>
+        <td>Strength B + Spin</td>
+        <td>Zwift Renewal</td>
+        <td class="mono">30 min</td>
+        <td class="mono">114</td>
+        <td class="mono">128</td>
+        <td class="mono">—</td>
+        <td class="mono">45 W</td>
+        <td><span class="badge warn">Partial</span> No strength</td>
+      </tr>
+      <tr>
+        <td class="mono">Fri 5/15</td>
+        <td>Bike Z2 45 min</td>
+        <td>Zwift Tempus Fugit</td>
+        <td class="mono">51 min</td>
+        <td class="mono">110</td>
+        <td class="mono">128</td>
+        <td class="mono">—</td>
+        <td class="mono">71 W</td>
+        <td><span class="badge ok">✓</span></td>
+      </tr>
+      <tr>
+        <td class="mono">Sat 5/16</td>
+        <td>Long Run 60 min</td>
+        <td>Denton County 62 min 🏆</td>
+        <td class="mono">62 min</td>
+        <td class="mono">133</td>
+        <td class="mono">144</td>
+        <td><div class="cad-bar"><div class="cad-fill" style="width:42px"></div><span class="cad-num">137</span></div></td>
+        <td class="mono">170 W</td>
+        <td><span class="badge ok">✓ Best run</span></td>
+      </tr>
+      <tr>
+        <td class="mono">Sun 5/17</td>
+        <td>Full rest</td>
+        <td>Rest ✓</td>
+        <td class="mono">—</td><td class="mono">—</td><td class="mono">—</td><td class="mono">—</td><td class="mono">—</td>
+        <td><span class="badge ok">✓</span></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- CADENCE PROGRESS VISUAL -->
+<div class="callout green">
+  <div class="ico">📈</div>
+  <div>
+    <h3>Cadence trend — moving in the right direction</h3>
+    <p>W19 outdoor run: <strong>127 spm</strong> → W19 Zwift: <strong>140 spm</strong> → W20 Tue: <strong>143 spm</strong> → W20 Sat: <strong>137 spm</strong> (hills pulled it down). Week 21 target is <strong>150 spm average</strong> on outdoor runs. Garmin metronome stays on the entire run, including uphills. Target is 170 spm by Week 26.</p>
+  </div>
+</div>
+
+<div class="callout red">
+  <div class="ico">💪</div>
+  <div>
+    <h3>Strength rule for Week 21: "5 before you clip in"</h3>
+    <p>Two weeks, zero strength sessions. The new rule is simple: <strong>do 5 glute exercises before you touch the bike</strong>. No Zwift until those 5 are done. Takes 12 minutes flat. The exercises are written on the Monday card. Same 5 repeat on Thursday. This is not optional — every skipped strength week compounds PFPS and back risk.</p>
+  </div>
+</div>
+
+<div class="callout amber">
+  <div class="ico">💧</div>
+  <div>
+    <h3>HR strap fix for Zwift sessions</h3>
+    <p>Wednesday's avg HR 101 on a 52-min ride was a sensor dropout (max still hit 143). Fix: <strong>wet both electrode pads on your chest strap with water or conductive gel before every Zwift session.</strong> A dry strap loses signal in the first 10–15 minutes of riding, skewing the average permanently for that session.</p>
+  </div>
+</div>
+
+<!-- LEGEND -->
+<div class="legend">
+  <span class="chip"><span class="dot" style="background:var(--z2)"></span>Bike Z2</span>
+  <span class="chip"><span class="dot" style="background:var(--z1)"></span>Easy Run</span>
+  <span class="chip"><span class="dot" style="background:var(--str)"></span>Strength</span>
+  <span class="chip"><span class="dot" style="background:var(--long)"></span>Long Run</span>
+  <span class="chip"><span class="dot" style="background:var(--pt)"></span>PT / Mobility</span>
+  <span class="chip"><span class="dot" style="background:var(--fuel)"></span>Fuel</span>
+  <span class="chip"><span class="dot" style="background:var(--rest)"></span>Rest</span>
+</div>
+
+<!-- ======= WEEK 21 DAYS ======= -->
+<div class="days">
+
+  <!-- MONDAY -->
+  <div class="day" data-c="str">
+    <div class="day-hdr">
+      <div><div class="day-name">Monday</div><div class="day-date">May 18</div></div>
+      <div class="day-focus">Strength A + Bike Z2</div>
+    </div>
+    <div class="day-body">
+      <div class="blk fuel"><div class="lbl">🍎 Pre · 5:00 AM</div><div class="det">16 oz water + electrolyte on waking. <strong>1 banana + 1 tbsp peanut butter</strong>, 20 min before starting.</div></div>
+      <div class="blk str">
+        <div class="lbl">💪 Strength A — "5 Before You Clip In" <span class="dur">12 min</span></div>
+        <div class="ttl">Complete all 5 before touching the bike. No skipping.</div>
+        <div class="str-banner">
+          <div class="h">🔒 Gateway rule: Zwift doesn't start until these are done</div>
+          <div class="b">Set your mat next to the bike. Shoes off. Do the exercises. Then clip in. Takes exactly 12 minutes.</div>
+        </div>
+        <div class="ex-grid">
+          <div class="ex-row">Glute bridge <span>· 3 × 15 (2s hold)</span></div>
+          <div class="ex-row">Clamshells <span>· 2 × 15 / side</span></div>
+          <div class="ex-row">Side-lying leg raise <span>· 2 × 12 / side</span></div>
+          <div class="ex-row">Bird-dog <span>· 2 × 10 / side</span></div>
+          <div class="ex-row">Wall squat hold <span>· 2 × 30 sec</span></div>
+        </div>
+      </div>
+      <div class="blk z2">
+        <div class="lbl">🚴 Zwift Bike Z2 <span class="dur">45 min</span></div>
+        <div class="ttl">Tempus Fugit · ERG mode · HR strap wet before starting</div>
+        <div class="det"><strong>Target:</strong> HR 118–130, watts 80–95, cadence 85–95 rpm. Steady state — no surges.</div>
+      </div>
+      <div class="blk fuel"><div class="lbl">🍎 Post · within 30 min</div><div class="det">Greek yogurt (¾ cup) + ½ cup berries + ¼ cup granola + honey. 16 oz water.</div></div>
+    </div>
+  </div>
+
+  <!-- TUESDAY -->
+  <div class="day" data-c="run">
+    <div class="day-hdr">
+      <div><div class="day-name">Tuesday</div><div class="day-date">May 19</div></div>
+      <div class="day-focus">Cadence Run 150 spm</div>
+    </div>
+    <div class="day-body">
+      <div class="blk fuel"><div class="lbl">🍎 Pre · 5:00 AM</div><div class="det">16 oz water. <strong>½ cup oats + honey + berries</strong>, 25 min before run.</div></div>
+      <div class="blk pt">
+        <div class="lbl">🩺 Dynamic warm-up <span class="dur">8 min</span></div>
+        <div class="det">Leg swings × 10 each direction · walking lunges × 10 · high knees × 20m · butt kicks × 20m · 4 × 20m strides at 150 spm cadence.</div>
+      </div>
+      <div class="blk z1">
+        <div class="lbl">🏃 Denton County Easy Run <span class="dur">40 min</span></div>
+        <div class="ttl">Cadence target: 150 spm — up from 143 last Tuesday</div>
+        <div class="det">
+          <strong>Garmin metronome → 150 spm. Stays on the entire run.</strong><br>
+          <strong>HR ceiling 136.</strong> Walk 60 sec if you cross it.<br>
+          <strong>Pace:</strong> 13:30–15:00/mi depending on terrain. Irrelevant — cadence is the goal.<br>
+          <strong>Form cue every 5 min:</strong> Quick light feet, land under hips, relaxed arms.
+        </div>
+      </div>
+      <div class="blk pt">
+        <div class="lbl">🩺 Post · Core anchor <span class="dur">10 min</span></div>
+        <div class="det">5 min walk → <strong>Plank 3 × 45 sec</strong> · <strong>Dead-bug 3 × 10/side</strong> · <strong>Glute squeeze hold 3 × 30 sec</strong> · foam roll calves + quads 60 sec each.</div>
+      </div>
+      <div class="blk fuel"><div class="lbl">🍎 Post · within 30 min</div><div class="det">2 eggs + 1 slice whole-grain toast + ½ avocado + orange. 20 oz water.</div></div>
+    </div>
+  </div>
+
+  <!-- WEDNESDAY -->
+  <div class="day" data-c="z2">
+    <div class="day-hdr">
+      <div><div class="day-name">Wednesday</div><div class="day-date">May 20</div></div>
+      <div class="day-focus">Bike Z2 · HR Strap Check</div>
+    </div>
+    <div class="day-body">
+      <div class="blk fuel"><div class="lbl">🍎 Pre · 5:00 AM</div><div class="det">16 oz water. <strong>1 slice toast + almond butter + ½ banana</strong>, 20 min before.</div></div>
+      <div class="blk z2">
+        <div class="lbl">🚴 Zwift Z2 endurance <span class="dur">55 min</span></div>
+        <div class="ttl">Volcano Flat or Tempus Fugit · wet strap BEFORE starting</div>
+        <div class="det">
+          <strong>💧 Wet HR strap contacts before clipping in — fixes last week's dropout.</strong><br>
+          <strong>Target:</strong> HR 120–132, watts 85–100, cadence 85–95 rpm.<br>
+          <strong>Structure:</strong> 10 min @ 70W → 40 min @ 90–95W → 5 min cool-down @ 60W.<br>
+          Sip water + electrolyte every 15 min.
+        </div>
+      </div>
+      <div class="blk pt">
+        <div class="lbl">🩺 Post · Hip mobility <span class="dur">8 min</span></div>
+        <div class="det">Hip flexor stretch 60 sec/side · pigeon 60 sec/side · couch stretch 60 sec/side · cat-cow × 10 · child's pose 60 sec.</div>
+      </div>
+      <div class="blk fuel"><div class="lbl">🍎 Post · within 30 min</div><div class="det">Protein smoothie: 1 scoop whey + 1 cup milk + ½ banana + 1 tbsp PB + handful spinach.</div></div>
+    </div>
+  </div>
+
+  <!-- THURSDAY -->
+  <div class="day" data-c="str">
+    <div class="day-hdr">
+      <div><div class="day-name">Thursday</div><div class="day-date">May 21</div></div>
+      <div class="day-focus">Strength B + Recovery Spin</div>
+    </div>
+    <div class="day-body">
+      <div class="blk fuel"><div class="lbl">🍎 Pre · 5:00 AM</div><div class="det">16 oz water. <strong>1 banana + small handful walnuts</strong>, 15 min before.</div></div>
+      <div class="blk str">
+        <div class="lbl">💪 Strength B — Core & VMO (knee) <span class="dur">15 min</span></div>
+        <div class="ttl">"5 before you clip in" — same gateway rule as Monday</div>
+        <div class="ex-grid">
+          <div class="ex-row">Bodyweight squat <span>· 3 × 15 (slow)</span></div>
+          <div class="ex-row">Step-ups 8" step <span>· 2 × 10 / side</span></div>
+          <div class="ex-row">Terminal knee ext <span>· 3 × 15 / side</span></div>
+          <div class="ex-row">Reverse lunge <span>· 2 × 8 / side</span></div>
+          <div class="ex-row">Calf raise slow down <span>· 3 × 12</span></div>
+        </div>
+      </div>
+      <div class="blk z1">
+        <div class="lbl">🚴 Recovery spin <span class="dur">25 min</span></div>
+        <div class="ttl">Zwift easy — flush legs, don't stress them</div>
+        <div class="det"><strong>Target:</strong> HR ≤115, watts 50–65. Conversational pace only. Blood flow, not training stress.</div>
+      </div>
+      <div class="blk fuel"><div class="lbl">🍎 Post · within 30 min</div><div class="det">Oatmeal ½ cup + 1 tbsp PB + ½ banana + cinnamon + honey drizzle. 16 oz water.</div></div>
+    </div>
+  </div>
+
+  <!-- FRIDAY -->
+  <div class="day" data-c="z2">
+    <div class="day-hdr">
+      <div><div class="day-name">Friday</div><div class="day-date">May 22</div></div>
+      <div class="day-focus">Bike Z2 + Long Run Prep</div>
+    </div>
+    <div class="day-body">
+      <div class="blk fuel"><div class="lbl">🍎 Pre · 5:00 AM</div><div class="det">16 oz water + electrolyte. <strong>1 banana + 1 tbsp PB</strong>, 20 min before.</div></div>
+      <div class="blk z2">
+        <div class="lbl">🚴 Zwift Z2 base <span class="dur">50 min</span></div>
+        <div class="ttl">Tempus Fugit or Volcano Flat · controlled effort</div>
+        <div class="det">
+          <strong>Target:</strong> HR 118–130, watts 80–92, cadence 88–95 rpm.<br>
+          Keep this controlled — Saturday long run is the priority of the week.<br>
+          Do not push. If legs feel heavy, back off to 75W.
+        </div>
+      </div>
+      <div class="blk pt">
+        <div class="lbl">🩺 Post · Pre-long-run mobility <span class="dur">10 min</span></div>
+        <div class="det">Foam roll IT band 60 sec/side · pigeon 90 sec/side · hip 90/90 stretch 60 sec/side · calf stretch 45 sec/side · ankle circles × 10 each direction.</div>
+      </div>
+      <div class="blk fuel"><div class="lbl">🍎 Post + all-day fuel</div><div class="det">2 eggs + toast + avocado. <strong>Carb-load lunch:</strong> sweet potato + lean protein + greens. Hydrate 80+ oz total. No alcohol tonight.</div></div>
+    </div>
+  </div>
+
+  <!-- SATURDAY -->
+  <div class="day" data-c="long">
+    <div class="day-hdr">
+      <div><div class="day-name">Saturday</div><div class="day-date">May 23</div></div>
+      <div class="day-focus">LONG RUN · 70 min</div>
+    </div>
+    <div class="day-body">
+      <div class="blk fuel">
+        <div class="lbl">🍎 Pre · 5:30 AM (90 min before)</div>
+        <div class="det">20 oz water on waking. <strong>60 min out:</strong> 1 cup oats + honey + ½ banana + almond butter. 8–10 oz water + electrolyte 15 min before start.</div>
+      </div>
+      <div class="blk pt">
+        <div class="lbl">🩺 Dynamic warm-up <span class="dur">10 min</span></div>
+        <div class="det">Leg swings × 10 · walking lunges × 10 · A-skips × 20m × 2 · butt kicks × 20m · 6 strides at 150 spm — feel the rhythm before mile 1.</div>
+      </div>
+      <div class="blk long">
+        <div class="lbl">🏃 Denton County Long Run <span class="dur">70 min</span></div>
+        <div class="ttl">4.5–5.0 mi · 8 min longer than last week's 62 min</div>
+        <div class="det">
+          <strong>Garmin metronome → 150 spm. Keep it on even on the uphills.</strong><br>
+          <strong>HR ceiling 136.</strong> Walk 60 sec to recover if you cross it — hills will test this.<br>
+          <strong>Pace:</strong> 14:00–15:30/mi. Pace is irrelevant — time on feet is the goal.<br>
+          <strong>At 35 min:</strong> 4 oz water + electrolyte sip.<br>
+          <strong>At 50 min:</strong> optional gel if energy dips.<br>
+          <strong>Form mantra every 5 min:</strong> "Tall, quick, light."
+        </div>
+      </div>
+      <div class="blk pt">
+        <div class="lbl">🩺 Post-run recovery flow <span class="dur">15 min</span></div>
+        <div class="det">5 min easy walk → <strong>Legs up the wall 5 min</strong> → foam roll quads + calves + IT band 60 sec each → pigeon 90 sec/side → couch stretch 90 sec/side.</div>
+      </div>
+      <div class="blk fuel">
+        <div class="lbl">🍎 Post · most important meal of the week</div>
+        <div class="det"><strong>Within 20 min:</strong> recovery shake — 1 scoop whey + 1 cup chocolate milk + 1 banana + 1 tbsp PB.<br><strong>Within 90 min:</strong> 3 eggs + 2 slices toast + ½ avocado + sweet potato + berries. 32–48 oz water + electrolytes through the day.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SUNDAY -->
+  <div class="day" data-c="rest">
+    <div class="day-hdr">
+      <div><div class="day-name">Sunday</div><div class="day-date">May 24</div></div>
+      <div class="day-focus">Full Rest</div>
+    </div>
+    <div class="day-body">
+      <div class="blk rest">
+        <div class="lbl">🛌 Complete rest</div>
+        <div class="ttl">No structured training. Recovery is adaptation.</div>
+        <div class="det"><strong>Optional only if you genuinely feel great:</strong> 20–30 min easy family walk — not a workout.<br><strong>Target:</strong> 8+ hrs sleep. Eat full meals — don't under-fuel on rest days.</div>
+      </div>
+      <div class="blk pt">
+        <div class="lbl">🩺 Evening mobility <span class="dur">15 min</span></div>
+        <div class="det">Full body foam roll · pigeon 2 min/side · hip 90/90 2 min/side · couch stretch 90 sec/side · <strong>legs up the wall 10 min before bed</strong> — drains 70 min of running + standing desk from the legs.</div>
+      </div>
+      <div class="blk fuel">
+        <div class="lbl">🍎 Fuel · eat and hydrate normally</div>
+        <div class="det">3 balanced meals + 2 snacks. Target 70–80 g protein across the day. 80+ oz water. No alcohol — delays muscle rebuild.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- PT DAILY ANCHOR -->
+<section class="sec">
+  <h2>Daily PT Anchor — 5 min every morning</h2>
+  <p style="font-size:13px;color:var(--soft);margin-bottom:4px">Before coffee hits. Same spot, same time, every day. This is PFPS management — not optional.</p>
+  <div class="pt-g">
+    <div class="pt-c"><div class="n">Glute Bridge</div><div class="d">2 × 15 · 2s hold at top</div><div class="w">Posterior chain activation. Directly decompresses lumbar spine after standing desk days.</div></div>
+    <div class="pt-c"><div class="n">Clamshells</div><div class="d">2 × 15 / side · band optional</div><div class="w">Glute medius — its weakness causes knee to track inward. This is the PFPS root fix.</div></div>
+    <div class="pt-c"><div class="n">Single-leg Balance</div><div class="d">2 × 30 sec / side</div><div class="w">Foot and ankle proprioception. Improves cadence control on uneven Denton County terrain.</div></div>
+  </div>
+  <h3>Standing desk protocol — every work day</h3>
+  <div class="pt-g">
+    <div class="pt-c"><div class="n">Calf raises every 45 min</div><div class="d">15–20 reps</div><div class="w">Venous pump — reduces afternoon leg fatigue before next morning's session.</div></div>
+    <div class="pt-c"><div class="n">Lunch walk</div><div class="d">10–15 min outdoor</div><div class="w">Full venous flush + lumbar decompression. Skip this and Saturday's long run suffers.</div></div>
+    <div class="pt-c"><div class="n">Legs up the wall · post-work</div><div class="d">10–15 min</div><div class="w">Drains full day of venous pooling. Highest-ROI recovery tool you have — free, 10 min.</div></div>
+  </div>
+</section>
+
+<!-- NUTRITION REFERENCE -->
+<section class="sec">
+  <h2>Week 21 Nutrition · Quick Reference</h2>
+  <table class="ntbl">
+    <thead><tr><th>Session</th><th>Pre (15–25 min before)</th><th>Post (within 30 min)</th></tr></thead>
+    <tbody>
+      <tr><td>Mon: Strength + Bike</td><td>1 banana + 1 tbsp PB</td><td>Greek yogurt + berries + granola</td></tr>
+      <tr><td>Tue: Cadence Run</td><td>½ cup oats + honey + berries</td><td>2 eggs + toast + avocado + fruit</td></tr>
+      <tr><td>Wed: Bike Z2</td><td>Toast + almond butter + ½ banana</td><td>Protein smoothie (whey + milk + banana + PB)</td></tr>
+      <tr><td>Thu: Strength + Spin</td><td>1 banana + walnuts</td><td>Oatmeal + PB + banana + honey</td></tr>
+      <tr><td>Fri: Bike Z2</td><td>1 banana + 1 tbsp PB</td><td>2 eggs + toast + avocado · carb-load at lunch</td></tr>
+      <tr><td>Sat: Long Run 70 min</td><td>1 cup oats + honey + banana + nut butter · 60 min out</td><td>Recovery shake → full meal within 90 min</td></tr>
+      <tr><td>Sun: Rest</td><td>Normal breakfast</td><td>3 balanced meals · 70–80 g protein · 80+ oz water</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- WEEK 21 TOP 3 -->
+<section class="sec">
+  <h2>The 3 things that define Week 21</h2>
+  <div class="tips">
+    <div class="tip">
+      <div class="n">01</div>
+      <div class="h">Do both strength sessions</div>
+      <div class="b">Monday and Thursday. 12–15 min each. The gateway rule: Zwift doesn't start until the 5 exercises are done. Put the mat next to the bike before you go to bed Sunday night.</div>
+    </div>
+    <div class="tip">
+      <div class="n">02</div>
+      <div class="h">150 spm on all outdoor runs</div>
+      <div class="b">Tuesday and Saturday. Metronome on before you leave the driveway, stays on through every hill. If cadence drops on climbs, shorten your stride — don't slow the turnover.</div>
+    </div>
+    <div class="tip">
+      <div class="n">03</div>
+      <div class="h">70 min long run Saturday</div>
+      <div class="b">8 minutes longer than last week's 62-min breakthrough. HR ceiling 136 holds — walk the hills if needed. Time on feet matters more than pace or distance.</div>
+    </div>
+  </div>
+</section>
+
+<footer>HOUSTON MARATHON 2027 · 34 WEEKS TO RACE DAY · WEEK 21 · CADENCE TARGET 150 SPM</footer>
+
+</div>
+</body>
+</html>

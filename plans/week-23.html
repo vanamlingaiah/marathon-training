@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Week 23 · June 1–5, 2026 · Re-Entry Week</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,700;0,900;1,700&family=JetBrains+Mono:wght@400;600&family=Inter+Tight:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0b0d12;--bg2:#10131b;--ink:#f5f1e8;--soft:#a8a594;--line:#1f2330;
+  --z1:#3aa17a;--z2:#3b82f6;--str:#a855f7;--long:#ef6c4d;
+  --rest:#52525b;--pt:#14b8a6;--fuel:#eab308;
+  --win:#22c55e;--fix:#ef4444;--warn:#f59e0b;--health:#ec4899;--travel:#8b5cf6;
+  --r:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:'Inter Tight',sans-serif;
+  background:radial-gradient(1100px 500px at 75% -5%,rgba(34,197,94,.06),transparent 60%),
+             radial-gradient(800px 400px at -5% 35%,rgba(59,130,246,.05),transparent 55%),var(--bg);
+  color:var(--ink);line-height:1.5;min-height:100vh;padding:36px 20px 80px;
+}
+.wrap{max-width:1180px;margin:0 auto}
+
+.hero{border:1px solid var(--line);border-radius:var(--r);padding:28px;background:linear-gradient(135deg,#0e1320,#131829);position:relative;overflow:hidden;margin-bottom:20px}
+.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(700px 300px at 90% 0%,rgba(34,197,94,.12),transparent);pointer-events:none}
+.eyebrow{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--soft);margin-bottom:10px}
+h1{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(28px,5vw,50px);letter-spacing:-.02em;line-height:1.02;margin-bottom:8px}
+h1 em{font-style:italic;color:#fbbf77;font-weight:400}
+.hero-sub{color:var(--soft);font-size:14px;max-width:700px;line-height:1.6}
+.stat-row{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:20px;position:relative;z-index:1}
+.stat{border:1px solid var(--line);border-radius:10px;padding:12px 14px;background:rgba(255,255,255,.02)}
+.stat .k{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--soft)}
+.stat .v{font-family:'Fraunces',serif;font-size:20px;font-weight:700;margin-top:3px;line-height:1}
+.stat .d{font-size:11px;color:var(--win);margin-top:2px;font-family:'JetBrains Mono',monospace}
+.stat .d.warn{color:#fbbf24}.stat .d.fix{color:#f87171}
+
+/* CONTEXT CALLOUTS */
+.callout{border-radius:10px;padding:14px 18px;margin-bottom:14px;display:flex;gap:14px;align-items:flex-start}
+.callout.green{border:1px solid rgba(34,197,94,.3);background:rgba(34,197,94,.06)}
+.callout.amber{border:1px solid rgba(245,158,11,.3);background:rgba(245,158,11,.06)}
+.callout.red{border:1px solid rgba(239,68,68,.35);background:rgba(239,68,68,.06)}
+.callout.pink{border:1px solid rgba(236,72,153,.35);background:rgba(236,72,153,.06)}
+.callout .ico{font-size:22px;flex-shrink:0;margin-top:2px}
+.callout h3{font-family:'Fraunces',serif;font-size:17px;margin-bottom:4px}
+.callout.green h3{color:#86efac}.callout.amber h3{color:#fde68a}.callout.red h3{color:#fca5a5}.callout.pink h3{color:#f9a8d4}
+.callout p{font-size:13px;line-height:1.55;color:var(--ink)}
+.callout p strong{color:#fde68a}
+
+/* SECTION HEADERS */
+.section-title{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--soft);margin:24px 0 12px;display:flex;align-items:center;gap:10px}
+.section-title::after{content:"";flex:1;height:1px;background:var(--line)}
+
+/* LEGEND */
+.legend{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.chip{display:inline-flex;align-items:center;gap:7px;padding:6px 12px;border:1px solid var(--line);border-radius:30px;font-size:11px;font-family:'JetBrains Mono',monospace;letter-spacing:.05em;background:var(--bg2)}
+.dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+
+/* DAY CARDS */
+.days{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-bottom:20px}
+.day{border:1px solid var(--line);border-radius:var(--r);background:var(--bg2);overflow:hidden;display:flex;flex-direction:column}
+.day-hdr{padding:13px 17px 11px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:flex-end;gap:10px;position:relative}
+.day-hdr::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--dc,#fff)}
+.day-name{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--soft)}
+.day-date{font-family:'Fraunces',serif;font-size:24px;font-weight:700;line-height:1;margin-top:2px}
+.day-focus{text-align:right;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;padding:4px 8px;border-radius:4px;background:rgba(255,255,255,.04);border:1px solid var(--line);color:var(--soft);max-width:180px}
+.day-body{padding:14px 17px 16px;flex:1;display:flex;flex-direction:column;gap:11px}
+
+.blk{border-left:3px solid var(--bc,#fff);padding:9px 13px;background:rgba(255,255,255,.012);border-radius:0 8px 8px 0}
+.blk .lbl{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--soft);display:flex;justify-content:space-between;align-items:center;margin-bottom:3px}
+.blk .dur{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink);background:rgba(255,255,255,.06);padding:2px 6px;border-radius:3px}
+.blk .ttl{font-size:13px;font-weight:600;margin-bottom:4px}
+.blk .det{font-size:12px;color:var(--soft);line-height:1.55}
+.blk .det strong{color:var(--ink)}
+
+.blk.z2{--bc:var(--z2)}.blk.z1{--bc:var(--z1)}.blk.str{--bc:var(--str)}
+.blk.long{--bc:var(--long)}.blk.rest{--bc:var(--rest)}.blk.pt{--bc:var(--pt)}
+.blk.fuel{--bc:var(--fuel)}.blk.health{--bc:var(--health)}.blk.travel{--bc:var(--travel)}
+
+.day[data-c="z2"]{--dc:var(--z2)}.day[data-c="run"]{--dc:var(--z1)}
+.day[data-c="str"]{--dc:var(--str)}.day[data-c="rest"]{--dc:var(--rest)}
+.day[data-c="travel"]{--dc:var(--travel)}.day[data-c="health"]{--dc:var(--health)}
+
+.ex-grid{display:grid;grid-template-columns:1fr 1fr;gap:3px 12px;margin-top:6px}
+.ex-row{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink)}
+.ex-row span{color:var(--soft)}
+.ex-row.skip{color:var(--rest);text-decoration:line-through}
+
+.health-note{border:1px solid rgba(236,72,153,.3);background:rgba(236,72,153,.05);border-radius:6px;padding:8px 10px;margin-top:6px}
+.health-note .h{font-family:'JetBrains Mono',monospace;font-size:10px;color:#f9a8d4;letter-spacing:.08em;text-transform:uppercase;margin-bottom:3px}
+.health-note .b{font-size:11px;color:var(--soft);line-height:1.45}
+
+/* TRAVEL SECTION */
+.travel-card{
+  border:1px solid rgba(139,92,246,.3);background:rgba(139,92,246,.05);
+  border-radius:var(--r);padding:20px 22px;margin-bottom:18px;
+}
+.travel-card h2{font-family:'Fraunces',serif;font-size:20px;color:#c4b5fd;margin-bottom:10px}
+.travel-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px}
+.travel-c{border:1px solid var(--line);border-radius:8px;padding:13px;background:var(--bg2)}
+.travel-c .n{font-weight:700;font-size:13px;margin-bottom:3px;color:#c4b5fd}
+.travel-c .dur{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--soft);margin-bottom:5px}
+.travel-c .d{font-size:12px;color:var(--soft);line-height:1.5}
+
+/* WEEK 24 PREVIEW */
+.preview{
+  border:1px solid var(--line);border-radius:var(--r);padding:18px 20px;
+  background:var(--bg2);margin-bottom:18px;
+}
+.preview h2{font-family:'Fraunces',serif;font-size:19px;margin-bottom:8px}
+.preview .lead{font-size:13px;color:var(--soft);line-height:1.55;margin-bottom:12px}
+.preview-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.preview-c{border:1px solid var(--line);border-radius:8px;padding:12px;background:rgba(255,255,255,.02)}
+.preview-c .n{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--soft);margin-bottom:3px}
+.preview-c .v{font-size:14px;font-weight:600}
+
+/* TOP RULES */
+.tips{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.tip{border:1px solid var(--line);border-radius:10px;padding:14px;background:rgba(255,255,255,.02)}
+.tip .n{font-family:'Fraunces',serif;font-size:32px;font-weight:900;color:#fbbf77;line-height:1;margin-bottom:5px}
+.tip .h{font-weight:600;font-size:13px;margin-bottom:3px}
+.tip .b{font-size:12px;color:var(--soft);line-height:1.5}
+
+footer{margin-top:28px;text-align:center;color:var(--soft);font-size:11px;font-family:'JetBrains Mono',monospace;letter-spacing:.1em}
+
+@media(max-width:860px){
+  .days,.travel-grid,.tips,.stat-row{grid-template-columns:1fr}
+  .stat-row{grid-template-columns:repeat(2,1fr)}
+  .preview-grid{grid-template-columns:1fr 1fr}
+  .ex-grid{grid-template-columns:1fr}
+  body{padding:18px 12px 60px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- HERO -->
+<section class="hero">
+  <div class="eyebrow">Week 23 · June 1–5, 2026 · Mon–Fri only · Travel Fri PM → Sun PM · 32 weeks to Houston</div>
+  <h1>Re-enter <em>slowly</em>.<br>Build back the base.</h1>
+  <p class="hero-sub">Smart call taking Week 22 completely off — full rest was exactly what the situation called for. Now we re-enter with discipline: bike first, walk before run, modified strength, and absolutely no hero efforts. The long run waits until Week 24. This week is about confirming the body is back online before adding stress.</p>
+  <div class="stat-row">
+    <div class="stat"><div class="k">Volume Target</div><div class="v">3.0 hr</div><div class="d warn">conservative</div></div>
+    <div class="stat"><div class="k">Sessions</div><div class="v">5</div><div class="d">Mon–Fri</div></div>
+    <div class="stat"><div class="k">Long Run</div><div class="v">DEFER</div><div class="d fix">Week 24</div></div>
+    <div class="stat"><div class="k">Strength</div><div class="v">2 × 12</div><div class="d warn">4 weeks missed now</div></div>
+    <div class="stat"><div class="k">Run Test</div><div class="v">25 min</div><div class="d warn">Tue or Thu only</div></div>
+  </div>
+</section>
+
+<!-- RECOVERY CONTEXT -->
+<div class="callout green">
+  <div class="ico">✅</div>
+  <div>
+    <h3>You did the right thing</h3>
+    <p>A full week off was the correct response — pushing through would have prolonged the issue and risked injury elsewhere from compensation patterns. Fiber + hydration is exactly the right protocol, and it's working. <strong>Keep both going through this week</strong> — recovery is not "done" the moment symptoms ease.</p>
+  </div>
+</div>
+
+<div class="callout amber">
+  <div class="ico">📉</div>
+  <div>
+    <h3>What 7 days off actually costs you</h3>
+    <p>Aerobic capacity drops about <strong>5–7% after 7 days of zero training</strong>, but the good news: most of it returns within 10–14 days of resuming. The real risk this week is doing too much too soon. Even if you feel ready for a 60-min run on Tuesday — don't. The cardiovascular system rebounds in days; tendons, fascia, and the gut take longer. Stick to the plan even if you feel great.</p>
+  </div>
+</div>
+
+<div class="callout red">
+  <div class="ico">⚡</div>
+  <div>
+    <h3>HR strap decision still pending — fix before Monday</h3>
+    <p>Three corrupted sessions over Weeks 20–21, then a full week off. Don't start Monday with a broken sensor. <strong>Order replacement strap, get conductive gel, or switch to optical HR on the Fenix 7 Pro right now</strong> — whichever is fastest. The optical HR is the immediate bridge if you're still deciding between the HRM-600 and H10.</p>
+  </div>
+</div>
+
+<div class="callout pink">
+  <div class="ico">🩺</div>
+  <div>
+    <h3>Health caveats — still in recovery mode</h3>
+    <p>"Feeling better" ≠ "fully healed." This week: still no squats, lunges, step-ups, or heavy bearing-down movements. Still wide saddle / padded shorts for bike if any saddle discomfort. Still high-fiber + 80+ oz water daily. Symptoms can flare from over-doing it — stop any session immediately if anything feels wrong.</p>
+  </div>
+</div>
+
+<!-- LEGEND -->
+<div class="legend">
+  <span class="chip"><span class="dot" style="background:var(--z2)"></span>Bike Z2</span>
+  <span class="chip"><span class="dot" style="background:var(--z1)"></span>Easy Run / Walk</span>
+  <span class="chip"><span class="dot" style="background:var(--str)"></span>Strength (modified)</span>
+  <span class="chip"><span class="dot" style="background:var(--pt)"></span>PT / Mobility</span>
+  <span class="chip"><span class="dot" style="background:var(--fuel)"></span>Fuel</span>
+  <span class="chip"><span class="dot" style="background:var(--health)"></span>Health</span>
+  <span class="chip"><span class="dot" style="background:var(--travel)"></span>Travel</span>
+</div>
+
+<div class="section-title">Mon–Fri Training Plan</div>
+
+<!-- DAYS -->
+<div class="days">
+
+  <!-- MONDAY -->
+  <div class="day" data-c="z2">
+    <div class="day-hdr">
+      <div><div class="day-name">Monday</div><div class="day-date">June 1</div></div>
+      <div class="day-focus">Re-Entry · Bike + Strength</div>
+    </div>
+    <div class="day-body">
+      <div class="blk health">
+        <div class="lbl">🩺 First session back — keep it gentle</div>
+        <div class="det">Bike first because it's zero-impact and lets you test how your body responds before adding anything more demanding. <strong>If anything feels off — stop. There's no rush.</strong></div>
+      </div>
+      <div class="blk fuel"><div class="lbl">🍎 Pre · 5:00 AM</div><div class="det">16 oz water + electrolyte. <strong>Overnight oats from the fridge</strong>, 45 min before. Standard prep.</div></div>
+      <div class="blk str">
+        <div class="lbl">💪 Modified Strength A — Floor Only <span class="dur">12 min</span></div>
+        <div class="ttl">Do these before clipping into the bike. Mat next to the IC4.</div>
+        <div class="ex-grid">
+          <div class="ex-row">Glute bridge <span>· 2 × 15</span></div>
+          <div class="ex-row">Clamshells <span>· 2 × 12/side</span></div>
+          <div class="ex-row">Side-lying leg raise <span>· 2 × 10/side</span></div>
+          <div class="ex-row">Bird-dog <span>· 2 × 8/side</span></div>
+          <div class="ex-row">Dead-bug <span>· 2 × 8/side</span></div>
+          <div class="ex-row skip">Squats / lunges <span>· Week 24</span></div>
+        </div>
+        <div class="health-note"><div class="h">Note</div><div class="b">Reduced reps vs. usual — first session back. Build volume next week.</div></div>
+      </div>
+      <div class="blk z2">
+        <div class="lbl">🚴 Zwift Z1–Z2 easy ride <span class="dur">30 min</span></div>
+        <div class="ttl">Tempus Fugit · ERG · HR sensor confirmed working</div>
+        <div class="det">
+          <strong>Target:</strong> HR 115–128, watts 70–85, cadence 85–90 rpm.<br>
+          <strong>Saddle check:</strong> Padded shorts recommended. Tilt nose slightly down if any pressure discomfort.<br>
+          <strong>If HR readings look glitchy</strong> — abort, switch to optical, restart.
+        </div>
+      </div>
+      <div class="blk fuel"><div class="lbl">🍎 Post · within 30 min</div><div class="det">Overnight oats + whey (already prepped). 16 oz water.</div></div>
+    </div>
+  </div>
+
+  <!-- TUESDAY -->
+  <div class="day" data-c="run">
+    <div class="day-hdr">
+      <div><div class="day-name">Tuesday</div><div class="day-date">June 2</div></div>
+      <div class="day-focus">Walk OR Run Test</div>
+    </div>
+    <div class="day-body">
+      <div class="blk health">
+        <div class="lbl">🩺 Choose: Walk or Run</div>
+        <div class="det">
+          <strong>Walk (default):</strong> If any residual hemorrhoid symptoms — 25-min easy walk, flat. Zero impact, blood flow only.<br>
+          <strong>Run (only if 100% symptom-free):</strong> 20-min easy flat run, cadence focus.<br>
+          When in doubt, walk. The run isn't going anywhere.
+        </div>
+      </div>
+      <div class="blk fuel"><div class="lbl">🍎 Pre · 5:00 AM</div><div class="det">16 oz water. <strong>½ cup oats + honey</strong> 30 min before if running. Banana only if walking.</div></div>
+      <div class="blk pt">
+        <div class="lbl">🩺 Dynamic warm-up <span class="dur">6 min</span></div>
+        <div class="det">Leg swings × 10 each direction · walking lunges × 8 · ankle circles × 10 · 2 easy strides at 150 spm cadence (only if running today).</div>
+      </div>
+      <div class="blk z1">
+        <div class="lbl">🚶 OR 🏃 Walk / Run Test · 5:30 AM start <span class="dur">20–25 min</span></div>
+        <div class="ttl">Flat Denton County route only · cooler morning temps</div>
+        <div class="det">
+          <strong>If running:</strong> Metronome → 150 spm. HR ceiling 130 (tight this week). Pace irrelevant. <strong>Stop at first sign of any discomfort</strong> — walk home.<br>
+          <strong>If walking:</strong> Brisk pace, HR 105–115. 25 min flat. This still trains aerobic system.<br>
+          Either way: <strong>before sunrise, 65–70°F.</strong>
+        </div>
+      </div>
+      <div class="blk pt">
+        <div class="lbl">🩺 Post · Mobility <span class="dur">8 min</span></div>
+        <div class="det">Pigeon 60 sec/side · couch stretch 60 sec/side · calf stretch 45 sec/side · supine glute stretch 60 sec/side.</div>
+      </div>
+      <div class="blk fuel"><div class="lbl">🍎 Post · within 30 min</div><div class="det">2 eggs + 1 slice toast + ½ avocado + fruit. 20 oz water.</div></div>
+    </div>
+  </div>
+
+  <!-- WEDNESDAY -->
+  <div class="day" data-c="z2">
+    <div class="day-hdr">
+      <div><div class="day-name">Wednesday</div><div class="day-date">June 3</div></div>
+      <div class="day-focus">Bike Z2 · Building Back</div>
+    </div>
+    <div class="day-body">
+      <div class="blk fuel"><div class="lbl">🍎 Pre · 5:00 AM</div><div class="det">16 oz water + electrolyte. <strong>Toast + almond butter + ½ banana</strong>, 20 min before.</div></div>
+      <div class="blk z2">
+        <div class="lbl">🚴 Zwift Z2 base ride <span class="dur">45 min</span></div>
+        <div class="ttl">Volcano Flat or Tempus Fugit · ERG mode</div>
+        <div class="det">
+          <strong>Target:</strong> HR 118–130, watts 80–92, cadence 85–95 rpm.<br>
+          <strong>Structure:</strong> 10 min @ 70W warm-up → 30 min @ 85W steady → 5 min cool-down @ 60W.<br>
+          This is the first "normal" session back. Should feel sustainable — if it doesn't, dial back.
+        </div>
+      </div>
+      <div class="blk pt">
+        <div class="lbl">🩺 Post · Hip mobility <span class="dur">8 min</span></div>
+        <div class="det">Hip flexor stretch 60 sec/side · pigeon 60 sec/side · couch stretch 60 sec/side · cat-cow × 10 · child's pose 60 sec.</div>
+      </div>
+      <div class="blk fuel"><div class="lbl">🍎 Post · within 30 min</div><div class="det">Protein smoothie: 1 scoop whey + 1 cup milk + ½ banana + 1 tbsp PB + spinach. 16 oz water.</div></div>
+    </div>
+  </div>
+
+  <!-- THURSDAY -->
+  <div class="day" data-c="str">
+    <div class="day-hdr">
+      <div><div class="day-name">Thursday</div><div class="day-date">June 4</div></div>
+      <div class="day-focus">Strength B + Easy Spin</div>
+    </div>
+    <div class="day-body">
+      <div class="blk fuel"><div class="lbl">🍎 Pre · 5:00 AM</div><div class="det">16 oz water. <strong>1 banana + walnut handful</strong>, 15 min before.</div></div>
+      <div class="blk str">
+        <div class="lbl">💪 Modified Strength B — Core Focus <span class="dur">12 min</span></div>
+        <div class="ttl">Gateway rule: mat before bike. Floor-only protocol still.</div>
+        <div class="ex-grid">
+          <div class="ex-row">Plank hold <span>· 3 × 30 sec</span></div>
+          <div class="ex-row">Side plank <span>· 2 × 20 sec/side</span></div>
+          <div class="ex-row">Glute bridge <span>· 2 × 15</span></div>
+          <div class="ex-row">Clamshells <span>· 2 × 12/side</span></div>
+          <div class="ex-row">Dead-bug <span>· 2 × 8/side</span></div>
+          <div class="ex-row skip">Step-ups / squats <span>· Week 24</span></div>
+        </div>
+        <div class="health-note"><div class="h">Breathing</div><div class="b">Steady breath through planks — never hold breath and brace down. Protects healing tissue.</div></div>
+      </div>
+      <div class="blk z1">
+        <div class="lbl">🚴 Easy recovery spin <span class="dur">25 min</span></div>
+        <div class="ttl">Zwift Z1 — flush legs before travel day</div>
+        <div class="det"><strong>Target:</strong> HR ≤115, watts 55–70, cadence 85–95 rpm. Comfortable pace. Don't drain the tank — Friday morning still has a session.</div>
+      </div>
+      <div class="blk fuel"><div class="lbl">🍎 Post · within 30 min</div><div class="det">Oatmeal + PB + banana + cinnamon + honey. 16 oz water.</div></div>
+    </div>
+  </div>
+
+  <!-- FRIDAY -->
+  <div class="day" data-c="z2">
+    <div class="day-hdr">
+      <div><div class="day-name">Friday</div><div class="day-date">June 5</div></div>
+      <div class="day-focus">AM Bike → Travel PM</div>
+    </div>
+    <div class="day-body">
+      <div class="blk fuel"><div class="lbl">🍎 Pre · 5:00 AM (early — before travel prep)</div><div class="det">16 oz water + electrolyte. <strong>1 banana + 1 tbsp PB</strong>, 20 min before.</div></div>
+      <div class="blk z2">
+        <div class="lbl">🚴 Pre-travel bike <span class="dur">30 min</span></div>
+        <div class="ttl">Zwift Tempus Fugit · easy endurance</div>
+        <div class="det">
+          <strong>Target:</strong> HR 115–128, watts 75–85, cadence 85–90 rpm.<br>
+          Keep it controlled — don't show up to the airport drained. This is a fitness-preserver, not a stimulus.<br>
+          Shower, dress, pack with time to spare.
+        </div>
+      </div>
+      <div class="blk pt">
+        <div class="lbl">🩺 Pre-travel mobility <span class="dur">8 min</span></div>
+        <div class="det">Hip flexor stretch 60 sec/side · pigeon 90 sec/side · calf stretch 45 sec/side · neck/shoulder rolls × 10 each direction. Loosens up before sitting on a plane.</div>
+      </div>
+      <div class="blk fuel"><div class="lbl">🍎 Post + travel fuel</div><div class="det">Overnight oats + whey on the go. <strong>Pack for travel:</strong> water bottle (fill after security), 2 protein bars, mixed nuts, banana. Avoid airport fast food — it's the worst combo of low fiber + dehydration for your recovery.</div></div>
+      <div class="blk travel">
+        <div class="lbl">✈️ Travel PM — practical tips</div>
+        <div class="det">
+          <strong>Walk through the airport</strong> — don't take moving walkways or elevators if you can avoid it.<br>
+          <strong>Stand and stretch every hour</strong> on the plane. Calf raises in your seat × 15 every 30 min — venous flush + hemorrhoid pressure relief.<br>
+          <strong>Hydrate aggressively</strong> — 16 oz water before flight, 8 oz per hour in the air. Skip airplane coffee/alcohol entirely.
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- TRAVEL DAYS -->
+<div class="travel-card">
+  <h2>✈️ Travel Days — Friday PM → Sunday Night</h2>
+  <p style="font-size:13px;color:var(--soft);margin-bottom:8px">No structured training expected. Just stay active, hydrated, and stretched. The goal is to land Monday morning ready to resume Week 24's plan without stiffness or setback.</p>
+  <div class="travel-grid">
+    <div class="travel-c">
+      <div class="n">Walking</div>
+      <div class="dur">20–30 min/day · either day</div>
+      <div class="d">Easy walk around wherever you're staying. Sightseeing counts. Standing/walking aids hemorrhoid recovery more than sitting.</div>
+    </div>
+    <div class="travel-c">
+      <div class="n">Hotel Mobility</div>
+      <div class="dur">10 min · morning or before bed</div>
+      <div class="d">Pigeon, hip flexor, couch stretch, supine glute stretch. Foam rolling optional — use a tennis ball from the gift shop if no roller.</div>
+    </div>
+    <div class="travel-c">
+      <div class="n">Hydration</div>
+      <div class="dur">All day</div>
+      <div class="d">80+ oz water daily, easier said than done while traveling. Carry a reusable bottle. Electrolytes if eating out (restaurant food = high sodium and low fluid).</div>
+    </div>
+    <div class="travel-c">
+      <div class="n">Skip: Hotel gym workout</div>
+      <div class="dur">—</div>
+      <div class="d">Tempting but unnecessary. You've done 5 sessions in 5 days. Travel rest = adaptation. Save the legs for Monday.</div>
+    </div>
+    <div class="travel-c">
+      <div class="n">Skip: Long sitting</div>
+      <div class="dur">—</div>
+      <div class="d">Prolonged sitting on hard surfaces (airline seats, restaurant booths, conference chairs) aggravates hemorrhoids. Get up every 45–60 min.</div>
+    </div>
+    <div class="travel-c">
+      <div class="n">Sunday Night Return</div>
+      <div class="dur">Pre-bed</div>
+      <div class="d">10-min mobility flow + legs up the wall 10 min before bed. Resets the body for Monday morning's Week 24 session.</div>
+    </div>
+  </div>
+</div>
+
+<!-- WEEK 24 PREVIEW -->
+<div class="preview">
+  <h2>Week 24 preview — what's coming back online</h2>
+  <p class="lead">If this week goes well — no symptom flare, all 5 sessions completed, HR sensor working — Week 24 returns to a fuller schedule with the long run reintroduced. If anything wobbles, we hold position another week.</p>
+  <div class="preview-grid">
+    <div class="preview-c"><div class="n">Long Run</div><div class="v">Returns · 45–50 min</div></div>
+    <div class="preview-c"><div class="n">Strength</div><div class="v">Full protocol back</div></div>
+    <div class="preview-c"><div class="n">Volume</div><div class="v">4.0–4.5 hr</div></div>
+    <div class="preview-c"><div class="n">Cadence</div><div class="v">150 spm target</div></div>
+  </div>
+</div>
+
+<!-- TOP 3 -->
+<div class="section-title">The 3 rules that define Week 23</div>
+<div class="tips">
+  <div class="tip">
+    <div class="n">01</div>
+    <div class="h">Bike before run, always</div>
+    <div class="b">Two zero-impact bike days first (Mon + Wed). Run test only Tuesday, only if 100% symptom-free. Walking instead is the correct call when in doubt.</div>
+  </div>
+  <div class="tip">
+    <div class="n">02</div>
+    <div class="h">Both strength sessions — finally</div>
+    <div class="b">4 weeks missed. Monday and Thursday. 12 minutes each. Gateway rule: mat before bike. Lower volume than usual because it's the first session back — full protocol returns in Week 24.</div>
+  </div>
+  <div class="tip">
+    <div class="n">03</div>
+    <div class="h">Travel without setbacks</div>
+    <div class="b">Friday's bike → travel → 2 days off training but stay active with walks and mobility. Land Sunday night with no stiffness, no flare-ups. Monday's Week 24 session is the real test.</div>
+  </div>
+</div>
+
+<footer>HOUSTON MARATHON 2027 · 32 WEEKS TO RACE DAY · WEEK 23 · RE-ENTRY · LONG RUN RETURNS WEEK 24</footer>
+</div>
+</body>
+</html>

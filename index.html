@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"/>
+<title>Marathon Training · Houston 2027</title>
+
+<!-- PWA / iOS home-screen app config -->
+<meta name="theme-color" content="#0b0d12"/>
+<meta name="mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="apple-mobile-web-app-title" content="Marathon"/>
+<link rel="manifest" href="manifest.json"/>
+<link rel="apple-touch-icon" href="icons/icon-180.png"/>
+<link rel="icon" type="image/png" href="icons/icon-192.png"/>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,700;0,900;1,700&family=JetBrains+Mono:wght@400;600&family=Inter+Tight:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0b0d12;--bg2:#10131b;--ink:#f5f1e8;--soft:#a8a594;--line:#1f2330;
+  --dawn:#fbbf24;--run:#3aa17a;--bike:#3b82f6;--long:#ef6c4d;--core:#ec4899;
+  --win:#22c55e;--rest:#52525b;--r:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{
+  font-family:'Inter Tight',sans-serif;
+  background:radial-gradient(1100px 500px at 75% -5%,rgba(251,191,36,.07),transparent 60%),
+             radial-gradient(800px 400px at -5% 35%,rgba(58,161,122,.05),transparent 55%),var(--bg);
+  color:var(--ink);line-height:1.5;min-height:100vh;
+  padding:calc(env(safe-area-inset-top) + 20px) 16px calc(env(safe-area-inset-bottom) + 40px);
+}
+.wrap{max-width:760px;margin:0 auto}
+
+/* HERO */
+.hero{border:1px solid var(--line);border-radius:var(--r);padding:24px 22px;background:linear-gradient(135deg,#0e1320,#1a1812);position:relative;overflow:hidden;margin-bottom:16px}
+.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(600px 260px at 90% 0%,rgba(251,191,36,.14),transparent);pointer-events:none}
+.eyebrow{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--soft);margin-bottom:8px}
+h1{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(26px,7vw,40px);letter-spacing:-.02em;line-height:1.02;margin-bottom:8px}
+h1 em{font-style:italic;color:#fcd34d;font-weight:400}
+.hero-sub{color:var(--soft);font-size:13px;line-height:1.55;position:relative;z-index:1}
+.countdown{display:flex;gap:10px;margin-top:16px;position:relative;z-index:1}
+.cd{flex:1;border:1px solid var(--line);border-radius:10px;padding:11px 12px;background:rgba(255,255,255,.02);text-align:center}
+.cd .v{font-family:'Fraunces',serif;font-size:22px;font-weight:800;line-height:1;color:#fcd34d}
+.cd .k{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--soft);margin-top:4px}
+
+/* CURRENT WEEK CTA */
+.current{display:block;text-decoration:none;color:inherit;border:2px solid rgba(239,108,77,.4);border-radius:var(--r);padding:18px 20px;margin-bottom:16px;background:linear-gradient(135deg,rgba(239,108,77,.08),rgba(251,191,36,.03));position:relative;transition:transform .12s,border-color .12s}
+.current:active{transform:scale(.985);border-color:rgba(239,108,77,.7)}
+.current .tag{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#fca97f;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.pulse{width:8px;height:8px;border-radius:50%;background:#ef6c4d;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.current h2{font-family:'Fraunces',serif;font-size:24px;font-weight:800;margin-bottom:3px}
+.current .meta{font-size:13px;color:var(--soft)}
+.current .arrow{position:absolute;right:20px;top:50%;transform:translateY(-50%);font-size:22px;color:#fca97f}
+
+/* SECTION LABEL */
+.sec-label{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--soft);margin:20px 4px 10px;display:flex;align-items:center;gap:10px}
+.sec-label::after{content:"";flex:1;height:1px;background:var(--line)}
+
+/* WEEK LIST */
+.weeks{display:flex;flex-direction:column;gap:8px}
+.week{display:flex;align-items:center;gap:14px;text-decoration:none;color:inherit;border:1px solid var(--line);border-radius:12px;padding:14px 16px;background:var(--bg2);transition:transform .12s,border-color .12s}
+.week:active{transform:scale(.985);border-color:rgba(255,255,255,.2)}
+.week .num{font-family:'Fraunces',serif;font-size:22px;font-weight:800;color:var(--soft);min-width:38px;text-align:center}
+.week .body{flex:1;min-width:0}
+.week .title{font-weight:600;font-size:15px;margin-bottom:2px}
+.week .desc{font-size:12px;color:var(--soft);line-height:1.4}
+.week .dots{display:flex;gap:4px;margin-top:6px}
+.dot{width:7px;height:7px;border-radius:50%}
+.week .chev{font-size:18px;color:var(--soft);flex-shrink:0}
+.week.done .num{color:var(--win)}
+
+/* REFERENCE CARD */
+.ref{display:flex;align-items:center;gap:14px;text-decoration:none;color:inherit;border:1px solid rgba(59,130,246,.25);border-radius:12px;padding:14px 16px;background:rgba(59,130,246,.04);transition:transform .12s}
+.ref:active{transform:scale(.985)}
+.ref .ico{font-size:22px}
+.ref .body{flex:1}
+.ref .title{font-weight:600;font-size:15px;margin-bottom:2px;color:#7dd3fc}
+.ref .desc{font-size:12px;color:var(--soft)}
+
+/* KEY METRICS STRIP */
+.metrics{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:10px}
+.metric{border:1px solid var(--line);border-radius:10px;padding:12px 14px;background:var(--bg2)}
+.metric .k{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--soft)}
+.metric .v{font-family:'Fraunces',serif;font-size:17px;font-weight:700;margin-top:3px}
+.metric .v small{font-size:11px;color:var(--soft);font-family:'Inter Tight',sans-serif;font-weight:400}
+
+/* INSTALL HINT */
+.install{border:1px dashed rgba(251,191,36,.3);border-radius:12px;padding:14px 16px;margin-top:16px;background:rgba(251,191,36,.03);font-size:12px;color:var(--soft);line-height:1.5}
+.install b{color:#fcd34d}
+.install .close{float:right;color:var(--soft);text-decoration:none;font-size:16px;padding:0 4px}
+
+footer{margin-top:24px;text-align:center;color:var(--soft);font-size:10px;font-family:'JetBrains Mono',monospace;letter-spacing:.1em;line-height:1.8}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <section class="hero">
+    <div class="eyebrow">Chevron Houston Marathon · Jan 2027</div>
+    <h1>Marathon<br><em>Training</em></h1>
+    <p class="hero-sub">Base-building block · Aubrey, TX · run-walk method · 6 AM commitment</p>
+    <div class="countdown">
+      <div class="cd"><div class="v" id="weeks-out">27</div><div class="k">Weeks Out</div></div>
+      <div class="cd"><div class="v" id="days-out">—</div><div class="k">Days to Go</div></div>
+      <div class="cd"><div class="v">183</div><div class="k">Max HR</div></div>
+    </div>
+  </section>
+
+  <!-- CURRENT WEEK -->
+  <a class="current" href="plans/week-28.html">
+    <div class="tag"><span class="pulse"></span>Current Week</div>
+    <h2>Week 28</h2>
+    <div class="meta">Jul 6–12 · First swim session Sat · long run Fri 65 min</div>
+    <div class="arrow">→</div>
+  </a>
+
+  <div class="metrics">
+    <div class="metric"><div class="k">Best Run Pace</div><div class="v">13:03<small> /mi</small></div></div>
+    <div class="metric"><div class="k">Run Cadence</div><div class="v">145<small> spm</small></div></div>
+    <div class="metric"><div class="k">Longest Run</div><div class="v">72<small> min</small></div></div>
+    <div class="metric"><div class="k">Zone 2 Ceiling</div><div class="v">136<small> bpm</small></div></div>
+  </div>
+
+  <!-- ALL WEEKS -->
+  <div class="sec-label">All Weekly Plans</div>
+  <div class="weeks">
+
+    <a class="week" href="plans/week-28.html">
+      <div class="num">28</div>
+      <div class="body">
+        <div class="title">First Swim Week</div>
+        <div class="desc">Jul 6–12 · swim debut Sat · long run Fri 65 · massage gun protocol</div>
+        <div class="dots"><span class="dot" style="background:var(--run)"></span><span class="dot" style="background:var(--bike)"></span><span class="dot" style="background:#22d3ee"></span><span class="dot" style="background:var(--long)"></span></div>
+      </div>
+      <div class="chev">›</div>
+    </a>
+
+    <a class="week done" href="plans/week-27.html">
+      <div class="num">27</div>
+      <div class="body">
+        <div class="title">Run-Walk Method</div>
+        <div class="desc">Jun 29 – Jul 5 · best week yet — all AM runs, 72-min long run</div>
+        <div class="dots"><span class="dot" style="background:var(--run)"></span><span class="dot" style="background:var(--bike)"></span><span class="dot" style="background:var(--core)"></span><span class="dot" style="background:var(--long)"></span></div>
+      </div>
+      <div class="chev">›</div>
+    </a>
+
+    <a class="week done" href="plans/week-26.html">
+      <div class="num">26</div>
+      <div class="body">
+        <div class="title">Base + Core + Lean</div>
+        <div class="desc">Jun 22–28 · core protocol, calorie cycling, FTP zones</div>
+        <div class="dots"><span class="dot" style="background:var(--run)"></span><span class="dot" style="background:var(--bike)"></span><span class="dot" style="background:var(--core)"></span></div>
+      </div>
+      <div class="chev">›</div>
+    </a>
+
+    <a class="week done" href="plans/week-25.html">
+      <div class="num">25</div>
+      <div class="body">
+        <div class="title">The 6 AM Commitment</div>
+        <div class="desc">Jun 15–21 · balanced run + bike, morning starts</div>
+        <div class="dots"><span class="dot" style="background:var(--run)"></span><span class="dot" style="background:var(--bike)"></span><span class="dot" style="background:var(--dawn)"></span></div>
+      </div>
+      <div class="chev">›</div>
+    </a>
+
+    <a class="week done" href="plans/week-24.html">
+      <div class="num">24</div>
+      <div class="body">
+        <div class="title">Colonoscopy Week</div>
+        <div class="desc">Jun 8–14 · procedure prep + recovery protocol</div>
+        <div class="dots"><span class="dot" style="background:var(--rest)"></span><span class="dot" style="background:var(--bike)"></span></div>
+      </div>
+      <div class="chev">›</div>
+    </a>
+
+    <a class="week done" href="plans/week-23.html">
+      <div class="num">23</div>
+      <div class="body">
+        <div class="title">Re-Entry Week</div>
+        <div class="desc">Jun 1–7 · Mon–Fri return after time off</div>
+        <div class="dots"><span class="dot" style="background:var(--run)"></span><span class="dot" style="background:var(--bike)"></span></div>
+      </div>
+      <div class="chev">›</div>
+    </a>
+
+    <a class="week done" href="plans/week-22.html">
+      <div class="num">22</div>
+      <div class="body">
+        <div class="title">Recovery Week</div>
+        <div class="desc">May 25–31 · full rest, health-first reset</div>
+        <div class="dots"><span class="dot" style="background:var(--rest)"></span></div>
+      </div>
+      <div class="chev">›</div>
+    </a>
+
+    <a class="week done" href="plans/week-21.html">
+      <div class="num">21</div>
+      <div class="body">
+        <div class="title">Base Building</div>
+        <div class="desc">May 18–24 · Zone 2 focus, cadence work</div>
+        <div class="dots"><span class="dot" style="background:var(--run)"></span><span class="dot" style="background:var(--bike)"></span></div>
+      </div>
+      <div class="chev">›</div>
+    </a>
+
+    <a class="week done" href="plans/week-20.html">
+      <div class="num">20</div>
+      <div class="body">
+        <div class="title">Base Building</div>
+        <div class="desc">May 11–17 · aerobic foundation</div>
+        <div class="dots"><span class="dot" style="background:var(--run)"></span><span class="dot" style="background:var(--bike)"></span></div>
+      </div>
+      <div class="chev">›</div>
+    </a>
+
+  </div>
+
+  <!-- REFERENCE -->
+  <div class="sec-label">Reference</div>
+  <a class="ref" href="plans/hr-zones.html">
+    <div class="ico">❤️</div>
+    <div class="body">
+      <div class="title">HR Zones & Garmin Setup</div>
+      <div class="desc">Zone tables · Fenix 7 Pro configuration guide</div>
+    </div>
+    <div class="chev" style="color:var(--soft)">›</div>
+  </a>
+
+  <div class="install" id="installHint">
+    <a class="close" href="#" onclick="document.getElementById('installHint').style.display='none';return false;">×</a>
+    <b>📲 Add to Home Screen:</b> Tap the Share button in Safari, then "Add to Home Screen." This app icon will appear on your iPhone and open full-screen like a native app — works offline too.
+  </div>
+
+  <footer>
+    HOUSTON MARATHON 2027 · BASE-BUILDING BLOCK<br>
+    RUN-WALK METHOD · 6 AM · AUBREY, TX
+  </footer>
+
+</div>
+
+<script>
+// Countdown to Houston Marathon (typically mid-January; using Jan 18, 2027 as target)
+(function(){
+  const raceDay = new Date('2027-01-17T07:00:00');
+  const now = new Date();
+  const msDay = 1000*60*60*24;
+  const days = Math.max(0, Math.round((raceDay - now)/msDay));
+  const weeks = Math.floor(days/7);
+  const d = document.getElementById('days-out');
+  const w = document.getElementById('weeks-out');
+  if(d) d.textContent = days;
+  if(w) w.textContent = weeks;
+})();
+
+// Register service worker for offline use (works once hosted on GitHub Pages over HTTPS)
+if('serviceWorker' in navigator){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('sw.js').catch(function(){ /* offline cache optional */ });
+  });
+}
+
+// Hide install hint if already running as installed app
+if(window.navigator.standalone === true || window.matchMedia('(display-mode: standalone)').matches){
+  var h = document.getElementById('installHint');
+  if(h) h.style.display='none';
+}
+</script>
+</body>
+</html>

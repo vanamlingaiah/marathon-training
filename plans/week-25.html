@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Week 25 · June 15–21, 2026 · The 6 AM Commitment</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,700;0,900;1,700&family=JetBrains+Mono:wght@400;600&family=Inter+Tight:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0b0d12;--bg2:#10131b;--ink:#f5f1e8;--soft:#a8a594;--line:#1f2330;
+  --z1:#3aa17a;--z2:#3b82f6;--str:#a855f7;--long:#ef6c4d;
+  --rest:#52525b;--pt:#14b8a6;--fuel:#eab308;--dawn:#fbbf24;
+  --win:#22c55e;--fix:#ef4444;--warn:#f59e0b;
+  --r:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:'Inter Tight',sans-serif;
+  background:radial-gradient(1100px 500px at 75% -5%,rgba(251,191,36,.07),transparent 60%),
+             radial-gradient(800px 400px at -5% 35%,rgba(58,161,122,.05),transparent 55%),var(--bg);
+  color:var(--ink);line-height:1.5;min-height:100vh;padding:36px 20px 80px;
+}
+.wrap{max-width:1180px;margin:0 auto}
+
+/* HERO */
+.hero{border:1px solid var(--line);border-radius:var(--r);padding:28px;background:linear-gradient(135deg,#0e1320,#1a1812);position:relative;overflow:hidden;margin-bottom:18px}
+.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(700px 300px at 90% 0%,rgba(251,191,36,.14),transparent);pointer-events:none}
+.eyebrow{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--soft);margin-bottom:10px}
+h1{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(28px,5vw,52px);letter-spacing:-.02em;line-height:1.02;margin-bottom:8px}
+h1 em{font-style:italic;color:#fcd34d;font-weight:400}
+.hero-sub{color:var(--soft);font-size:14px;max-width:740px;line-height:1.6}
+.stat-row{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:20px;position:relative;z-index:1}
+.stat{border:1px solid var(--line);border-radius:10px;padding:12px 14px;background:rgba(255,255,255,.02)}
+.stat .k{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--soft)}
+.stat .v{font-family:'Fraunces',serif;font-size:20px;font-weight:700;margin-top:3px;line-height:1}
+.stat .d{font-size:11px;color:var(--win);margin-top:2px;font-family:'JetBrains Mono',monospace}
+.stat .d.warn{color:#fbbf24}.stat .d.dawn{color:#fcd34d}
+
+/* COMMITMENT BANNER */
+.commit-banner{
+  border:2px solid rgba(251,191,36,.4);background:linear-gradient(135deg,rgba(251,191,36,.08),rgba(239,108,77,.04));
+  border-radius:var(--r);padding:20px 24px;margin-bottom:16px;
+  display:flex;gap:18px;align-items:flex-start;
+}
+.commit-banner .ico{font-size:32px;flex-shrink:0;margin-top:2px}
+.commit-banner h2{font-family:'Fraunces',serif;font-size:22px;color:#fcd34d;margin-bottom:6px;letter-spacing:-.01em}
+.commit-banner p{font-size:14px;line-height:1.6;color:var(--ink)}
+.commit-banner p strong{color:#fcd34d}
+
+/* DAILY RHYTHM */
+.rhythm-card{border:1px solid var(--line);border-radius:var(--r);background:var(--bg2);padding:18px 20px;margin-bottom:16px}
+.rhythm-card h2{font-family:'Fraunces',serif;font-size:19px;margin-bottom:6px}
+.rhythm-card .lead{font-size:13px;color:var(--soft);margin-bottom:12px;line-height:1.5}
+.rhythm-timeline{display:flex;gap:0;align-items:stretch;position:relative}
+.rhythm-step{flex:1;padding:12px;border-radius:10px;border:1px solid var(--line);margin-right:8px;background:rgba(251,191,36,.03);position:relative}
+.rhythm-step:last-child{margin-right:0}
+.rhythm-step .time{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;color:#fcd34d;margin-bottom:4px}
+.rhythm-step .what{font-size:12px;color:var(--ink);font-weight:600;margin-bottom:2px}
+.rhythm-step .detail{font-size:11px;color:var(--soft);line-height:1.4}
+
+/* CALLOUTS */
+.callout{border-radius:10px;padding:14px 18px;margin-bottom:14px;display:flex;gap:14px;align-items:flex-start}
+.callout.dawn{border:1px solid rgba(251,191,36,.3);background:rgba(251,191,36,.06)}
+.callout.green{border:1px solid rgba(34,197,94,.3);background:rgba(34,197,94,.06)}
+.callout.blue{border:1px solid rgba(59,130,246,.3);background:rgba(59,130,246,.06)}
+.callout .ico{font-size:22px;flex-shrink:0;margin-top:2px}
+.callout h3{font-family:'Fraunces',serif;font-size:17px;margin-bottom:4px}
+.callout.dawn h3{color:#fcd34d}.callout.green h3{color:#86efac}.callout.blue h3{color:#7dd3fc}
+.callout p{font-size:13px;line-height:1.55;color:var(--ink)}
+.callout p strong{color:#fde68a}
+
+/* HEAT WINDOW TABLE */
+.window-card{border:1px solid rgba(251,191,36,.3);background:rgba(251,191,36,.04);border-radius:var(--r);padding:18px 20px;margin-bottom:16px}
+.window-card h2{font-family:'Fraunces',serif;font-size:19px;color:#fcd34d;margin-bottom:10px}
+.win-table{width:100%;border-collapse:collapse;font-size:12px}
+.win-table th{text-align:left;padding:8px 12px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#fcd34d;border-bottom:1px solid rgba(251,191,36,.3)}
+.win-table td{padding:8px 12px;border-bottom:1px dashed rgba(255,255,255,.05);font-family:'JetBrains Mono',monospace;font-size:11px}
+.win-table .v-ok{color:#4ade80}.win-table .v-warn{color:#fbbf24}.win-table .v-no{color:#f87171}
+
+/* SECTION HEADERS */
+.section-title{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--soft);margin:22px 0 12px;display:flex;align-items:center;gap:10px}
+.section-title::after{content:"";flex:1;height:1px;background:var(--line)}
+
+/* LEGEND */
+.legend{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.chip{display:inline-flex;align-items:center;gap:7px;padding:6px 12px;border:1px solid var(--line);border-radius:30px;font-size:11px;font-family:'JetBrains Mono',monospace;letter-spacing:.05em;background:var(--bg2)}
+.dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+
+/* DAY CARDS */
+.days{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-bottom:20px}
+.day{border:1px solid var(--line);border-radius:var(--r);background:var(--bg2);overflow:hidden;display:flex;flex-direction:column}
+.day-hdr{padding:13px 17px 11px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:flex-end;gap:10px;position:relative}
+.day-hdr::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--dc,#fff)}
+.day-name{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--soft)}
+.day-date{font-family:'Fraunces',serif;font-size:24px;font-weight:700;line-height:1;margin-top:2px}
+.day-focus{text-align:right;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;padding:4px 8px;border-radius:4px;background:rgba(255,255,255,.04);border:1px solid var(--line);color:var(--soft);max-width:180px}
+.day-body{padding:14px 17px 16px;flex:1;display:flex;flex-direction:column;gap:11px}
+
+.blk{border-left:3px solid var(--bc,#fff);padding:9px 13px;background:rgba(255,255,255,.012);border-radius:0 8px 8px 0}
+.blk .lbl{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--soft);display:flex;justify-content:space-between;align-items:center;margin-bottom:3px}
+.blk .dur{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink);background:rgba(255,255,255,.06);padding:2px 6px;border-radius:3px}
+.blk .ttl{font-size:13px;font-weight:600;margin-bottom:4px}
+.blk .det{font-size:12px;color:var(--soft);line-height:1.55}
+.blk .det strong{color:var(--ink)}
+
+.blk.z2{--bc:var(--z2)}.blk.z1{--bc:var(--z1)}.blk.str{--bc:var(--str)}
+.blk.long{--bc:var(--long)}.blk.rest{--bc:var(--rest)}.blk.pt{--bc:var(--pt)}
+.blk.fuel{--bc:var(--fuel)}.blk.dawn{--bc:var(--dawn)}
+
+.day[data-c="z2"]{--dc:var(--z2)}.day[data-c="run"]{--dc:var(--z1)}
+.day[data-c="str"]{--dc:var(--str)}.day[data-c="long"]{--dc:var(--long)}
+.day[data-c="rest"]{--dc:var(--rest)}
+
+.ex-grid{display:grid;grid-template-columns:1fr 1fr;gap:3px 12px;margin-top:6px}
+.ex-row{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink)}
+.ex-row span{color:var(--soft)}
+
+.str-banner{border:1px solid rgba(168,85,247,.4);background:rgba(168,85,247,.06);border-radius:8px;padding:10px 12px;margin-bottom:6px}
+.str-banner .h{font-weight:700;font-size:12px;color:#d8b4fe;margin-bottom:2px}
+.str-banner .b{font-size:11px;color:var(--soft);line-height:1.45}
+
+.time-flag{display:inline-flex;align-items:center;gap:5px;font-family:'JetBrains Mono',monospace;font-size:10px;padding:2px 7px;border-radius:4px;background:rgba(251,191,36,.12);color:#fcd34d;border:1px solid rgba(251,191,36,.3);margin-left:6px}
+
+/* SECTION */
+.sec{border:1px solid var(--line);border-radius:var(--r);padding:18px 20px;background:var(--bg2);margin-bottom:16px}
+.sec h2{font-family:'Fraunces',serif;font-size:19px;font-weight:700;margin-bottom:12px}
+
+.ntbl{width:100%;border-collapse:collapse;font-size:12px}
+.ntbl th{text-align:left;padding:8px 12px;background:rgba(234,179,8,.07);font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#fde68a;border-bottom:1px solid var(--line)}
+.ntbl td{padding:9px 12px;border-bottom:1px dashed #1c2030;vertical-align:top}
+.ntbl td:first-child{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--soft);width:130px}
+
+/* TIPS */
+.tips{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.tip{border:1px solid var(--line);border-radius:10px;padding:14px;background:rgba(255,255,255,.02)}
+.tip .n{font-family:'Fraunces',serif;font-size:32px;font-weight:900;color:#fbbf77;line-height:1;margin-bottom:5px}
+.tip .h{font-weight:600;font-size:13px;margin-bottom:3px}
+.tip .b{font-size:12px;color:var(--soft);line-height:1.5}
+
+footer{margin-top:28px;text-align:center;color:var(--soft);font-size:11px;font-family:'JetBrains Mono',monospace;letter-spacing:.1em}
+
+@media(max-width:860px){
+  .days,.tips,.stat-row,.rhythm-timeline{grid-template-columns:1fr}
+  .rhythm-timeline{flex-direction:column}
+  .rhythm-step{margin-right:0;margin-bottom:8px}
+  .stat-row{grid-template-columns:repeat(2,1fr)}
+  .ex-grid{grid-template-columns:1fr}
+  body{padding:18px 12px 60px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- HERO -->
+<section class="hero">
+  <div class="eyebrow">Week 25 · June 15–21, 2026 · Houston Marathon 2027 · 30 weeks out · Aubrey, TX</div>
+  <h1>6 AM. <em>No matter what.</em></h1>
+  <p class="hero-sub">This is the commitment that unlocks everything. Waking at 6 AM gives you a real training window before the Texas heat takes over — roughly 6:15–7:00 AM at a manageable 74–78°F. The plan now balances running and biking the way you want: 3 runs, 3 bikes, outdoor when the window allows, Zwift when it doesn't. Build the habit this week and the marathon base follows.</p>
+  <div class="stat-row">
+    <div class="stat"><div class="k">Volume Target</div><div class="v">3.8 hr</div><div class="d">balanced build</div></div>
+    <div class="stat"><div class="k">Runs / Bikes</div><div class="v">3 / 3</div><div class="d dawn">balanced</div></div>
+    <div class="stat"><div class="k">Wake Time</div><div class="v">6:00 AM</div><div class="d dawn">committed</div></div>
+    <div class="stat"><div class="k">Run Window</div><div class="v">6:15 AM</div><div class="d dawn">74–78°F</div></div>
+    <div class="stat"><div class="k">Long Run</div><div class="v">Sat 45 min</div><div class="d">returns ✓</div></div>
+  </div>
+</section>
+
+<!-- COMMITMENT BANNER -->
+<div class="commit-banner">
+  <div class="ico">🌅</div>
+  <div>
+    <h2>The 6 AM window is your superpower now</h2>
+    <p>In Aubrey this time of year, sunrise is around 6:20 AM and temps sit at <strong>74–78°F from 6:15–7:00 AM</strong> before climbing fast. That's a genuine 45-minute Zone 2 window for outdoor running — enough for everything in this plan. Wake at 6:00, out the door by 6:15, finished before the heat. <strong>The whole plan is built around protecting that window.</strong></p>
+  </div>
+</div>
+
+<!-- DAILY RHYTHM -->
+<div class="rhythm-card">
+  <h2>Your new daily rhythm</h2>
+  <p class="lead">Same shape every training day. Repetition is what turns a 6 AM alarm into an automatic habit. Lay everything out the night before.</p>
+  <div class="rhythm-timeline">
+    <div class="rhythm-step">
+      <div class="time">6:00 AM</div>
+      <div class="what">Wake + hydrate</div>
+      <div class="detail">16 oz water immediately. Alarm across the room. Gear already laid out.</div>
+    </div>
+    <div class="rhythm-step">
+      <div class="time">6:05 AM</div>
+      <div class="what">Quick fuel</div>
+      <div class="detail">Banana or half the overnight oats. Just enough to start.</div>
+    </div>
+    <div class="rhythm-step">
+      <div class="time">6:15 AM</div>
+      <div class="what">Warm-up + train</div>
+      <div class="detail">Out the door for runs, or clip into Zwift. The cool window is now.</div>
+    </div>
+    <div class="rhythm-step">
+      <div class="time">7:00 AM</div>
+      <div class="what">Recover + refuel</div>
+      <div class="detail">Mobility, post-workout meal within 30 min, then on with your day.</div>
+    </div>
+  </div>
+</div>
+
+<!-- HEAT WINDOW -->
+<div class="window-card">
+  <h2>🌡️ Your outdoor window in Aubrey this week</h2>
+  <table class="win-table">
+    <thead><tr><th>Time</th><th>Temp</th><th>Verdict for outdoor running</th></tr></thead>
+    <tbody>
+      <tr><td>6:00–6:15 AM</td><td>73–75°F</td><td class="v-ok">✅ Ideal — coolest point, just after waking</td></tr>
+      <tr><td>6:15–7:00 AM</td><td>74–78°F</td><td class="v-ok">✅ Your training window — Zone 2 achievable</td></tr>
+      <tr><td>7:00–7:30 AM</td><td>77–81°F</td><td class="v-warn">⚠️ Getting warm — finish up by here</td></tr>
+      <tr><td>7:30–8:00 AM</td><td>80–84°F</td><td class="v-no">❌ Too hot — Zwift instead</td></tr>
+      <tr><td>Any time indoor</td><td>72°F</td><td class="v-ok">✅ Zwift always available as backup</td></tr>
+    </tbody>
+  </table>
+  <p style="font-size:12px;color:var(--soft);margin-top:10px;line-height:1.5"><strong>The math:</strong> waking at 6:00 and starting by 6:15 gives you a clean 45-minute window before it gets too warm. That's exactly enough for every run in this plan. Miss the window and Zwift is always there — no guilt, no missed session.</p>
+</div>
+
+<!-- LEGEND -->
+<div class="legend">
+  <span class="chip"><span class="dot" style="background:var(--z1)"></span>Outdoor Run</span>
+  <span class="chip"><span class="dot" style="background:var(--z2)"></span>Bike / Zwift</span>
+  <span class="chip"><span class="dot" style="background:var(--str)"></span>Strength</span>
+  <span class="chip"><span class="dot" style="background:var(--long)"></span>Long Run</span>
+  <span class="chip"><span class="dot" style="background:var(--pt)"></span>PT / Mobility</span>
+  <span class="chip"><span class="dot" style="background:var(--fuel)"></span>Fuel</span>
+  <span class="chip"><span class="dot" style="background:var(--rest)"></span>Rest</span>
+</div>
+
+<div class="section-title">Week 25 · June 15–21 · Balanced Run + Bike · 6 AM Starts</div>
+
+<!-- DAYS -->
+<div class="days">
+
+  <!-- MONDAY -->
+  <div class="day" data-c="run">
+    <div class="day-hdr">
+      <div><div class="day-name">Monday</div><div class="day-date">June 15</div></div>
+      <div class="day-focus">Easy Run + Strength A</div>
+    </div>
+    <div class="day-body">
+      <div class="blk fuel"><div class="lbl">🍎 6:00 AM · Wake + fuel <span class="time-flag">🌅 6 AM</span></div><div class="det">16 oz water immediately. <strong>½ cup oats + honey</strong> or banana — light, you're running. Out the door by 6:15.</div></div>
+      <div class="blk pt">
+        <div class="lbl">🩺 Dynamic warm-up <span class="dur">6 min</span></div>
+        <div class="det">Leg swings × 10 each direction · walking lunges × 8 · high knees × 20m · butt kicks × 20m · 3 strides at 150 spm.</div>
+      </div>
+      <div class="blk z1">
+        <div class="lbl">🏃 Easy outdoor run · 6:15 AM <span class="dur">30 min</span></div>
+        <div class="ttl">2.2–2.5 mi · Aubrey neighborhood · cool morning</div>
+        <div class="det">
+          <strong>First run back — easy effort.</strong> Metronome → 150 spm, on the whole run.<br>
+          <strong>HR ceiling 136.</strong> Walk 60 sec if you cross it.<br>
+          <strong>Pace:</strong> 13:30–15:00/mi. Cadence first, pace is an output.<br>
+          <strong>Temp 74–76°F</strong> — carry water if you have a handheld.
+        </div>
+      </div>
+      <div class="blk str">
+        <div class="lbl">💪 Strength A — post-run, indoors <span class="dur">15 min</span></div>
+        <div class="ttl">After cooling down. First strength in 3 weeks — moderate.</div>
+        <div class="str-banner"><div class="h">🟢 Ease back in</div><div class="b">Reduced volume since you've had time off. Full protocol returns next week.</div></div>
+        <div class="ex-grid">
+          <div class="ex-row">Glute bridge <span>· 3 × 15</span></div>
+          <div class="ex-row">Clamshells <span>· 2 × 15/side</span></div>
+          <div class="ex-row">Side-lying leg raise <span>· 2 × 12/side</span></div>
+          <div class="ex-row">Bird-dog <span>· 2 × 10/side</span></div>
+          <div class="ex-row">Wall squat hold <span>· 2 × 30 sec</span></div>
+          <div class="ex-row">Dead-bug <span>· 2 × 10/side</span></div>
+        </div>
+      </div>
+      <div class="blk fuel"><div class="lbl">🍎 Post · within 30 min</div><div class="det">Overnight oats + whey from fridge. 16 oz water.</div></div>
+    </div>
+  </div>
+
+  <!-- TUESDAY -->
+  <div class="day" data-c="z2">
+    <div class="day-hdr">
+      <div><div class="day-name">Tuesday</div><div class="day-date">June 16</div></div>
+      <div class="day-focus">Zwift Z2 Endurance</div>
+    </div>
+    <div class="day-body">
+      <div class="blk fuel"><div class="lbl">🍎 6:00 AM · Wake + fuel <span class="time-flag">🌅 6 AM</span></div><div class="det">16 oz water + electrolyte. <strong>Toast + almond butter + ½ banana</strong>, 20 min before. Bike's indoors so no rush on temp.</div></div>
+      <div class="blk z2">
+        <div class="lbl">🚴 Zwift Z2 endurance · 6:20 AM <span class="dur">50 min</span></div>
+        <div class="ttl">Volcano Flat or Pacer route · the aerobic engine builder</div>
+        <div class="det">
+          <strong>Target:</strong> HR 120–132, watts 82–95, cadence 85–95 rpm.<br>
+          <strong>Structure:</strong> 10 min @ 70W warm-up → 35 min @ 88W steady → 5 min cool-down.<br>
+          <strong>Fan on, sip every 15 min.</strong> Bike days are your highest-volume aerobic work — zero impact on the legs.
+        </div>
+      </div>
+      <div class="blk pt">
+        <div class="lbl">🩺 Post · Hip mobility <span class="dur">8 min</span></div>
+        <div class="det">Hip flexor stretch 60 sec/side · pigeon 60 sec/side · couch stretch 60 sec/side · cat-cow × 10 · child's pose 60 sec.</div>
+      </div>
+      <div class="blk fuel"><div class="lbl">🍎 Post · within 30 min</div><div class="det">Protein smoothie: 1 scoop whey + 1 cup milk + ½ banana + 1 tbsp PB + spinach. 16 oz water.</div></div>
+    </div>
+  </div>
+
+  <!-- WEDNESDAY -->
+  <div class="day" data-c="run">
+    <div class="day-hdr">
+      <div><div class="day-name">Wednesday</div><div class="day-date">June 17</div></div>
+      <div class="day-focus">Cadence Run</div>
+    </div>
+    <div class="day-body">
+      <div class="blk fuel"><div class="lbl">🍎 6:00 AM · Wake + fuel <span class="time-flag">🌅 6 AM</span></div><div class="det">16 oz water. <strong>½ cup oats + honey + berries</strong>, light. Out by 6:15 — heat builds fast midweek (high 91°F today).</div></div>
+      <div class="blk pt">
+        <div class="lbl">🩺 Dynamic warm-up <span class="dur">6 min</span></div>
+        <div class="det">Leg swings × 10 each · walking lunges × 8 · high knees × 20m · butt kicks × 20m · 3 strides at 150 spm.</div>
+      </div>
+      <div class="blk z1">
+        <div class="lbl">🏃 Cadence-focus run · 6:15 AM <span class="dur">35 min</span></div>
+        <div class="ttl">2.6–3.0 mi · Aubrey flat route · the cadence builder</div>
+        <div class="det">
+          <strong>Metronome → 150 spm. On the whole run. This is the priority metric.</strong><br>
+          <strong>HR ceiling 136.</strong> Walk 60 sec if you cross it.<br>
+          <strong>Pace:</strong> 13:30–15:00/mi — irrelevant, cadence first.<br>
+          <strong>HRM-600 bonus:</strong> watch the live cadence + ground contact time on your watch face. Aim to get GCT under 290 ms.
+        </div>
+      </div>
+      <div class="blk pt">
+        <div class="lbl">🩺 Post · Core <span class="dur">10 min</span></div>
+        <div class="det">Plank 3 × 45 sec · Dead-bug 3 × 10/side · Glute squeeze hold 3 × 30 sec · foam roll quads + calves 60 sec each.</div>
+      </div>
+      <div class="blk fuel"><div class="lbl">🍎 Post · within 30 min</div><div class="det">2 eggs + 1 slice toast + ½ avocado + orange. 20 oz water.</div></div>
+    </div>
+  </div>
+
+  <!-- THURSDAY -->
+  <div class="day" data-c="str">
+    <div class="day-hdr">
+      <div><div class="day-name">Thursday</div><div class="day-date">June 18</div></div>
+      <div class="day-focus">Strength B + Recovery Spin</div>
+    </div>
+    <div class="day-body">
+      <div class="blk fuel"><div class="lbl">🍎 6:00 AM · Wake + fuel <span class="time-flag">🌅 6 AM</span></div><div class="det">16 oz water. <strong>1 banana + walnut handful</strong>, 15 min before.</div></div>
+      <div class="blk str">
+        <div class="lbl">💪 Strength B — core focus <span class="dur">15 min</span></div>
+        <div class="ttl">Gateway rule: mat before bike.</div>
+        <div class="ex-grid">
+          <div class="ex-row">Plank hold <span>· 3 × 45 sec</span></div>
+          <div class="ex-row">Side plank <span>· 2 × 25 sec/side</span></div>
+          <div class="ex-row">Glute bridge <span>· 3 × 15</span></div>
+          <div class="ex-row">Step-ups (8" step) <span>· 2 × 8/side</span></div>
+          <div class="ex-row">Dead-bug <span>· 3 × 10/side</span></div>
+          <div class="ex-row">Calf raise (slow) <span>· 2 × 15</span></div>
+        </div>
+      </div>
+      <div class="blk z1">
+        <div class="lbl">🚴 Recovery spin <span class="dur">25 min</span></div>
+        <div class="ttl">Zwift Z1 — flush legs before Friday + weekend</div>
+        <div class="det"><strong>Target:</strong> HR ≤115, watts 55–70, cadence 85–95 rpm. Conversational only. Active recovery.</div>
+      </div>
+      <div class="blk fuel"><div class="lbl">🍎 Post · within 30 min</div><div class="det">Oatmeal + PB + banana + cinnamon + honey. 16 oz water.</div></div>
+    </div>
+  </div>
+
+  <!-- FRIDAY -->
+  <div class="day" data-c="z2">
+    <div class="day-hdr">
+      <div><div class="day-name">Friday</div><div class="day-date">June 19</div></div>
+      <div class="day-focus">Zwift Z2 + Long Run Prep</div>
+    </div>
+    <div class="day-body">
+      <div class="blk fuel"><div class="lbl">🍎 6:00 AM · Wake + fuel <span class="time-flag">🌅 6 AM</span></div><div class="det">16 oz water + electrolyte. <strong>1 banana + 1 tbsp PB</strong>, 20 min before.</div></div>
+      <div class="blk z2">
+        <div class="lbl">🚴 Zwift Z2 base · 6:20 AM <span class="dur">40 min</span></div>
+        <div class="ttl">Tempus Fugit · controlled — Saturday's run is the priority</div>
+        <div class="det">
+          <strong>Target:</strong> HR 118–130, watts 80–90, cadence 88–95 rpm.<br>
+          <strong>Structure:</strong> 10 min warm-up → 25 min @ 86W → 5 min cool-down.<br>
+          Keep this easy — save the legs for the long run.
+        </div>
+      </div>
+      <div class="blk pt">
+        <div class="lbl">🩺 Post · Pre-long-run mobility <span class="dur">10 min</span></div>
+        <div class="det">Foam roll IT band 60 sec/side · pigeon 90 sec/side · hip 90/90 60 sec/side · calf stretch 45 sec/side · ankle circles × 10 each direction.</div>
+      </div>
+      <div class="blk fuel">
+        <div class="lbl">🍎 Post + Saturday prep</div>
+        <div class="det">Overnight oats + whey. <strong>Lay out everything for tomorrow tonight:</strong> shoes, clothes, HR strap, handheld water. Set the 6 AM alarm. <strong>Carb-load lunch:</strong> sweet potato + lean protein + greens. Hydrate 80+ oz. No alcohol tonight.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SATURDAY -->
+  <div class="day" data-c="long">
+    <div class="day-hdr">
+      <div><div class="day-name">Saturday</div><div class="day-date">June 20</div></div>
+      <div class="day-focus">LONG RUN · Returns</div>
+    </div>
+    <div class="day-body">
+      <div class="blk dawn">
+        <div class="lbl">🌅 6:00 AM · The big one — protect the window</div>
+        <div class="det">Weekend, so the 6 AM wake is even more important — it's your coolest, longest window. Out the door by 6:15 for the full 45 minutes before it warms past 78°F.</div>
+      </div>
+      <div class="blk fuel"><div class="lbl">🍎 Pre · 6:00 AM (eat fast, light)</div><div class="det">16 oz water on waking. <strong>1 cup oats + honey + ½ banana + almond butter</strong> — or if 45 min lead time isn't possible, ½ portion + a gel. Electrolyte 10 min before start.</div></div>
+      <div class="blk pt">
+        <div class="lbl">🩺 Dynamic warm-up <span class="dur">8 min</span></div>
+        <div class="det">Leg swings × 10 each · walking lunges × 10 · A-skips × 20m × 2 · butt kicks × 20m · 4 strides at 150 spm.</div>
+      </div>
+      <div class="blk long">
+        <div class="lbl">🏃 Long Run · 6:15 AM · Aubrey <span class="dur">45 min</span></div>
+        <div class="ttl">3.2–3.5 mi · first long run in weeks · build confidence</div>
+        <div class="det">
+          <strong>Conservative restart — 45 min, not the 70 from earlier.</strong><br>
+          <strong>Metronome → 150 spm. Non-negotiable.</strong><br>
+          <strong>HR ceiling 136.</strong> Walk 60 sec if you cross it — heat will push it up late in the run.<br>
+          <strong>Pace:</strong> 13:30–15:00/mi. Pace is an output.<br>
+          <strong>Carry water</strong> — sip at 25 min. Finish before 7:05 AM to beat the heat.
+        </div>
+      </div>
+      <div class="blk pt">
+        <div class="lbl">🩺 Post · Recovery flow <span class="dur">15 min</span></div>
+        <div class="det">5 min easy walk → <strong>Legs up the wall 5 min</strong> → foam roll quads + calves + IT band 60 sec each → pigeon 90 sec/side → couch stretch 90 sec/side.</div>
+      </div>
+      <div class="blk fuel"><div class="lbl">🍎 Post · most important meal of the week</div><div class="det"><strong>Within 20 min:</strong> recovery shake — whey + chocolate milk + banana + PB.<br><strong>Within 90 min:</strong> 3 eggs + 2 slices toast + ½ avocado + sweet potato + berries. Hydrate 48+ oz through the day.</div></div>
+    </div>
+  </div>
+
+  <!-- SUNDAY -->
+  <div class="day" data-c="rest">
+    <div class="day-hdr">
+      <div><div class="day-name">Sunday</div><div class="day-date">June 21</div></div>
+      <div class="day-focus">Full Rest</div>
+    </div>
+    <div class="day-body">
+      <div class="blk rest">
+        <div class="lbl">🛌 Complete rest</div>
+        <div class="ttl">You earned it — first full 6-session week back. Recovery is adaptation.</div>
+        <div class="det"><strong>Optional:</strong> 20–30 min easy evening walk when it cools. <strong>Required:</strong> 8+ hr sleep. <strong>Keep the 6 AM habit alive</strong> — even on the rest day, don't sleep until 9 and undo the rhythm. Wake at 6–6:30, just take the day off training.</div>
+      </div>
+      <div class="blk pt">
+        <div class="lbl">🩺 Evening mobility <span class="dur">15 min</span></div>
+        <div class="det">Full body foam roll · pigeon 2 min/side · hip 90/90 2 min/side · couch stretch 90 sec/side · legs up the wall 10 min before bed.</div>
+      </div>
+      <div class="blk fuel">
+        <div class="lbl">🍎 Week 26 prep</div>
+        <div class="det">Make 4 overnight oats jars. If this week worked — 6 AM held, all sessions done — Week 26 builds volume: longer runs, a 4th run day, cadence target nudges toward 155 spm.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- NUTRITION -->
+<section class="sec">
+  <h2>Nutrition — quick reference</h2>
+  <table class="ntbl">
+    <thead><tr><th>Session</th><th>Pre (light, you're up at 6)</th><th>Post (within 30 min)</th></tr></thead>
+    <tbody>
+      <tr><td>Mon: Run + Strength</td><td>½ cup oats + honey or banana</td><td>Overnight oats + whey</td></tr>
+      <tr><td>Tue: Zwift endurance</td><td>Toast + almond butter + banana</td><td>Protein smoothie</td></tr>
+      <tr><td>Wed: Cadence run</td><td>½ cup oats + honey + berries</td><td>2 eggs + toast + avocado</td></tr>
+      <tr><td>Thu: Strength + spin</td><td>Banana + walnuts</td><td>Oatmeal + PB + banana</td></tr>
+      <tr><td>Fri: Zwift base</td><td>Banana + PB</td><td>Overnight oats + whey · carb lunch</td></tr>
+      <tr><td>Sat: Long run</td><td>1 cup oats + honey + banana + nut butter</td><td>Recovery shake → full meal</td></tr>
+      <tr><td>Sun: Rest</td><td>Normal breakfast</td><td>3 balanced meals · 70–80g protein</td></tr>
+    </tbody>
+  </table>
+  <p style="font-size:12px;color:var(--soft);margin-top:8px;line-height:1.5"><strong>6 AM fueling note:</strong> with early starts you have less time to digest. Keep pre-workout light (banana or half-portion oats). The full overnight oats jar works better as your <em>post</em>-workout meal. On long-run Saturday, try to eat 45–60 min before if you can — set the alarm for a few minutes earlier if needed.</p>
+</section>
+
+<!-- TOP 3 -->
+<div class="section-title">The 3 things that define Week 25</div>
+<div class="tips">
+  <div class="tip">
+    <div class="n">01</div>
+    <div class="h">6 AM wins every day</div>
+    <div class="b">The whole plan depends on this one habit. Alarm across the room, gear laid out the night before, out the door by 6:15. The cool window is 74–78°F and it closes by 7:30. Protect it.</div>
+  </div>
+  <div class="tip">
+    <div class="n">02</div>
+    <div class="h">Balanced — 3 runs, 3 bikes</div>
+    <div class="b">Exactly the regular running + biking you asked for. Runs build impact tolerance and cadence; bikes build aerobic volume with zero joint stress. Together they're the ideal marathon base.</div>
+  </div>
+  <div class="tip">
+    <div class="n">03</div>
+    <div class="h">Complete the week — that's the win</div>
+    <div class="b">After several disrupted weeks, finishing all 6 sessions with the 6 AM habit intact is the only goal. Don't chase pace or distance. Consistency rebuilds everything from here.</div>
+  </div>
+</div>
+
+<footer>HOUSTON MARATHON 2027 · 30 WEEKS TO RACE DAY · WEEK 25 · THE 6 AM COMMITMENT · AUBREY, TX</footer>
+</div>
+</body>
+</html>

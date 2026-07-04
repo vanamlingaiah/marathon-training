@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Heart Rate Zones · Houston Marathon 2027</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f4f1ea;
+  --card: #faf8f3;
+  --ink: #1a1814;
+  --ink-2: #5a564e;
+  --line: #ddd9ce;
+
+  --z1: #64b5a0;
+  --z1-bg: #e8f5f1;
+  --z2: #3b82f6;
+  --z2-bg: #eff6ff;
+  --z3: #f59e0b;
+  --z3-bg: #fffbeb;
+  --z4: #ef6c4d;
+  --z4-bg: #fff3ef;
+  --z5: #dc2626;
+  --z5-bg: #fef2f2;
+
+  --garmin: #007ac8;
+  --garmin-dark: #005b96;
+
+  --r: 12px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body {
+  font-family:'DM Sans',sans-serif;
+  background:var(--bg);
+  color:var(--ink);
+  padding:32px 20px 60px;
+  line-height:1.5;
+}
+.wrap{max-width:900px;margin:0 auto}
+
+/* HEADER */
+.hdr {
+  display:flex;justify-content:space-between;align-items:flex-end;
+  margin-bottom:28px;gap:20px;flex-wrap:wrap;
+}
+.hdr-left h1 {
+  font-family:'Syne',sans-serif;font-size:clamp(28px,5vw,46px);
+  font-weight:800;letter-spacing:-.02em;line-height:1.05;
+}
+.hdr-left p {font-size:14px;color:var(--ink-2);margin-top:8px}
+.mhr-badge {
+  background:var(--ink);color:#fff;
+  padding:18px 24px;border-radius:var(--r);text-align:center;flex-shrink:0;
+}
+.mhr-badge .l{font-family:'Courier Prime',monospace;font-size:11px;letter-spacing:.15em;text-transform:uppercase;opacity:.6}
+.mhr-badge .v{font-family:'Syne',sans-serif;font-size:42px;font-weight:800;line-height:1;color:#fbbf77}
+.mhr-badge .u{font-family:'Courier Prime',monospace;font-size:11px;letter-spacing:.1em;opacity:.6}
+
+/* ZONES */
+.zone-stack{display:flex;flex-direction:column;gap:10px;margin-bottom:28px}
+.zone {
+  border-radius:var(--r);overflow:hidden;
+  border:1px solid var(--line);
+  display:grid;grid-template-columns:220px 1fr;
+  align-items:stretch;
+}
+.zone-left {
+  display:flex;align-items:center;gap:16px;
+  padding:18px 20px;
+  background:var(--z-bg);
+  border-right:1px solid var(--line);
+}
+.zone-num {
+  font-family:'Syne',sans-serif;font-size:34px;font-weight:800;
+  color:var(--z-color);line-height:1;
+}
+.zone-meta .name{font-weight:600;font-size:15px}
+.zone-meta .bpm {
+  font-family:'Courier Prime',monospace;font-size:13px;
+  color:var(--z-color);font-weight:700;margin-top:2px;
+}
+.zone-meta .pct{font-size:11px;color:var(--ink-2);margin-top:1px;font-family:'Courier Prime',monospace}
+
+.zone-right{
+  padding:16px 20px;background:var(--card);
+  display:flex;flex-direction:column;justify-content:center;gap:6px;
+}
+.zone-right .purpose{font-weight:600;font-size:14px}
+.zone-right .detail{font-size:13px;color:var(--ink-2);line-height:1.5}
+.zone-right .pill {
+  display:inline-block;padding:3px 9px;border-radius:20px;
+  font-size:11px;font-family:'Courier Prime',monospace;letter-spacing:.05em;
+  border:1px solid var(--z-color);color:var(--z-color);
+  background:var(--z-bg);width:fit-content;
+}
+
+/* bar background effect */
+.zone-left{position:relative}
+.zone-bar{
+  position:absolute;bottom:0;left:0;right:0;
+  background:var(--z-color);opacity:.08;
+}
+
+/* zone variable assignments */
+.z1{--z-color:var(--z1);--z-bg:var(--z1-bg)}
+.z2{--z-color:var(--z2);--z-bg:var(--z2-bg)}
+.z3{--z-color:var(--z3);--z-bg:var(--z3-bg)}
+.z4{--z-color:var(--z4);--z-bg:var(--z4-bg)}
+.z5{--z-color:var(--z5);--z-bg:var(--z5-bg)}
+
+/* VISUAL BAR CHART */
+.viz-card{
+  background:var(--card);border:1px solid var(--line);
+  border-radius:var(--r);padding:22px 24px;margin-bottom:28px;
+}
+.viz-card h2{
+  font-family:'Syne',sans-serif;font-size:18px;font-weight:700;margin-bottom:16px
+}
+.bar-wrap{display:flex;align-items:flex-end;gap:0;height:100px;border-bottom:2px solid var(--line);position:relative}
+.bar-seg{
+  display:flex;flex-direction:column;justify-content:flex-end;
+  align-items:center;padding-bottom:8px;font-family:'Courier Prime',monospace;
+  font-size:10px;color:#fff;font-weight:700;letter-spacing:.05em;
+}
+.bar-inner{border-radius:4px 4px 0 0;width:100%;display:flex;align-items:center;justify-content:center;padding-top:6px;font-family:'Courier Prime',monospace;font-size:11px;font-weight:700}
+.bpm-labels{
+  display:flex;gap:0;font-family:'Courier Prime',monospace;font-size:10px;
+  color:var(--ink-2);margin-top:6px;
+}
+.bpm-labels span{flex:1;text-align:center}
+
+/* TRAINING USE TABLE */
+.use-table{width:100%;border-collapse:collapse;font-size:13px;margin-top:16px}
+.use-table th{
+  text-align:left;padding:9px 12px;
+  background:var(--ink);color:#fff;
+  font-family:'Courier Prime',monospace;font-size:10px;letter-spacing:.15em;text-transform:uppercase;
+}
+.use-table th:first-child{border-radius:6px 0 0 0}
+.use-table th:last-child{border-radius:0 6px 0 0}
+.use-table td{padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+.use-table tr:last-child td{border-bottom:none}
+.use-table .zchip{
+  display:inline-block;padding:3px 8px;border-radius:4px;
+  font-family:'Courier Prime',monospace;font-size:11px;font-weight:700;color:#fff;
+}
+
+/* GARMIN SETUP */
+.setup-section{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--r);
+  overflow:hidden;margin-bottom:28px;
+}
+.setup-hdr{
+  background:linear-gradient(135deg,var(--garmin),var(--garmin-dark));
+  padding:18px 22px;display:flex;align-items:center;gap:14px;
+}
+.setup-hdr .icon{font-size:28px}
+.setup-hdr h2{
+  font-family:'Syne',sans-serif;font-size:20px;font-weight:700;color:#fff
+}
+.setup-hdr .sub{font-size:12px;color:rgba(255,255,255,.7);margin-top:2px;font-family:'Courier Prime',monospace;letter-spacing:.08em}
+
+.setup-tabs{display:grid;grid-template-columns:1fr 1fr}
+.tab-btn{
+  padding:13px 18px;text-align:center;cursor:pointer;
+  font-family:'Syne',sans-serif;font-size:13px;font-weight:700;
+  background:var(--bg);border-bottom:1px solid var(--line);
+  border-right:1px solid var(--line);transition:.2s;
+  letter-spacing:.02em;
+}
+.tab-btn:last-child{border-right:none}
+.tab-btn.active{background:var(--card);border-bottom:none;color:var(--garmin)}
+.tab-body{padding:22px 24px}
+.tab-pane{display:none}
+.tab-pane.active{display:block}
+
+.steps{list-style:none;counter-reset:step-counter}
+.step{
+  counter-increment:step-counter;
+  display:flex;gap:16px;margin-bottom:18px;align-items:flex-start;
+}
+.step:last-child{margin-bottom:0}
+.step::before{
+  content:counter(step-counter);
+  flex-shrink:0;width:30px;height:30px;border-radius:50%;
+  background:var(--garmin);color:#fff;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Syne',sans-serif;font-size:13px;font-weight:800;
+}
+.step .s-body{}
+.step .s-title{font-weight:600;font-size:14px;margin-bottom:3px}
+.step .s-detail{font-size:13px;color:var(--ink-2);line-height:1.5}
+.step .s-path{
+  margin-top:5px;display:inline-block;
+  background:var(--ink);color:#fff;
+  font-family:'Courier Prime',monospace;font-size:12px;
+  padding:4px 10px;border-radius:4px;line-height:1.5;
+}
+.step .s-path .arrow{color:#fbbf77;margin:0 4px}
+
+.values-box{
+  margin-top:18px;border:1px solid var(--line);border-radius:8px;overflow:hidden;
+}
+.values-box-hdr{
+  background:var(--bg);padding:8px 14px;
+  font-family:'Courier Prime',monospace;font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--ink-2);
+  border-bottom:1px solid var(--line);
+}
+.values-list{list-style:none}
+.values-list li{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:10px 14px;border-bottom:1px solid var(--line);font-size:13px;
+}
+.values-list li:last-child{border-bottom:none}
+.values-list .zname{display:flex;align-items:center;gap:8px;font-weight:600}
+.values-list .zdot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.values-list .zrange{font-family:'Courier Prime',monospace;font-size:13px;font-weight:700}
+
+.note-box{
+  margin-top:16px;background:var(--z2-bg);border:1px solid rgba(59,130,246,.2);
+  border-radius:8px;padding:12px 14px;font-size:12px;color:var(--ink-2);line-height:1.55;
+}
+.note-box strong{color:var(--garmin)}
+
+/* QUICK REF */
+.quick-ref{
+  display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:28px;
+}
+.qr-card{
+  border-radius:var(--r);padding:14px 12px;text-align:center;
+  border:2px solid var(--z-color);background:var(--z-bg);
+}
+.qr-card .qz{font-family:'Syne',sans-serif;font-size:26px;font-weight:800;color:var(--z-color)}
+.qr-card .qb{font-family:'Courier Prime',monospace;font-size:12px;font-weight:700;color:var(--z-color);margin-top:2px}
+.qr-card .qn{font-size:11px;color:var(--ink-2);margin-top:4px;font-weight:500}
+
+footer{
+  text-align:center;color:var(--ink-2);font-family:'Courier Prime',monospace;
+  font-size:11px;letter-spacing:.12em;margin-top:32px;
+}
+
+@media(max-width:720px){
+  .zone{grid-template-columns:1fr}
+  .zone-left{border-right:none;border-bottom:1px solid var(--line)}
+  .quick-ref{grid-template-columns:repeat(3,1fr)}
+  .quick-ref .qr-card:nth-child(n+4){grid-column:span 1}
+  .hdr{flex-direction:column}
+  .mhr-badge{width:100%;padding:14px 20px}
+}
+@media(max-width:500px){
+  .quick-ref{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- HEADER -->
+  <div class="hdr">
+    <div class="hdr-left">
+      <h1>Heart Rate<br>Training Zones</h1>
+      <p>Calibrated from your Garmin Fenix 7 Pro data · Irving Half Marathon, March 29 2026</p>
+    </div>
+    <div class="mhr-badge">
+      <div class="l">Max Heart Rate</div>
+      <div class="v">183</div>
+      <div class="u">bpm confirmed</div>
+    </div>
+  </div>
+
+  <!-- QUICK REF CHIPS -->
+  <div class="quick-ref">
+    <div class="qr-card z1"><div class="qz">Z1</div><div class="qb">92–118</div><div class="qn">Recovery</div></div>
+    <div class="qr-card z2"><div class="qz">Z2</div><div class="qb">119–136</div><div class="qn">Aerobic Base</div></div>
+    <div class="qr-card z3"><div class="qz">Z3</div><div class="qb">137–154</div><div class="qn">Tempo</div></div>
+    <div class="qr-card z4"><div class="qz">Z4</div><div class="qb">155–167</div><div class="qn">Threshold</div></div>
+    <div class="qr-card z5"><div class="qz">Z5</div><div class="qb">168–183</div><div class="qn">VO₂ Max</div></div>
+  </div>
+
+  <!-- ZONE DETAILS -->
+  <div class="zone-stack">
+
+    <div class="zone z1">
+      <div class="zone-left">
+        <div class="zone-num">Z1</div>
+        <div class="zone-meta">
+          <div class="name">Recovery</div>
+          <div class="bpm">92 – 118 bpm</div>
+          <div class="pct">50 – 64% of Max HR</div>
+        </div>
+      </div>
+      <div class="zone-right">
+        <div class="purpose">Active recovery · warm-up · cool-down</div>
+        <div class="detail">Feels like a stroll. You could hold a full conversation with no effort. Body flushes lactate and promotes blood flow without adding training stress. Thursday recovery spin lives here.</div>
+        <div class="pill">Garmin label → Easy</div>
+      </div>
+    </div>
+
+    <div class="zone z2">
+      <div class="zone-left">
+        <div class="zone-num">Z2</div>
+        <div class="zone-meta">
+          <div class="name">Aerobic Base</div>
+          <div class="bpm">119 – 136 bpm</div>
+          <div class="pct">65 – 74% of Max HR</div>
+        </div>
+      </div>
+      <div class="zone-right">
+        <div class="purpose">🎯 Your primary training zone — 80% of all sessions</div>
+        <div class="detail">Comfortable, fully aerobic. You can speak in sentences (not single words). Drives mitochondrial density, fat adaptation, and aerobic efficiency. All your Zwift rides and easy runs target this zone. <strong>Ceiling is hard at 136 — do not exceed.</strong></div>
+        <div class="pill">Garmin label → Aerobic</div>
+      </div>
+    </div>
+
+    <div class="zone z3">
+      <div class="zone-left">
+        <div class="zone-num">Z3</div>
+        <div class="zone-meta">
+          <div class="name">Tempo</div>
+          <div class="bpm">137 – 154 bpm</div>
+          <div class="pct">75 – 84% of Max HR</div>
+        </div>
+      </div>
+      <div class="zone-right">
+        <div class="purpose">Comfortably hard — limited use in Phase 1</div>
+        <div class="detail">You can speak in short phrases only. This zone is demanding but sustainable for 20–60 min. Historically your "problem zone" — 53% of past runs were here, which drove injury cycles. <strong>Avoid intentionally until Phase 2 (July 2026).</strong></div>
+        <div class="pill">Garmin label → Tempo</div>
+      </div>
+    </div>
+
+    <div class="zone z4">
+      <div class="zone-left">
+        <div class="zone-num">Z4</div>
+        <div class="zone-meta">
+          <div class="name">Lactate Threshold</div>
+          <div class="bpm">155 – 167 bpm</div>
+          <div class="pct">84 – 91% of Max HR</div>
+        </div>
+      </div>
+      <div class="zone-right">
+        <div class="purpose">Hard intervals — Phase 3 only (Oct 2026+)</div>
+        <div class="detail">Speech becomes difficult. Lactate clears as fast as it's produced — the upper edge of sustainable effort. Used for 800m repeats and mile intervals in the later race-specific phase. Not in your plan until base is fully built.</div>
+        <div class="pill">Garmin label → Threshold</div>
+      </div>
+    </div>
+
+    <div class="zone z5">
+      <div class="zone-left">
+        <div class="zone-num">Z5</div>
+        <div class="zone-meta">
+          <div class="name">VO₂ Max</div>
+          <div class="bpm">168 – 183 bpm</div>
+          <div class="pct">92 – 100% of Max HR</div>
+        </div>
+      </div>
+      <div class="zone-right">
+        <div class="purpose">Max effort — not in plan at this stage</div>
+        <div class="detail">Cannot maintain conversation at all. Short bursts only (30 sec–2 min). Your 183 max was recorded during the final mile of Irving Half. At current PFPS status, avoid entirely until cleared by PT.</div>
+        <div class="pill">Garmin label → Maximum</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- TRAINING USE TABLE -->
+  <div class="viz-card" style="margin-bottom:28px">
+    <h2>Zone usage — your weekly training split</h2>
+    <table class="use-table">
+      <thead>
+        <tr>
+          <th>Zone</th>
+          <th>% of Weekly Volume</th>
+          <th>Sessions</th>
+          <th>Why</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="zchip" style="background:var(--z1)">Z1</span></td>
+          <td>15%</td>
+          <td>Recovery spin (Thu), warm-ups, cool-downs</td>
+          <td>Flush legs, protect joints</td>
+        </tr>
+        <tr>
+          <td><span class="zchip" style="background:var(--z2)">Z2</span></td>
+          <td>65%</td>
+          <td>All Zwift rides, outdoor easy runs, long run</td>
+          <td>Aerobic base — where the marathon is won</td>
+        </tr>
+        <tr>
+          <td><span class="zchip" style="background:var(--z3)">Z3</span></td>
+          <td>0% now → 10% from July</td>
+          <td>None in Phase 1</td>
+          <td>Introduced cautiously in Phase 2</td>
+        </tr>
+        <tr>
+          <td><span class="zchip" style="background:var(--z4)">Z4</span></td>
+          <td>0% now → 5% from Oct</td>
+          <td>None until Phase 3</td>
+          <td>Race-specific sharpening only</td>
+        </tr>
+        <tr>
+          <td><span class="zchip" style="background:var(--z5)">Z5</span></td>
+          <td>0%</td>
+          <td>None — PFPS restriction</td>
+          <td>Cleared only after PT sign-off</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- GARMIN SETUP -->
+  <div class="setup-section">
+    <div class="setup-hdr">
+      <div class="icon">⌚</div>
+      <div>
+        <h2>Garmin Fenix 7 Pro — Setup Instructions</h2>
+        <div class="sub">Two methods: watch directly or Garmin Connect app (easier for typing numbers)</div>
+      </div>
+    </div>
+
+    <div class="setup-tabs">
+      <div class="tab-btn active" onclick="showTab('watch',this)">📱 Garmin Connect App</div>
+      <div class="tab-btn" onclick="showTab('app',this)">⌚ On the Watch</div>
+    </div>
+
+    <div class="tab-body">
+
+      <!-- GARMIN CONNECT TAB (default — easier) -->
+      <div class="tab-pane active" id="tab-watch">
+        <ol class="steps">
+          <li class="step">
+            <div class="s-body">
+              <div class="s-title">Open Garmin Connect</div>
+              <div class="s-detail">Tap the menu icon (three lines) at the bottom right of the screen.</div>
+            </div>
+          </li>
+          <li class="step">
+            <div class="s-body">
+              <div class="s-title">Navigate to your device</div>
+              <div class="s-detail">Tap <strong>Garmin Devices</strong> → select your <strong>Fenix 7 Pro</strong>.</div>
+            </div>
+          </li>
+          <li class="step">
+            <div class="s-body">
+              <div class="s-title">Open User Settings</div>
+              <div class="s-detail">Scroll down to <strong>User Settings</strong> → tap <strong>Heart Rate Zones</strong>.</div>
+            </div>
+          </li>
+          <li class="step">
+            <div class="s-body">
+              <div class="s-title">Set Max Heart Rate to 183</div>
+              <div class="s-detail">Tap the Max HR field and enter <strong>183</strong>. This anchors all zone percentages correctly.</div>
+            </div>
+          </li>
+          <li class="step">
+            <div class="s-body">
+              <div class="s-title">Switch to Custom mode</div>
+              <div class="s-detail">Change the calculation method from "% of Max HR" to <strong>Custom (BPM)</strong>. This lets you enter exact numbers instead of percentages.</div>
+            </div>
+          </li>
+          <li class="step">
+            <div class="s-body">
+              <div class="s-title">Enter zone boundaries</div>
+              <div class="s-detail">Set each zone lower boundary exactly as shown below.</div>
+              <div class="values-box" style="margin-top:12px">
+                <div class="values-box-hdr">Enter these values — lower boundary of each zone</div>
+                <ul class="values-list">
+                  <li><span class="zname"><span class="zdot" style="background:var(--z1)"></span>Zone 1 (Easy)</span><span class="zrange" style="color:var(--z1)">92 bpm</span></li>
+                  <li><span class="zname"><span class="zdot" style="background:var(--z2)"></span>Zone 2 (Aerobic)</span><span class="zrange" style="color:var(--z2)">119 bpm</span></li>
+                  <li><span class="zname"><span class="zdot" style="background:var(--z3)"></span>Zone 3 (Tempo)</span><span class="zrange" style="color:var(--z3)">137 bpm</span></li>
+                  <li><span class="zname"><span class="zdot" style="background:var(--z4)"></span>Zone 4 (Threshold)</span><span class="zrange" style="color:var(--z4)">155 bpm</span></li>
+                  <li><span class="zname"><span class="zdot" style="background:var(--z5)"></span>Zone 5 (Maximum)</span><span class="zrange" style="color:var(--z5)">168 bpm</span></li>
+                </ul>
+              </div>
+            </div>
+          </li>
+          <li class="step">
+            <div class="s-body">
+              <div class="s-title">Save and sync</div>
+              <div class="s-detail">Tap <strong>Save</strong>. Make sure Bluetooth is on and the watch is nearby — settings sync automatically within a few seconds. Confirm on the watch that the zones updated.</div>
+            </div>
+          </li>
+        </ol>
+        <div class="note-box">
+          <strong>App method is recommended</strong> — entering numbers on the Garmin Connect phone app is much faster than scrolling up/down on the watch buttons. The sync is automatic and instant over Bluetooth.
+        </div>
+      </div>
+
+      <!-- WATCH DIRECT TAB -->
+      <div class="tab-pane" id="tab-app">
+        <ol class="steps">
+          <li class="step">
+            <div class="s-body">
+              <div class="s-title">Enter the menu</div>
+              <div class="s-detail">From the watch face, press and hold the <strong>UP / MENU button</strong> (upper left button) for 2 seconds until the settings menu appears.</div>
+            </div>
+          </li>
+          <li class="step">
+            <div class="s-body">
+              <div class="s-title">Navigate to User Profile</div>
+              <div class="s-detail">Scroll down using the UP/DOWN buttons and select:</div>
+              <div class="s-path">Menu <span class="arrow">→</span> Settings <span class="arrow">→</span> User Profile</div>
+            </div>
+          </li>
+          <li class="step">
+            <div class="s-body">
+              <div class="s-title">Open Heart Rate settings</div>
+              <div class="s-detail">Inside User Profile, scroll to and select <strong>Heart Rate</strong>.</div>
+            </div>
+          </li>
+          <li class="step">
+            <div class="s-body">
+              <div class="s-title">Set your Max HR</div>
+              <div class="s-detail">Select <strong>Max. HR</strong> → scroll to <strong>183</strong> → press the START/SELECT button (top right) to confirm.</div>
+            </div>
+          </li>
+          <li class="step">
+            <div class="s-body">
+              <div class="s-title">Open HR Zones</div>
+              <div class="s-detail">Scroll to <strong>HR Zones</strong> and select it. The watch may show zones as % of max. To enter custom BPM values, look for <strong>Custom</strong> mode and select it.</div>
+            </div>
+          </li>
+          <li class="step">
+            <div class="s-body">
+              <div class="s-title">Set each zone</div>
+              <div class="s-detail">For each zone (1 through 5), scroll to the lower boundary number and enter the values below using UP/DOWN to increment. Press START to confirm each value.</div>
+              <div class="values-box" style="margin-top:12px">
+                <div class="values-box-hdr">Lower boundary for each zone</div>
+                <ul class="values-list">
+                  <li><span class="zname"><span class="zdot" style="background:var(--z1)"></span>Zone 1</span><span class="zrange" style="color:var(--z1)">92 bpm</span></li>
+                  <li><span class="zname"><span class="zdot" style="background:var(--z2)"></span>Zone 2</span><span class="zrange" style="color:var(--z2)">119 bpm</span></li>
+                  <li><span class="zname"><span class="zdot" style="background:var(--z3)"></span>Zone 3</span><span class="zrange" style="color:var(--z3)">137 bpm</span></li>
+                  <li><span class="zname"><span class="zdot" style="background:var(--z4)"></span>Zone 4</span><span class="zrange" style="color:var(--z4)">155 bpm</span></li>
+                  <li><span class="zname"><span class="zdot" style="background:var(--z5)"></span>Zone 5</span><span class="zrange" style="color:var(--z5)">168 bpm</span></li>
+                </ul>
+              </div>
+            </div>
+          </li>
+          <li class="step">
+            <div class="s-body">
+              <div class="s-title">Save and exit</div>
+              <div class="s-detail">Press the <strong>BACK button</strong> (lower left) to save and exit. The zones are stored immediately on-device — no sync needed when setting directly on the watch.</div>
+            </div>
+          </li>
+        </ol>
+        <div class="note-box">
+          <strong>Tip:</strong> Scrolling number-by-number on the watch to reach 183 takes a while. Long-press UP to scroll faster. The Garmin Connect app method (other tab) is significantly quicker for entering exact BPM values.
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ENABLE HR ALERTS -->
+  <div class="setup-section" style="margin-bottom:28px">
+    <div class="setup-hdr" style="background:linear-gradient(135deg,#065f46,#047857)">
+      <div class="icon">🔔</div>
+      <div>
+        <h2>Set Zone 2 HR Alert on Watch</h2>
+        <div class="sub">Alerts you when you cross 136 bpm — your hard ceiling</div>
+      </div>
+    </div>
+    <div class="tab-body">
+      <ol class="steps">
+        <li class="step">
+          <div class="s-body">
+            <div class="s-title">Start a Run or Bike activity</div>
+            <div class="s-detail">Press the START button → select your activity type (Running or Indoor Cycling).</div>
+          </div>
+        </li>
+        <li class="step">
+          <div class="s-body">
+            <div class="s-title">Open activity settings</div>
+            <div class="s-detail">Before starting, press <strong>UP/MENU</strong> → scroll to <strong>Alerts</strong>.</div>
+          </div>
+        </li>
+        <li class="step">
+          <div class="s-body">
+            <div class="s-title">Add a Heart Rate alert</div>
+            <div class="s-detail">Select <strong>Heart Rate</strong> → set alert type to <strong>High Alert</strong> → set value to <strong>136 bpm</strong>. The watch will beep and vibrate if you cross it.</div>
+          </div>
+        </li>
+        <li class="step">
+          <div class="s-body">
+            <div class="s-title">Save alert to activity profile</div>
+            <div class="s-detail">This can be saved to your Running and Indoor Cycling profiles permanently via Garmin Connect → Activity Profiles → Alerts, so you don't have to set it each session.</div>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </div>
+
+  <footer>Houston Marathon 2027 · 183 bpm max HR confirmed Irving Half Mar 29 2026 · Zones calibrated to your data</footer>
+
+</div>
+
+<script>
+function showTab(id, btn) {
+  document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>

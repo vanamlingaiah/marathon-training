@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Week 26 · June 22–28, 2026 · Base + Core + Lean</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,700;0,900;1,700&family=JetBrains+Mono:wght@400;600&family=Inter+Tight:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0b0d12;--bg2:#10131b;--ink:#f5f1e8;--soft:#a8a594;--line:#1f2330;
+  --z1:#3aa17a;--z2:#3b82f6;--str:#a855f7;--long:#ef6c4d;
+  --rest:#52525b;--pt:#14b8a6;--fuel:#eab308;--core:#ec4899;--dawn:#fbbf24;
+  --win:#22c55e;--fix:#ef4444;--warn:#f59e0b;
+  --r:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:'Inter Tight',sans-serif;
+  background:radial-gradient(1100px 500px at 75% -5%,rgba(236,72,153,.06),transparent 60%),
+             radial-gradient(800px 400px at -5% 35%,rgba(251,191,36,.05),transparent 55%),var(--bg);
+  color:var(--ink);line-height:1.5;min-height:100vh;padding:36px 20px 80px;
+}
+.wrap{max-width:1180px;margin:0 auto}
+
+/* HERO */
+.hero{border:1px solid var(--line);border-radius:var(--r);padding:28px;background:linear-gradient(135deg,#0e1320,#1a1018);position:relative;overflow:hidden;margin-bottom:18px}
+.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(700px 300px at 90% 0%,rgba(236,72,153,.13),transparent);pointer-events:none}
+.eyebrow{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--soft);margin-bottom:10px}
+h1{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(28px,5vw,52px);letter-spacing:-.02em;line-height:1.02;margin-bottom:8px}
+h1 em{font-style:italic;color:#f9a8d4;font-weight:400}
+.hero-sub{color:var(--soft);font-size:14px;max-width:740px;line-height:1.6}
+.stat-row{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:20px;position:relative;z-index:1}
+.stat{border:1px solid var(--line);border-radius:10px;padding:12px 14px;background:rgba(255,255,255,.02)}
+.stat .k{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--soft)}
+.stat .v{font-family:'Fraunces',serif;font-size:20px;font-weight:700;margin-top:3px;line-height:1}
+.stat .d{font-size:11px;color:var(--win);margin-top:2px;font-family:'JetBrains Mono',monospace}
+.stat .d.warn{color:#fbbf24}.stat .d.core{color:#f9a8d4}.stat .d.dawn{color:#fcd34d}
+
+/* WEEK 25 REVIEW STRIP */
+.review-strip{border:1px solid var(--line);border-radius:var(--r);background:var(--bg2);padding:18px 20px;margin-bottom:16px}
+.review-strip h2{font-family:'Fraunces',serif;font-size:19px;margin-bottom:12px}
+.rev-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.rev-c{border:1px solid var(--line);border-radius:8px;padding:12px;background:rgba(255,255,255,.02)}
+.rev-c .icon{font-size:18px;margin-bottom:4px}
+.rev-c .h{font-weight:600;font-size:13px;margin-bottom:3px}
+.rev-c .d{font-size:11px;color:var(--soft);line-height:1.4}
+.rev-c.win{border-color:rgba(34,197,94,.25)}
+.rev-c.warn{border-color:rgba(245,158,11,.25)}
+
+/* ABS TRUTH BANNER */
+.abs-banner{
+  border:2px solid rgba(236,72,153,.4);background:linear-gradient(135deg,rgba(236,72,153,.08),rgba(168,85,247,.04));
+  border-radius:var(--r);padding:20px 24px;margin-bottom:16px;
+  display:flex;gap:18px;align-items:flex-start;
+}
+.abs-banner .ico{font-size:32px;flex-shrink:0;margin-top:2px}
+.abs-banner h2{font-family:'Fraunces',serif;font-size:22px;color:#f9a8d4;margin-bottom:6px;letter-spacing:-.01em}
+.abs-banner p{font-size:14px;line-height:1.6;color:var(--ink)}
+.abs-banner p strong{color:#f9a8d4}
+
+/* CALLOUTS */
+.callout{border-radius:10px;padding:14px 18px;margin-bottom:14px;display:flex;gap:14px;align-items:flex-start}
+.callout.pink{border:1px solid rgba(236,72,153,.3);background:rgba(236,72,153,.06)}
+.callout.green{border:1px solid rgba(34,197,94,.3);background:rgba(34,197,94,.06)}
+.callout.blue{border:1px solid rgba(59,130,246,.3);background:rgba(59,130,246,.06)}
+.callout.amber{border:1px solid rgba(245,158,11,.3);background:rgba(245,158,11,.06)}
+.callout .ico{font-size:22px;flex-shrink:0;margin-top:2px}
+.callout h3{font-family:'Fraunces',serif;font-size:17px;margin-bottom:4px}
+.callout.pink h3{color:#f9a8d4}.callout.green h3{color:#86efac}.callout.blue h3{color:#7dd3fc}.callout.amber h3{color:#fde68a}
+.callout p{font-size:13px;line-height:1.55;color:var(--ink)}
+.callout p strong{color:#fde68a}
+
+/* CALORIE CYCLING CARD */
+.cal-card{border:1px solid rgba(34,197,94,.25);background:rgba(34,197,94,.04);border-radius:var(--r);padding:18px 20px;margin-bottom:16px}
+.cal-card h2{font-family:'Fraunces',serif;font-size:19px;color:#86efac;margin-bottom:6px}
+.cal-card .lead{font-size:13px;color:var(--soft);margin-bottom:12px;line-height:1.5}
+.cal-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.cal-c{border:1px solid var(--line);border-radius:10px;padding:14px}
+.cal-c.high{background:rgba(239,108,77,.05);border-color:rgba(239,108,77,.25)}
+.cal-c.low{background:rgba(59,130,246,.05);border-color:rgba(59,130,246,.25)}
+.cal-c .h{font-weight:700;font-size:14px;margin-bottom:6px}
+.cal-c.high .h{color:#fca97f}
+.cal-c.low .h{color:#7dd3fc}
+.cal-c .target{font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:600;margin-bottom:6px}
+.cal-c .days{font-size:12px;color:var(--soft);line-height:1.5}
+.cal-c .days strong{color:var(--ink)}
+
+/* SECTION HEADERS */
+.section-title{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--soft);margin:22px 0 12px;display:flex;align-items:center;gap:10px}
+.section-title::after{content:"";flex:1;height:1px;background:var(--line)}
+
+/* LEGEND */
+.legend{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.chip{display:inline-flex;align-items:center;gap:7px;padding:6px 12px;border:1px solid var(--line);border-radius:30px;font-size:11px;font-family:'JetBrains Mono',monospace;letter-spacing:.05em;background:var(--bg2)}
+.dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+
+/* DAY CARDS */
+.days{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-bottom:20px}
+.day{border:1px solid var(--line);border-radius:var(--r);background:var(--bg2);overflow:hidden;display:flex;flex-direction:column}
+.day-hdr{padding:13px 17px 11px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:flex-end;gap:10px;position:relative}
+.day-hdr::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--dc,#fff)}
+.day-name{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--soft)}
+.day-date{font-family:'Fraunces',serif;font-size:24px;font-weight:700;line-height:1;margin-top:2px}
+.day-focus{text-align:right;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;padding:4px 8px;border-radius:4px;background:rgba(255,255,255,.04);border:1px solid var(--line);color:var(--soft);max-width:180px}
+.cal-badge{font-family:'JetBrains Mono',monospace;font-size:9px;padding:2px 6px;border-radius:3px;margin-top:3px;display:inline-block}
+.cal-badge.high{background:rgba(239,108,77,.12);color:#fca97f}
+.cal-badge.low{background:rgba(59,130,246,.12);color:#7dd3fc}
+.day-body{padding:14px 17px 16px;flex:1;display:flex;flex-direction:column;gap:11px}
+
+.blk{border-left:3px solid var(--bc,#fff);padding:9px 13px;background:rgba(255,255,255,.012);border-radius:0 8px 8px 0}
+.blk .lbl{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--soft);display:flex;justify-content:space-between;align-items:center;margin-bottom:3px}
+.blk .dur{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink);background:rgba(255,255,255,.06);padding:2px 6px;border-radius:3px}
+.blk .ttl{font-size:13px;font-weight:600;margin-bottom:4px}
+.blk .det{font-size:12px;color:var(--soft);line-height:1.55}
+.blk .det strong{color:var(--ink)}
+
+.blk.z2{--bc:var(--z2)}.blk.z1{--bc:var(--z1)}.blk.str{--bc:var(--str)}
+.blk.long{--bc:var(--long)}.blk.rest{--bc:var(--rest)}.blk.pt{--bc:var(--pt)}
+.blk.fuel{--bc:var(--fuel)}.blk.core{--bc:var(--core)}.blk.dawn{--bc:var(--dawn)}
+
+.day[data-c="z2"]{--dc:var(--z2)}.day[data-c="run"]{--dc:var(--z1)}
+.day[data-c="str"]{--dc:var(--str)}.day[data-c="long"]{--dc:var(--long)}
+.day[data-c="rest"]{--dc:var(--rest)}
+
+.ex-grid{display:grid;grid-template-columns:1fr 1fr;gap:3px 12px;margin-top:6px}
+.ex-row{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink)}
+.ex-row span{color:var(--soft)}
+.ex-row.core{color:#f9a8d4}.ex-row.core span{color:rgba(249,168,212,.7)}
+
+.core-banner{border:1px solid rgba(236,72,153,.4);background:rgba(236,72,153,.06);border-radius:8px;padding:10px 12px;margin-bottom:6px}
+.core-banner .h{font-weight:700;font-size:12px;color:#f9a8d4;margin-bottom:2px}
+.core-banner .b{font-size:11px;color:var(--soft);line-height:1.45}
+
+.str-banner{border:1px solid rgba(168,85,247,.4);background:rgba(168,85,247,.06);border-radius:8px;padding:10px 12px;margin-bottom:6px}
+.str-banner .h{font-weight:700;font-size:12px;color:#d8b4fe;margin-bottom:2px}
+.str-banner .b{font-size:11px;color:var(--soft);line-height:1.45}
+
+.time-flag{display:inline-flex;align-items:center;gap:5px;font-family:'JetBrains Mono',monospace;font-size:10px;padding:2px 7px;border-radius:4px;background:rgba(251,191,36,.12);color:#fcd34d;border:1px solid rgba(251,191,36,.3);margin-left:6px}
+
+/* CORE PROTOCOL SECTION */
+.sec{border:1px solid var(--line);border-radius:var(--r);padding:18px 20px;background:var(--bg2);margin-bottom:16px}
+.sec h2{font-family:'Fraunces',serif;font-size:19px;font-weight:700;margin-bottom:6px}
+.sec .sub{font-size:13px;color:var(--soft);margin-bottom:12px;line-height:1.5}
+.core-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.core-c{border:1px solid rgba(236,72,153,.25);border-radius:10px;padding:14px;background:rgba(236,72,153,.04)}
+.core-c .n{font-weight:600;font-size:13px;margin-bottom:3px;color:#f9a8d4}
+.core-c .d{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--soft);margin-bottom:5px}
+.core-c .w{font-size:11px;color:var(--soft);line-height:1.45}
+.core-c .tag{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:9px;padding:2px 6px;border-radius:3px;background:rgba(236,72,153,.15);color:#f9a8d4;margin-top:5px}
+
+.ntbl{width:100%;border-collapse:collapse;font-size:12px}
+.ntbl th{text-align:left;padding:8px 12px;background:rgba(234,179,8,.07);font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#fde68a;border-bottom:1px solid var(--line)}
+.ntbl td{padding:9px 12px;border-bottom:1px dashed #1c2030;vertical-align:top}
+.ntbl td:first-child{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--soft);width:130px}
+
+/* FTP CARD */
+.ftp-card{border:1px solid rgba(59,130,246,.25);background:rgba(59,130,246,.04);border-radius:var(--r);padding:18px 20px;margin-bottom:16px}
+.ftp-card h2{font-family:'Fraunces',serif;font-size:19px;color:#7dd3fc;margin-bottom:8px}
+.ftp-zones{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:10px}
+.ftp-z{border:1px solid var(--line);border-radius:8px;padding:10px;text-align:center;background:rgba(255,255,255,.02)}
+.ftp-z .zn{font-family:'Fraunces',serif;font-size:16px;font-weight:800;color:#7dd3fc}
+.ftp-z .zw{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink);margin-top:2px}
+.ftp-z .zl{font-size:10px;color:var(--soft);margin-top:2px}
+
+/* TIPS */
+.tips{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.tip{border:1px solid var(--line);border-radius:10px;padding:14px;background:rgba(255,255,255,.02)}
+.tip .n{font-family:'Fraunces',serif;font-size:32px;font-weight:900;color:#fbbf77;line-height:1;margin-bottom:5px}
+.tip .h{font-weight:600;font-size:13px;margin-bottom:3px}
+.tip .b{font-size:12px;color:var(--soft);line-height:1.5}
+
+footer{margin-top:28px;text-align:center;color:var(--soft);font-size:11px;font-family:'JetBrains Mono',monospace;letter-spacing:.1em}
+
+@media(max-width:860px){
+  .days,.tips,.stat-row,.rev-grid,.cal-grid,.core-grid,.ftp-zones{grid-template-columns:1fr}
+  .stat-row{grid-template-columns:repeat(2,1fr)}
+  .rev-grid{grid-template-columns:1fr 1fr}
+  .ftp-zones{grid-template-columns:repeat(5,1fr)}
+  .ex-grid{grid-template-columns:1fr}
+  body{padding:18px 12px 60px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- HERO -->
+<section class="hero">
+  <div class="eyebrow">Week 26 · June 22–28, 2026 · Houston Marathon 2027 · 29 weeks out · Aubrey, TX</div>
+  <h1>Base, core,<br>and getting <em>lean</em>.</h1>
+  <p class="hero-sub">Week 25 was your first full 6-session week back — momentum is real. Now we layer in your new goals the right way: a dedicated core protocol to build the deep abdominal muscles, mild calorie cycling to reveal the lower belly without starving your training, and FTP-informed bike zones from Friday's group ride. Marathon stays first; the abs come as a byproduct of doing this consistently.</p>
+  <div class="stat-row">
+    <div class="stat"><div class="k">Volume Target</div><div class="v">4.6 hr</div><div class="d">↑ building</div></div>
+    <div class="stat"><div class="k">Runs / Bikes</div><div class="v">3 / 3</div><div class="d core">+ core 3×</div></div>
+    <div class="stat"><div class="k">Core Work</div><div class="v">3 days</div><div class="d core">deep abs focus</div></div>
+    <div class="stat"><div class="k">Nutrition</div><div class="v">Cycled</div><div class="d">mild deficit</div></div>
+    <div class="stat"><div class="k">Long Run</div><div class="v">Sat 55 min</div><div class="d">↑ from 54</div></div>
+  </div>
+</section>
+
+<!-- WEEK 25 REVIEW -->
+<div class="review-strip">
+  <h2>Week 25 — first full week back ✅</h2>
+  <div class="rev-grid">
+    <div class="rev-c win">
+      <div class="icon">✅</div>
+      <div class="h">All 6 sessions done</div>
+      <div class="d">4.37 hr · 3 runs (8.56 mi) + 3 bikes. First complete week since the disruptions.</div>
+    </div>
+    <div class="rev-c win">
+      <div class="icon">🌅</div>
+      <div class="h">Morning habit forming</div>
+      <div class="d">Wed–Sat all AM starts (6:37–7:29). Mon–Tue were still PM — start times drifting toward 7+.</div>
+    </div>
+    <div class="rev-c win">
+      <div class="icon">📈</div>
+      <div class="h">Cadence holding 140–143</div>
+      <div class="d">Wed run hit 143 spm. Steady progress toward 150. Saturday held 140 over 54 min.</div>
+    </div>
+    <div class="rev-c warn">
+      <div class="icon">🚴</div>
+      <div class="h">Friday = group ride</div>
+      <div class="d">Hit 339W peak, HR to 198. Great effort, but a hard Z4–Z5 session, not the planned Z2 base.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ABS TRUTH -->
+<div class="abs-banner">
+  <div class="ico">💪</div>
+  <div>
+    <h2>How the 6-pack actually happens</h2>
+    <p>Everyone already has abs — whether they show depends almost entirely on the <strong>fat layer over them</strong>, and you can't spot-reduce. The lever is overall body fat, driven ~80% by nutrition. The great news: <strong>your marathon training is already an elite fat-burning engine.</strong> So we don't bolt on a separate fat-loss program — we let the running and biking do their work, tighten nutrition slightly, and add core work that builds the deep muscle so it's defined once the fat drops. Marathon-first means the abs arrive as a byproduct, not at the cost of your training.</p>
+  </div>
+</div>
+
+<!-- LOWER BELLY SPECIFIC -->
+<div class="callout pink">
+  <div class="ico">🎯</div>
+  <div>
+    <h3>On the lower-belly pooch specifically</h3>
+    <p>It's the most stubborn storage area and the last to go — largely genetic, no exercise targets it directly. But two things genuinely improve its <em>appearance</em>: building the <strong>transverse abdominis</strong> (the deep corset muscle that flattens the lower abdomen) and fixing <strong>anterior pelvic tilt</strong>, which your 8-hour standing desk worsens and which makes the lower belly protrude. Both are built into this week's core protocol — dead bugs, hollow holds, and posterior pelvic tilt work, not endless crunches.</p>
+  </div>
+</div>
+
+<!-- CALORIE CYCLING -->
+<div class="cal-card">
+  <h2>🍽️ Calorie Cycling — lean out without wrecking training</h2>
+  <p class="lead">Marathon-first means we protect recovery. So we eat at maintenance on hard days and run a mild deficit on easy days. This nets a weekly deficit that reveals the lower belly over weeks, while never under-fueling the work that matters.</p>
+  <div class="cal-grid">
+    <div class="cal-c high">
+      <div class="h">🔴 Hard Days — eat at maintenance</div>
+      <div class="target">~2,600–2,900 kcal</div>
+      <div class="days"><strong>Wed (cadence run), Sat (long run), + one bike day.</strong> Full carbs, full protein. Fuel the work, protect the knee, recover properly. Never deficit on these.</div>
+    </div>
+    <div class="cal-c low">
+      <div class="h">🔵 Easy Days — mild deficit</div>
+      <div class="target">~2,300–2,500 kcal</div>
+      <div class="days"><strong>Mon, Tue, Thu, Sun.</strong> ~250–300 below maintenance. High protein stays, trim refined carbs + added fats. Body taps fat stores when training demand is lower.</div>
+    </div>
+  </div>
+  <p style="font-size:12px;color:var(--soft);margin-top:10px;line-height:1.5"><strong>The two rules that matter most:</strong> (1) Keep protein high every day — 0.8–1g per lb bodyweight (~120–155g) preserves muscle in a deficit. (2) Never cut fuel around the long run. As race training intensifies later, we drop the deficit entirely.</p>
+</div>
+
+<!-- FTP ZONES -->
+<div class="ftp-card">
+  <h2>🚴 Estimated Power Zones — from Friday's ride</h2>
+  <p style="font-size:13px;color:var(--soft);line-height:1.5">Friday's group ride peaked at 227W (5-min) and 339W (max). That suggests an FTP around <strong>155–170W</strong> (working estimate: 160W). A clean Zwift ramp test would confirm — worth doing one this week to lock these in. For now, target these for structured rides:</p>
+  <div class="ftp-zones">
+    <div class="ftp-z"><div class="zn">Z1</div><div class="zw">&lt;88W</div><div class="zl">Recovery</div></div>
+    <div class="ftp-z"><div class="zn">Z2</div><div class="zw">89–120W</div><div class="zl">Endurance</div></div>
+    <div class="ftp-z"><div class="zn">Z3</div><div class="zw">121–144W</div><div class="zl">Tempo</div></div>
+    <div class="ftp-z"><div class="zn">Z4</div><div class="zw">145–168W</div><div class="zl">Threshold</div></div>
+    <div class="ftp-z"><div class="zn">Z5</div><div class="zw">169W+</div><div class="zl">VO₂max</div></div>
+  </div>
+</div>
+
+<!-- 6 AM NUDGE -->
+<div class="callout amber">
+  <div class="ico">🌅</div>
+  <div>
+    <h3>Tighten the 6 AM window this week</h3>
+    <p>Week 25's morning sessions drifted to 7:00–7:29 AM — by then Aubrey is already 78–82°F, which is why Saturday's run HR sat at 132 the whole time. <strong>Target out-the-door by 6:15.</strong> The difference between 6:15 and 7:15 is roughly 6–8°F and a full heart-rate zone. Mon–Tue especially: bring them into the morning this week instead of evening.</p>
+  </div>
+</div>
+
+<!-- LEGEND -->
+<div class="legend">
+  <span class="chip"><span class="dot" style="background:var(--z1)"></span>Outdoor Run</span>
+  <span class="chip"><span class="dot" style="background:var(--z2)"></span>Bike / Zwift</span>
+  <span class="chip"><span class="dot" style="background:var(--str)"></span>Strength</span>
+  <span class="chip"><span class="dot" style="background:var(--core)"></span>Core / Abs</span>
+  <span class="chip"><span class="dot" style="background:var(--long)"></span>Long Run</span>
+  <span class="chip"><span class="dot" style="background:var(--pt)"></span>PT / Mobility</span>
+  <span class="chip"><span class="dot" style="background:var(--rest)"></span>Rest</span>
+</div>
+
+<div class="section-title">Week 26 · June 22–28 · Base + Core + Lean</div>
+
+<!-- DAYS -->
+<div class="days">
+
+  <!-- MONDAY -->
+  <div class="day" data-c="run">
+    <div class="day-hdr">
+      <div><div class="day-name">Monday</div><div class="day-date">June 22</div><span class="cal-badge low">🔵 mild deficit day</span></div>
+      <div class="day-focus">Easy Run + Strength A</div>
+    </div>
+    <div class="day-body">
+      <div class="blk fuel"><div class="lbl">🍎 6:00 AM · Wake + fuel <span class="time-flag">🌅 6 AM</span></div><div class="det">16 oz water immediately. <strong>½ cup oats + honey</strong> or banana — light. Out the door by 6:15.</div></div>
+      <div class="blk pt">
+        <div class="lbl">🩺 Dynamic warm-up <span class="dur">6 min</span></div>
+        <div class="det">Leg swings × 10 each · walking lunges × 8 · high knees × 20m · butt kicks × 20m · 3 strides at 150 spm.</div>
+      </div>
+      <div class="blk z1">
+        <div class="lbl">🏃 Easy run · 6:15 AM <span class="dur">35 min</span></div>
+        <div class="ttl">2.4–2.7 mi · Aubrey · cool morning window</div>
+        <div class="det">
+          <strong>Metronome → 150 spm. On the whole run.</strong><br>
+          <strong>HR ceiling 136.</strong> Walk 60 sec if you cross it.<br>
+          <strong>Pace:</strong> 13:30–15:00/mi — cadence first, pace is an output.
+        </div>
+      </div>
+      <div class="blk str">
+        <div class="lbl">💪 Strength A + Core <span class="dur">18 min</span></div>
+        <div class="ttl">Post-run, indoors. Full protocol now (you're past the layoff).</div>
+        <div class="ex-grid">
+          <div class="ex-row">Glute bridge <span>· 3 × 15</span></div>
+          <div class="ex-row">Clamshells <span>· 3 × 15/side</span></div>
+          <div class="ex-row">Bodyweight squat <span>· 3 × 12</span></div>
+          <div class="ex-row">Step-ups <span>· 2 × 10/side</span></div>
+          <div class="ex-row core">Dead-bug <span>· 3 × 12/side ★</span></div>
+          <div class="ex-row core">Hollow hold <span>· 3 × 20 sec ★</span></div>
+        </div>
+        <div class="core-banner"><div class="h">★ Core = deep abs (transverse abdominis)</div><div class="b">Dead-bug and hollow hold train the corset muscle that flattens the lower belly. Quality over reps — keep lower back pressed to floor.</div></div>
+      </div>
+      <div class="blk fuel"><div class="lbl">🍎 Post · within 30 min</div><div class="det">Overnight oats + whey from fridge. 16 oz water. (Easy day — keep portions moderate.)</div></div>
+    </div>
+  </div>
+
+  <!-- TUESDAY -->
+  <div class="day" data-c="z2">
+    <div class="day-hdr">
+      <div><div class="day-name">Tuesday</div><div class="day-date">June 23</div><span class="cal-badge low">🔵 mild deficit day</span></div>
+      <div class="day-focus">Zwift Z2 + FTP Test Option</div>
+    </div>
+    <div class="day-body">
+      <div class="blk fuel"><div class="lbl">🍎 6:00 AM · Wake + fuel <span class="time-flag">🌅 6 AM</span></div><div class="det">16 oz water + electrolyte. <strong>Toast + almond butter + ½ banana</strong>, 20 min before.</div></div>
+      <div class="blk z2">
+        <div class="lbl">🚴 Zwift Z2 endurance · 6:20 AM <span class="dur">50 min</span></div>
+        <div class="ttl">Volcano Flat · the aerobic builder · target Z2 power 89–120W</div>
+        <div class="det">
+          <strong>Target:</strong> HR 120–132, watts 95–115, cadence 85–95 rpm.<br>
+          <strong>Structure:</strong> 10 min @ 80W warm-up → 35 min @ 105W steady → 5 min cool-down.<br>
+          <strong>Fan on, sip every 15 min.</strong>
+        </div>
+        <div class="str-banner"><div class="h">⚡ Optional: Zwift Ramp Test instead</div><div class="b">If you want to confirm your FTP, swap this for the built-in Zwift Ramp Test (~20 min + warm-up). It'll lock in your exact power zones. Do it fresh, not after a hard day.</div></div>
+      </div>
+      <div class="blk pt">
+        <div class="lbl">🩺 Post · Hip mobility <span class="dur">8 min</span></div>
+        <div class="det">Hip flexor stretch 60 sec/side · pigeon 60 sec/side · couch stretch 60 sec/side · cat-cow × 10.</div>
+      </div>
+      <div class="blk fuel"><div class="lbl">🍎 Post · within 30 min</div><div class="det">Protein smoothie: 1 scoop whey + 1 cup milk + ½ banana + spinach. (Skip the PB today — easy day, trimming added fats.)</div></div>
+    </div>
+  </div>
+
+  <!-- WEDNESDAY -->
+  <div class="day" data-c="run">
+    <div class="day-hdr">
+      <div><div class="day-name">Wednesday</div><div class="day-date">June 24</div><span class="cal-badge high">🔴 maintenance day</span></div>
+      <div class="day-focus">Cadence Run + Core</div>
+    </div>
+    <div class="day-body">
+      <div class="blk fuel"><div class="lbl">🍎 6:00 AM · Wake + fuel <span class="time-flag">🌅 6 AM</span></div><div class="det">16 oz water. <strong>½ cup oats + honey + berries</strong>. Out by 6:15 — heat builds fast midweek.</div></div>
+      <div class="blk pt">
+        <div class="lbl">🩺 Dynamic warm-up <span class="dur">6 min</span></div>
+        <div class="det">Leg swings × 10 each · walking lunges × 8 · high knees × 20m · butt kicks × 20m · 3 strides at 150 spm.</div>
+      </div>
+      <div class="blk z1">
+        <div class="lbl">🏃 Cadence-focus run · 6:15 AM <span class="dur">35 min</span></div>
+        <div class="ttl">2.6–3.0 mi · the cadence builder · push toward 150 spm</div>
+        <div class="det">
+          <strong>Metronome → 150 spm. The priority metric this week.</strong><br>
+          <strong>HR ceiling 136.</strong> Walk 60 sec if you cross it.<br>
+          <strong>HRM-600 bonus:</strong> watch live cadence + ground contact time. Aim GCT under 290 ms.
+        </div>
+      </div>
+      <div class="blk core">
+        <div class="lbl">🎯 Core circuit · post-run <span class="dur">12 min</span></div>
+        <div class="ttl">The dedicated abs session — 2 rounds</div>
+        <div class="ex-grid">
+          <div class="ex-row core">Plank <span>· 3 × 45 sec</span></div>
+          <div class="ex-row core">Side plank <span>· 2 × 30 sec/side</span></div>
+          <div class="ex-row core">Dead-bug <span>· 3 × 12/side</span></div>
+          <div class="ex-row core">Bicycle crunch <span>· 2 × 15/side</span></div>
+          <div class="ex-row core">Hollow hold <span>· 3 × 25 sec</span></div>
+          <div class="ex-row core">Leg raises <span>· 2 × 12</span></div>
+        </div>
+      </div>
+      <div class="blk fuel"><div class="lbl">🍎 Post · within 30 min</div><div class="det">2 eggs + 1 slice toast + ½ avocado + orange. (Maintenance day — full fuel.)</div></div>
+    </div>
+  </div>
+
+  <!-- THURSDAY -->
+  <div class="day" data-c="str">
+    <div class="day-hdr">
+      <div><div class="day-name">Thursday</div><div class="day-date">June 25</div><span class="cal-badge low">🔵 mild deficit day</span></div>
+      <div class="day-focus">Strength B + Recovery Spin</div>
+    </div>
+    <div class="day-body">
+      <div class="blk fuel"><div class="lbl">🍎 6:00 AM · Wake + fuel <span class="time-flag">🌅 6 AM</span></div><div class="det">16 oz water. <strong>1 banana</strong>, 15 min before. (Easy day — skip the nuts.)</div></div>
+      <div class="blk str">
+        <div class="lbl">💪 Strength B + Core <span class="dur">20 min</span></div>
+        <div class="ttl">Gateway rule: mat before bike. Full lower body + deep core.</div>
+        <div class="ex-grid">
+          <div class="ex-row">Reverse lunge <span>· 3 × 8/side</span></div>
+          <div class="ex-row">Step-ups <span>· 2 × 10/side</span></div>
+          <div class="ex-row">Glute bridge <span>· 3 × 15</span></div>
+          <div class="ex-row">Calf raise (slow) <span>· 3 × 15</span></div>
+          <div class="ex-row core">Pallof press (band) <span>· 3 × 10/side ★</span></div>
+          <div class="ex-row core">Bird-dog <span>· 3 × 10/side ★</span></div>
+        </div>
+        <div class="core-banner"><div class="h">★ Anti-rotation core</div><div class="b">Pallof press + bird-dog train the core to resist rotation — builds deep stability that protects your back from the standing desk and flattens the midsection.</div></div>
+      </div>
+      <div class="blk z1">
+        <div class="lbl">🚴 Recovery spin <span class="dur">25 min</span></div>
+        <div class="ttl">Zwift Z1 — flush legs</div>
+        <div class="det"><strong>Target:</strong> HR ≤115, watts &lt;88, cadence 85–95 rpm. Conversational only.</div>
+      </div>
+      <div class="blk fuel"><div class="lbl">🍎 Post · within 30 min</div><div class="det">Greek yogurt + berries + small handful granola. (Lighter than oatmeal — easy day.)</div></div>
+    </div>
+  </div>
+
+  <!-- FRIDAY -->
+  <div class="day" data-c="z2">
+    <div class="day-hdr">
+      <div><div class="day-name">Friday</div><div class="day-date">June 26</div><span class="cal-badge high">🔴 maintenance day</span></div>
+      <div class="day-focus">Zwift Z2 + Long Run Prep</div>
+    </div>
+    <div class="day-body">
+      <div class="blk fuel"><div class="lbl">🍎 6:00 AM · Wake + fuel <span class="time-flag">🌅 6 AM</span></div><div class="det">16 oz water + electrolyte. <strong>1 banana + 1 tbsp PB</strong>, 20 min before.</div></div>
+      <div class="blk z2">
+        <div class="lbl">🚴 Zwift Z2 base · 6:20 AM <span class="dur">45 min</span></div>
+        <div class="ttl">Tempus Fugit · controlled — Saturday's long run is the priority</div>
+        <div class="det">
+          <strong>Target:</strong> HR 118–130, watts 95–115, cadence 88–95 rpm.<br>
+          <strong>Structure:</strong> 10 min warm-up → 30 min @ 105W → 5 min cool-down.<br>
+          Keep it easy — save the legs. <strong>No group ride this week</strong> — stay in Z2.
+        </div>
+      </div>
+      <div class="blk pt">
+        <div class="lbl">🩺 Post · Pre-long-run mobility <span class="dur">10 min</span></div>
+        <div class="det">Foam roll IT band 60 sec/side · pigeon 90 sec/side · hip 90/90 60 sec/side · calf stretch 45 sec/side.</div>
+      </div>
+      <div class="blk fuel">
+        <div class="lbl">🍎 Post + Saturday prep</div>
+        <div class="det">Overnight oats + whey. <strong>Carb-load lunch:</strong> sweet potato + lean protein + greens (maintenance day — eat full). Lay out tomorrow's gear tonight. Hydrate 80+ oz. No alcohol.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SATURDAY -->
+  <div class="day" data-c="long">
+    <div class="day-hdr">
+      <div><div class="day-name">Saturday</div><div class="day-date">June 27</div><span class="cal-badge high">🔴 maintenance day</span></div>
+      <div class="day-focus">LONG RUN · 55 min</div>
+    </div>
+    <div class="day-body">
+      <div class="blk dawn">
+        <div class="lbl">🌅 6:00 AM · Protect the window</div>
+        <div class="det">Weekend long run — the 6 AM wake matters most today. Out by 6:15 for the full 55 min before it warms past 78°F. Last week's 7:29 start meant running in 80°F — earlier is the whole game.</div>
+      </div>
+      <div class="blk fuel"><div class="lbl">🍎 Pre · 6:00 AM</div><div class="det">16 oz water on waking. <strong>1 cup oats + honey + ½ banana + almond butter</strong> — eat fast. Electrolyte 10 min before start. (Maintenance — full fuel for the long effort.)</div></div>
+      <div class="blk pt">
+        <div class="lbl">🩺 Dynamic warm-up <span class="dur">8 min</span></div>
+        <div class="det">Leg swings × 10 each · walking lunges × 10 · A-skips × 20m × 2 · butt kicks × 20m · 4 strides at 150 spm.</div>
+      </div>
+      <div class="blk long">
+        <div class="lbl">🏃 Long Run · 6:15 AM · Aubrey <span class="dur">55 min</span></div>
+        <div class="ttl">3.8–4.2 mi · +1 min over last week · steady build</div>
+        <div class="det">
+          <strong>Metronome → 150 spm. Non-negotiable.</strong><br>
+          <strong>HR ceiling 136.</strong> Walk 60 sec if you cross it — heat pushes it late.<br>
+          <strong>Pace:</strong> 13:30–15:00/mi. Pace is an output.<br>
+          <strong>Carry water</strong> — sip at 25 + 45 min. Finish before 7:15 AM.
+        </div>
+      </div>
+      <div class="blk pt">
+        <div class="lbl">🩺 Post · Recovery flow <span class="dur">15 min</span></div>
+        <div class="det">5 min easy walk → <strong>Legs up the wall 5 min</strong> → foam roll quads + calves + IT band 60 sec each → pigeon 90 sec/side → couch stretch 90 sec/side.</div>
+      </div>
+      <div class="blk fuel"><div class="lbl">🍎 Post · most important meal of the week</div><div class="det"><strong>Within 20 min:</strong> recovery shake — whey + chocolate milk + banana + PB.<br><strong>Within 90 min:</strong> 3 eggs + 2 slices toast + ½ avocado + sweet potato + berries. (Full maintenance — this is the day NOT to deficit.)</div></div>
+    </div>
+  </div>
+
+  <!-- SUNDAY -->
+  <div class="day" data-c="rest">
+    <div class="day-hdr">
+      <div><div class="day-name">Sunday</div><div class="day-date">June 28</div><span class="cal-badge low">🔵 mild deficit day</span></div>
+      <div class="day-focus">Full Rest + Optional Core</div>
+    </div>
+    <div class="day-body">
+      <div class="blk rest">
+        <div class="lbl">🛌 Complete rest</div>
+        <div class="ttl">Recovery is adaptation. Two full weeks back — momentum is real.</div>
+        <div class="det"><strong>Optional:</strong> 20–30 min easy evening walk when it cools. <strong>Required:</strong> 8+ hr sleep. <strong>Keep the 6 AM rhythm</strong> even today — wake at 6–6:30, just rest from training.</div>
+      </div>
+      <div class="blk core">
+        <div class="lbl">🎯 Optional · Light core <span class="dur">8 min</span></div>
+        <div class="ttl">Only if you feel good — gentle, not intense</div>
+        <div class="det">Dead-bug 2 × 12/side · plank 2 × 30 sec · bird-dog 2 × 10/side · posterior pelvic tilts 2 × 15. Helps the lower-belly + pelvic tilt goal without taxing recovery.</div>
+      </div>
+      <div class="blk fuel">
+        <div class="lbl">🍎 Fuel + Week 27 prep</div>
+        <div class="det">3 balanced meals, high protein (120–155g). Make 4 overnight oats jars. (Easy day — mild deficit, keep protein high.) If Week 26 held, Week 27 adds a 4th run and nudges cadence to 152.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- CORE PROTOCOL DETAIL -->
+<section class="sec">
+  <h2>The Core Protocol — built for the lower belly</h2>
+  <p class="sub">Three sessions a week, woven into existing days (no extra training time). These build the deep stabilizers that flatten the midsection — not surface crunches that do little. Master the deep work first; visible definition follows once body fat drops via the nutrition side.</p>
+  <div class="core-grid">
+    <div class="core-c">
+      <div class="n">Dead-Bug</div>
+      <div class="d">3 × 12/side · slow</div>
+      <div class="w">The #1 transverse abdominis exercise. Keep lower back pressed flat to the floor — that's the deep muscle engaging. Directly targets lower-belly flattening.</div>
+      <div class="tag">Deep core · TVA</div>
+    </div>
+    <div class="core-c">
+      <div class="n">Hollow Hold</div>
+      <div class="d">3 × 20–25 sec</div>
+      <div class="w">Gymnast's core builder. Full anterior chain under tension. Builds the "compression" strength that pulls the abdominal wall in.</div>
+      <div class="tag">Deep core · compression</div>
+    </div>
+    <div class="core-c">
+      <div class="n">Pallof Press</div>
+      <div class="d">3 × 10/side · band</div>
+      <div class="w">Anti-rotation — resists the band pulling you sideways. Builds 360° core stability and protects your back from desk-sitting.</div>
+      <div class="tag">Anti-rotation</div>
+    </div>
+    <div class="core-c">
+      <div class="n">Plank + Side Plank</div>
+      <div class="d">3 × 45 sec / 2 × 30 sec</div>
+      <div class="w">Isometric foundation. Side plank specifically targets the obliques (the "love handle" line) and deep lateral stabilizers.</div>
+      <div class="tag">Isometric · obliques</div>
+    </div>
+    <div class="core-c">
+      <div class="n">Leg Raises</div>
+      <div class="d">2 × 12 · controlled</div>
+      <div class="w">The lower abs' main mover. Lower slowly, don't let the back arch. Hits exactly the area below the navel where the pooch sits.</div>
+      <div class="tag">Lower abs</div>
+    </div>
+    <div class="core-c">
+      <div class="n">Posterior Pelvic Tilt</div>
+      <div class="d">2 × 15 · hold 3 sec</div>
+      <div class="w">Counters the anterior tilt your standing desk causes. Reduces the lower-belly "protrusion" appearance and is the missing piece most people skip.</div>
+      <div class="tag">Pelvic tilt fix</div>
+    </div>
+  </div>
+</section>
+
+<!-- NUTRITION FOR LEAN -->
+<section class="sec">
+  <h2>Nutrition for Leaning Out — practical rules</h2>
+  <p class="sub">You don't need to track every calorie. These habits create the deficit naturally while keeping training fueled.</p>
+  <table class="ntbl">
+    <thead><tr><th>Rule</th><th>Why</th><th>How</th></tr></thead>
+    <tbody>
+      <tr><td>Protein every meal</td><td>Preserves muscle in deficit, high satiety, slight metabolic boost</td><td>120–155g/day · eggs, chicken, Greek yogurt, whey</td></tr>
+      <tr><td>Carbs around training</td><td>Fuel when you need it, store less as fat</td><td>Most carbs pre/post workout; lighter at dinner on easy days</td></tr>
+      <tr><td>Trim added fats on easy days</td><td>Fat is calorie-dense — easiest place to cut without hunger</td><td>Skip the PB/avocado on Mon/Tue/Thu; keep on hard days</td></tr>
+      <tr><td>Hydrate before meals</td><td>Reduces over-eating, supports fat metabolism</td><td>16 oz water before lunch + dinner · 80+ oz/day</td></tr>
+      <tr><td>Protect the long-run fuel</td><td>Under-fueling Saturday wrecks recovery + next week</td><td>Full carbs + protein Fri night through Sat</td></tr>
+      <tr><td>No alcohol on training nights</td><td>Blunts fat oxidation + recovery + sleep quality</td><td>Limit to rare occasions; never before a key session</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- TOP 3 -->
+<div class="section-title">The 3 things that define Week 26</div>
+<div class="tips">
+  <div class="tip">
+    <div class="n">01</div>
+    <div class="h">Out the door by 6:15</div>
+    <div class="b">Last week drifted to 7:00–7:29. Tightening to 6:15 buys you 6–8°F and a full HR zone. Mon–Tue into the morning. This is the single biggest quality lever you have right now.</div>
+  </div>
+  <div class="tip">
+    <div class="n">02</div>
+    <div class="h">Core 3× — deep abs, not crunches</div>
+    <div class="b">Dead-bugs, hollow holds, Pallof press, pelvic tilts. These build the corset muscle that flattens the lower belly. Woven into existing days — no extra training time needed.</div>
+  </div>
+  <div class="tip">
+    <div class="n">03</div>
+    <div class="h">Eat by the day's color</div>
+    <div class="b">🔴 Maintenance on Wed/Fri/Sat (fuel the work). 🔵 Mild deficit on Mon/Tue/Thu/Sun. Protein high every day. This reveals the abs over weeks without ever starving your training.</div>
+  </div>
+</div>
+
+<footer>HOUSTON MARATHON 2027 · 29 WEEKS TO RACE DAY · WEEK 26 · BASE + CORE + LEAN · MARATHON FIRST, ABS AS BYPRODUCT</footer>
+</div>
+</body>
+</html>
