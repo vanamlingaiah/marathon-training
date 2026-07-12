@@ -1,6 +1,6 @@
 // Simple offline cache for the marathon training app.
 // Bump CACHE_VERSION whenever you update plans so phones fetch the new files.
-const CACHE_VERSION = 'marathon-v2';
+const CACHE_VERSION = 'marathon-v3';
 
 const ASSETS = [
   'index.html',
@@ -17,6 +17,7 @@ const ASSETS = [
   'plans/week-26.html',
   'plans/week-27.html',
   'plans/week-28.html',
+  'plans/week-29.html',
   'plans/hr-zones.html'
 ];
 
