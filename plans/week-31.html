@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Week 31 · July 27 – Aug 2, 2026 · Heat Adaptation Block</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,700;0,900;1,700&family=JetBrains+Mono:wght@400;600&family=Inter+Tight:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0b0d12;--bg2:#10131b;--ink:#f5f1e8;--soft:#a8a594;--line:#1f2330;
+  --z1:#3aa17a;--z2:#3b82f6;--str:#a855f7;--long:#ef6c4d;
+  --rest:#52525b;--pt:#14b8a6;--fuel:#eab308;--core:#ec4899;--dawn:#fbbf24;
+  --swim:#22d3ee;--gun:#f97316;--knee:#a3e635;--bike:#818cf8;--heat:#fb7185;
+  --win:#22c55e;--fix:#ef4444;--warn:#f59e0b;
+  --r:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:'Inter Tight',sans-serif;
+  background:radial-gradient(1100px 500px at 75% -5%,rgba(251,113,133,.09),transparent 60%),
+             radial-gradient(800px 400px at -5% 35%,rgba(129,140,248,.05),transparent 55%),var(--bg);
+  color:var(--ink);line-height:1.5;min-height:100vh;padding:36px 20px 80px;
+}
+.wrap{max-width:1180px;margin:0 auto}
+.hero{border:1px solid var(--line);border-radius:var(--r);padding:28px;background:linear-gradient(135deg,#1a0e12,#12131f);position:relative;overflow:hidden;margin-bottom:18px}
+.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(700px 300px at 90% 0%,rgba(251,113,133,.16),transparent);pointer-events:none}
+.eyebrow{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--soft);margin-bottom:10px}
+h1{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(28px,5vw,52px);letter-spacing:-.02em;line-height:1.02;margin-bottom:8px}
+h1 em{font-style:italic;color:#fda4af;font-weight:400}
+.hero-sub{color:var(--soft);font-size:14px;max-width:760px;line-height:1.6}
+.stat-row{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:20px;position:relative;z-index:1}
+.stat{border:1px solid var(--line);border-radius:10px;padding:12px 14px;background:rgba(255,255,255,.02)}
+.stat .k{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--soft)}
+.stat .v{font-family:'Fraunces',serif;font-size:20px;font-weight:700;margin-top:3px;line-height:1}
+.stat .d{font-size:11px;color:var(--win);margin-top:2px;font-family:'JetBrains Mono',monospace}
+.stat .d.warn{color:#fbbf24}.stat .d.swim{color:#67e8f9}.stat .d.heat{color:#fda4af}.stat .d.bike{color:#a5b4fc}
+
+.review-strip{border:1px solid var(--line);border-radius:var(--r);background:var(--bg2);padding:18px 20px;margin-bottom:16px}
+.review-strip h2{font-family:'Fraunces',serif;font-size:19px;margin-bottom:12px}
+.rev-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.rev-c{border:1px solid var(--line);border-radius:8px;padding:12px;background:rgba(255,255,255,.02)}
+.rev-c .icon{font-size:18px;margin-bottom:4px}
+.rev-c .h{font-weight:600;font-size:13px;margin-bottom:3px}
+.rev-c .d{font-size:11px;color:var(--soft);line-height:1.4}
+.rev-c.win{border-color:rgba(34,197,94,.25)}
+.rev-c.heat{border-color:rgba(251,113,133,.25)}
+
+.heat-banner{
+  border:2px solid rgba(251,113,133,.45);background:linear-gradient(135deg,rgba(251,113,133,.09),rgba(234,88,12,.04));
+  border-radius:var(--r);padding:20px 24px;margin-bottom:16px;
+  display:flex;gap:18px;align-items:flex-start;
+}
+.heat-banner .ico{font-size:32px;flex-shrink:0;margin-top:2px}
+.heat-banner h2{font-family:'Fraunces',serif;font-size:22px;color:#fda4af;margin-bottom:6px;letter-spacing:-.01em}
+.heat-banner p{font-size:14px;line-height:1.6;color:var(--ink)}
+.heat-banner p strong{color:#fda4af}
+
+.callout{border-radius:10px;padding:14px 18px;margin-bottom:14px;display:flex;gap:14px;align-items:flex-start}
+.callout.green{border:1px solid rgba(34,197,94,.3);background:rgba(34,197,94,.06)}
+.callout.rose{border:1px solid rgba(251,113,133,.3);background:rgba(251,113,133,.06)}
+.callout.indigo{border:1px solid rgba(129,140,248,.3);background:rgba(129,140,248,.06)}
+.callout.cyan{border:1px solid rgba(34,211,238,.3);background:rgba(34,211,238,.06)}
+.callout .ico{font-size:22px;flex-shrink:0;margin-top:2px}
+.callout h3{font-family:'Fraunces',serif;font-size:17px;margin-bottom:4px}
+.callout.green h3{color:#86efac}.callout.rose h3{color:#fda4af}.callout.indigo h3{color:#a5b4fc}.callout.cyan h3{color:#67e8f9}
+.callout p{font-size:13px;line-height:1.55;color:var(--ink)}
+.callout p strong{color:#fde68a}
+
+.section-title{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--soft);margin:22px 0 12px;display:flex;align-items:center;gap:10px}
+.section-title::after{content:"";flex:1;height:1px;background:var(--line)}
+
+.legend{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.chip{display:inline-flex;align-items:center;gap:7px;padding:6px 12px;border:1px solid var(--line);border-radius:30px;font-size:11px;font-family:'JetBrains Mono',monospace;letter-spacing:.05em;background:var(--bg2)}
+.dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+
+.days{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-bottom:20px}
+.day{border:1px solid var(--line);border-radius:var(--r);background:var(--bg2);overflow:hidden;display:flex;flex-direction:column}
+.day-hdr{padding:13px 17px 11px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:flex-end;gap:10px;position:relative}
+.day-hdr::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--dc,#fff)}
+.day-name{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--soft)}
+.day-date{font-family:'Fraunces',serif;font-size:24px;font-weight:700;line-height:1;margin-top:2px}
+.day-focus{text-align:right;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;padding:4px 8px;border-radius:4px;background:rgba(255,255,255,.04);border:1px solid var(--line);color:var(--soft);max-width:180px}
+.cal-badge{font-family:'JetBrains Mono',monospace;font-size:9px;padding:2px 6px;border-radius:3px;margin-top:3px;display:inline-block}
+.cal-badge.high{background:rgba(239,108,77,.12);color:#fca97f}
+.cal-badge.low{background:rgba(59,130,246,.12);color:#7dd3fc}
+.day-body{padding:14px 17px 16px;flex:1;display:flex;flex-direction:column;gap:11px}
+
+.blk{border-left:3px solid var(--bc,#fff);padding:9px 13px;background:rgba(255,255,255,.012);border-radius:0 8px 8px 0}
+.blk .lbl{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--soft);display:flex;justify-content:space-between;align-items:center;margin-bottom:3px}
+.blk .dur{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink);background:rgba(255,255,255,.06);padding:2px 6px;border-radius:3px}
+.blk .ttl{font-size:13px;font-weight:600;margin-bottom:4px}
+.blk .det{font-size:12px;color:var(--soft);line-height:1.55}
+.blk .det strong{color:var(--ink)}
+.blk.z2{--bc:var(--z2)}.blk.z1{--bc:var(--z1)}.blk.str{--bc:var(--str)}
+.blk.long{--bc:var(--long)}.blk.rest{--bc:var(--rest)}.blk.pt{--bc:var(--pt)}
+.blk.fuel{--bc:var(--fuel)}.blk.core{--bc:var(--core)}.blk.swim{--bc:var(--swim)}.blk.gun{--bc:var(--gun)}.blk.knee{--bc:var(--knee)}.blk.bike{--bc:var(--bike)}.blk.heat{--bc:var(--heat)}
+.day[data-c="z2"]{--dc:var(--z2)}.day[data-c="run"]{--dc:var(--z1)}
+.day[data-c="str"]{--dc:var(--str)}.day[data-c="long"]{--dc:var(--long)}
+.day[data-c="rest"]{--dc:var(--rest)}.day[data-c="swim"]{--dc:var(--swim)}.day[data-c="bike"]{--dc:var(--bike)}
+
+.ex-grid{display:grid;grid-template-columns:1fr 1fr;gap:3px 12px;margin-top:6px}
+.ex-row{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink)}
+.ex-row span{color:var(--soft)}
+.ex-row.core{color:#f9a8d4}.ex-row.core span{color:rgba(249,168,212,.7)}
+.ex-row.knee{color:#bef264}.ex-row.knee span{color:rgba(190,242,100,.7)}
+
+.rw-banner{border:1px solid rgba(6,182,212,.4);background:rgba(6,182,212,.06);border-radius:8px;padding:10px 12px;margin-bottom:6px}
+.rw-banner .h{font-weight:700;font-size:12px;color:#67e8f9;margin-bottom:2px}
+.rw-banner .b{font-size:11px;color:var(--soft);line-height:1.45}
+.heat-tip{border:1px solid rgba(251,113,133,.4);background:rgba(251,113,133,.06);border-radius:8px;padding:10px 12px;margin-top:6px}
+.heat-tip .h{font-weight:700;font-size:12px;color:#fda4af;margin-bottom:2px}
+.heat-tip .b{font-size:11px;color:var(--soft);line-height:1.45}
+.bike-tip{border:1px solid rgba(129,140,248,.4);background:rgba(129,140,248,.06);border-radius:8px;padding:10px 12px;margin-bottom:6px}
+.bike-tip .h{font-weight:700;font-size:12px;color:#a5b4fc;margin-bottom:2px}
+.bike-tip .b{font-size:11px;color:var(--soft);line-height:1.45}
+.time-flag{display:inline-flex;align-items:center;gap:5px;font-family:'JetBrains Mono',monospace;font-size:10px;padding:2px 7px;border-radius:4px;background:rgba(251,113,133,.14);color:#fda4af;border:1px solid rgba(251,113,133,.35);margin-left:6px}
+
+.sec{border:1px solid var(--line);border-radius:var(--r);padding:18px 20px;background:var(--bg2);margin-bottom:16px}
+.sec h2{font-family:'Fraunces',serif;font-size:19px;font-weight:700;margin-bottom:6px}
+.sec .sub{font-size:13px;color:var(--soft);margin-bottom:12px;line-height:1.5}
+.heat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.heat-c{border:1px solid rgba(251,113,133,.25);border-radius:10px;padding:14px;background:rgba(251,113,133,.04)}
+.heat-c .n{font-weight:600;font-size:13px;margin-bottom:5px;color:#fda4af}
+.heat-c .w{font-size:11px;color:var(--soft);line-height:1.5}
+.heat-c .w strong{color:var(--ink)}
+
+.play-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.play-c{border:1px solid var(--line);border-radius:10px;padding:14px;background:rgba(255,255,255,.02)}
+.play-c.fuel{border-color:rgba(234,179,8,.25);background:rgba(234,179,8,.04)}
+.play-c.hr{border-color:rgba(239,108,77,.25);background:rgba(239,108,77,.04)}
+.play-c .h{font-weight:700;font-size:14px;margin-bottom:8px}
+.play-c.fuel .h{color:#fde68a}
+.play-c.hr .h{color:#fca97f}
+.play-c ul{list-style:none}
+.play-c li{font-size:12px;color:var(--ink);padding:4px 0;display:flex;gap:8px;align-items:flex-start;line-height:1.5}
+.play-c li::before{content:"→";color:var(--soft);flex-shrink:0}
+
+.ntbl{width:100%;border-collapse:collapse;font-size:12px}
+.ntbl th{text-align:left;padding:8px 12px;background:rgba(251,113,133,.07);font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#fda4af;border-bottom:1px solid var(--line)}
+.ntbl td{padding:9px 12px;border-bottom:1px dashed #1c2030;vertical-align:top}
+.ntbl td:first-child{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--soft);width:120px}
+
+.tips{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.tip{border:1px solid var(--line);border-radius:10px;padding:14px;background:rgba(255,255,255,.02)}
+.tip .n{font-family:'Fraunces',serif;font-size:32px;font-weight:900;color:#fda4af;line-height:1;margin-bottom:5px}
+.tip .h{font-weight:600;font-size:13px;margin-bottom:3px}
+.tip .b{font-size:12px;color:var(--soft);line-height:1.5}
+
+.motiv{border:1px solid rgba(34,197,94,.25);border-radius:var(--r);padding:18px 22px;background:linear-gradient(135deg,rgba(34,197,94,.05),rgba(58,161,122,.02));margin-bottom:16px}
+.motiv h2{font-family:'Fraunces',serif;font-size:20px;margin-bottom:8px;color:#86efac}
+.motiv p{font-size:13px;color:var(--ink);line-height:1.6;margin-bottom:8px}
+.motiv p strong{color:#86efac}
+
+footer{margin-top:28px;text-align:center;color:var(--soft);font-size:11px;font-family:'JetBrains Mono',monospace;letter-spacing:.1em}
+
+@media(max-width:860px){
+  .days,.tips,.stat-row,.rev-grid,.heat-grid,.play-grid{grid-template-columns:1fr}
+  .stat-row{grid-template-columns:repeat(2,1fr)}
+  .rev-grid{grid-template-columns:1fr 1fr}
+  .ex-grid{grid-template-columns:1fr}
+  body{padding:18px 12px 60px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<section class="hero">
+  <div class="eyebrow">Week 31 · July 27 – Aug 2, 2026 · Houston Marathon 2027 · 24 weeks out · Aubrey, TX</div>
+  <h1>Train the heat.<br>Bank the <em>engine</em>.</h1>
+  <p class="hero-sub">Your read was exactly right: HR is hitting 140 fast and you're walking more to hold it down. The data confirms it's heat accumulation, not lost fitness — peak Texas July, plus start times that crept later. This week is a dedicated heat-adaptation block: earlier starts, pre-cooling, sodium protocols, and effort-based pacing. The RS5 gets a second easy ride, the swim continues, and the long run holds at 70. Summer pace is slow on purpose; the winter engine is being built.</p>
+  <div class="stat-row">
+    <div class="stat"><div class="k">Focus</div><div class="v">Heat Adapt</div><div class="d heat">6 wks to cooler</div></div>
+    <div class="stat"><div class="k">Start Time</div><div class="v">5:30 AM</div><div class="d heat">earlier = cooler</div></div>
+    <div class="stat"><div class="k">Structure</div><div class="v">3R·2B·1S</div><div class="d">tri rhythm holds</div></div>
+    <div class="stat"><div class="k">Long Run</div><div class="v">70 min</div><div class="d warn">holds (heat + RS5)</div></div>
+    <div class="stat"><div class="k">Pace Rule</div><div class="v">Ignore it</div><div class="d heat">effort &amp; HR only</div></div>
+  </div>
+</section>
+
+<div class="review-strip">
+  <h2>Week 30 scorecard — first three-sport week ✅</h2>
+  <div class="rev-grid">
+    <div class="rev-c win">
+      <div class="icon">🚴</div>
+      <div class="h">RS5 debut: textbook</div>
+      <div class="d">First outdoor ride, 6.5 mi, HR 99/123 — kept it in Z1–Z2 the whole time. Prioritized control over speed. Exactly right. No knee issues.</div>
+    </div>
+    <div class="rev-c win">
+      <div class="icon">🎯</div>
+      <div class="h">Long run held at 70 again</div>
+      <div class="d">70.7 min — third straight controlled long run. You walked more to manage HR in the heat, which is the smart, correct call.</div>
+    </div>
+    <div class="rev-c heat">
+      <div class="icon">🌡️</div>
+      <div class="h">Heat is now the main variable</div>
+      <div class="d">HR hit 140 by 2 min on Friday; pace slowed to 14:05. Not lost fitness — peak July heat + later starts (6:48 vs 5:48). Fixable.</div>
+    </div>
+    <div class="rev-c win">
+      <div class="icon">🏊</div>
+      <div class="h">Swim continuing</div>
+      <div class="d">Second pool session done. Three sports holding together. The triathlon base is real now.</div>
+    </div>
+  </div>
+</div>
+
+<div class="heat-banner">
+  <div class="ico">🌡️</div>
+  <div>
+    <h2>Why your HR is spiking — and why it's not a problem</h2>
+    <p><strong>Your observation was spot-on: HR hits 140 fast and you're walking more. Here's the truth — that's your body cooling itself, not failing.</strong> In heat, blood is diverted to the skin to shed heat, so the heart beats faster to deliver the same oxygen. HR rises sooner and higher at the same effort. Walking more to hold HR down is the run-walk method working perfectly. The proof it's heat, not fitness: your cooler, easy Monday run held normal cadence and pace at HR 133. <strong>The fix is earlier starts, pre-cooling, and sodium — and accepting that summer pace is slow on purpose.</strong> The engine you're building in this oven will show up dramatically faster in cool January air.</p>
+  </div>
+</div>
+
+<div class="callout rose">
+  <div class="ico">⏰</div>
+  <div>
+    <h3>The single biggest fix: get back to 5:30 AM</h3>
+    <p>Your starts crept to 6:35 and 6:48 this week — and that's a big deal in July. Every 30 minutes earlier is measurably cooler, less humid air. <strong>Target 5:30 AM out-the-door on run days, finish the long run by 7:00.</strong> This one change alone will pull your HR back down several beats. You already proved you can wake early — let's reclaim it now that heat is the enemy.</p>
+  </div>
+</div>
+
+<div class="callout indigo">
+  <div class="ico">🚴</div>
+  <div>
+    <h3>RS5 ride #2 — build a little on ride #1</h3>
+    <p>Tuesday's second outdoor ride: same easy Zone 2, but now that clipping in/out is familiar, aim for <strong>more continuous pedaling</strong> (fewer stops) so cadence lifts toward 80+ rpm. Still flat, quiet, cool, under HR 130. 40–45 min. This is how the bike leg grows — steady, unglamorous reps. Keep watching the knee on the saddle.</p>
+  </div>
+</div>
+
+<div class="legend">
+  <span class="chip"><span class="dot" style="background:var(--z1)"></span>Run (run-walk)</span>
+  <span class="chip"><span class="dot" style="background:var(--bike)"></span>RS5 Outdoor</span>
+  <span class="chip"><span class="dot" style="background:var(--z2)"></span>Zwift / Indoor</span>
+  <span class="chip"><span class="dot" style="background:var(--swim)"></span>Swim</span>
+  <span class="chip"><span class="dot" style="background:var(--heat)"></span>Heat protocol</span>
+  <span class="chip"><span class="dot" style="background:var(--knee)"></span>Glute / Knee</span>
+  <span class="chip"><span class="dot" style="background:var(--rest)"></span>Rest</span>
+</div>
+
+<div class="section-title">Week 31 · Jul 27 – Aug 2 · Heat Adaptation Block</div>
+
+<div class="days">
+
+  <!-- MONDAY -->
+  <div class="day" data-c="run">
+    <div class="day-hdr">
+      <div><div class="day-name">Monday</div><div class="day-date">Jul 27</div><span class="cal-badge low">🔵 mild deficit</span></div>
+      <div class="day-focus">Run-Walk + Strength A</div>
+    </div>
+    <div class="day-body">
+      <div class="blk heat"><div class="lbl">🌡️ 5:15 AM · Wake + PRE-COOL <span class="time-flag">⏰ earlier</span></div><div class="det">16 oz COLD water + electrolyte. 5 min in AC before heading out. ½ oats or banana. <strong>Out the door by 5:30.</strong></div></div>
+      <div class="blk knee"><div class="lbl">🦵 Glute primer <span class="dur">3 min</span></div><div class="det">Bridges × 15 · clamshells × 12/side · hip-flexor opener 20 sec/side.</div></div>
+      <div class="blk pt"><div class="lbl">🩺 Dynamic warm-up <span class="dur">6 min</span></div><div class="det">Leg swings · lunges × 8 · high knees · butt kicks · 3 strides at 150.</div></div>
+      <div class="blk z1">
+        <div class="lbl">🏃 Run-walk · 5:30 AM <span class="dur">35 min</span></div>
+        <div class="ttl">Effort-based · ignore pace · HR is the dial</div>
+        <div class="rw-banner"><div class="h">🌊 HEAT SETTING: run → 138 → walk → 126 · cadence 150</div><div class="b">Lowered triggers by 2 bpm for a bigger cooling buffer this week. Run intervals GENTLE — let HR climb over 2–3 min. Walk sooner without guilt.</div></div>
+        <div class="heat-tip"><div class="h">🌡️ Carry ice</div><div class="b">Frozen bottle in hand or an ice-filled bandana on the neck. Cooling the neck/wrists lowers perceived effort and real HR.</div></div>
+      </div>
+      <div class="blk str">
+        <div class="lbl">💪 Strength A + Core <span class="dur">18 min</span></div>
+        <div class="ex-grid">
+          <div class="ex-row knee">Glute bridge <span>· 3 × 15</span></div>
+          <div class="ex-row knee">Clamshells <span>· 3 × 15/side</span></div>
+          <div class="ex-row knee">Side leg raise <span>· 3 × 12/side</span></div>
+          <div class="ex-row">Bodyweight squat <span>· 3 × 12</span></div>
+          <div class="ex-row core">Dead-bug <span>· 3 × 12/side</span></div>
+          <div class="ex-row core">Hollow hold <span>· 3 × 25 sec</span></div>
+        </div>
+      </div>
+      <div class="blk gun"><div class="lbl">🔫 Massage gun <span class="dur">6 min</span></div><div class="det">Quads 90s → calves 60s → glutes 60s per side. Off the kneecap.</div></div>
+      <div class="blk fuel"><div class="lbl">🍎 Post</div><div class="det">Oats + whey. Rehydrate: 20+ oz with electrolyte (you sweat more now).</div></div>
+    </div>
+  </div>
+
+  <!-- TUESDAY — RS5 #2 -->
+  <div class="day" data-c="bike">
+    <div class="day-hdr">
+      <div><div class="day-name">Tuesday</div><div class="day-date">Jul 28</div><span class="cal-badge low">🔵 mild deficit</span></div>
+      <div class="day-focus">🚴 RS5 Ride #2</div>
+    </div>
+    <div class="day-body">
+      <div class="blk bike"><div class="lbl">🔧 Pre-ride · ABC check</div><div class="det">Air (tire pressure), Brakes, Chain. Helmet level, 2 fingers above brows. Bottle filled with electrolyte. Phone + ID.</div></div>
+      <div class="blk heat"><div class="lbl">🌡️ 5:45 AM · Wake + fuel <span class="time-flag">⏰ beat the heat</span></div><div class="det">16 oz cold water + electrolyte. Toast + ½ banana. <strong>Rolling by 6:00</strong> — cooler air, empty roads.</div></div>
+      <div class="blk bike">
+        <div class="lbl">🚴 Outdoor ride #2 · 6:00 AM <span class="dur">40–45 min easy</span></div>
+        <div class="ttl">Flat, quiet · more continuous pedaling this time</div>
+        <div class="bike-tip"><div class="h">The progression from ride #1</div><div class="b">Clipping is familiar now — so pedal more continuously, fewer stops. Aim cadence toward 80+ rpm (ride #1 was start-stop). Still HR &lt;130, conversational. Unclip 50m before every stop.</div></div>
+        <div class="det"><strong>Knee watch:</strong> any front-of-knee ache = saddle too low, raise 3–5mm. <strong>Bail rule:</strong> anything feels wrong with the bike, stop and walk home.</div>
+      </div>
+      <div class="blk fuel"><div class="lbl">🍎 Post</div><div class="det">Smoothie: whey + milk + ½ banana + spinach. Note fit/comfort vs ride #1.</div></div>
+    </div>
+  </div>
+
+  <!-- WEDNESDAY -->
+  <div class="day" data-c="run">
+    <div class="day-hdr">
+      <div><div class="day-name">Wednesday</div><div class="day-date">Jul 29</div><span class="cal-badge high">🔴 maintenance</span></div>
+      <div class="day-focus">Run-Walk + Core</div>
+    </div>
+    <div class="day-body">
+      <div class="blk heat"><div class="lbl">🌡️ 5:15 AM · Wake + PRE-COOL <span class="time-flag">⏰ 5:30 out</span></div><div class="det">16 oz cold water + electrolyte. 5 min AC. ½ oats + berries. Out by 5:30.</div></div>
+      <div class="blk knee"><div class="lbl">🦵 Glute primer <span class="dur">3 min</span></div><div class="det">Bridges × 15 · clamshells × 12/side · hip-flexor opener.</div></div>
+      <div class="blk pt"><div class="lbl">🩺 Dynamic warm-up <span class="dur">6 min</span></div><div class="det">Leg swings · lunges × 8 · high knees · butt kicks · 3 strides at 150.</div></div>
+      <div class="blk z1">
+        <div class="lbl">🏃 Run-walk · 5:30 AM <span class="dur">40 min</span></div>
+        <div class="ttl">Effort-based · this is where 140-by-mile-2 showed up — go gentler</div>
+        <div class="rw-banner"><div class="h">🌊 HEAT SETTING: run → 138 → walk → 126 · cadence 150</div><div class="b">Run the run-intervals slow enough that HR takes 2–3 min to reach 138. If it spikes in 30 sec, you're pushing — ease off. Walking more is fine; the goal is time-on-feet, not pace.</div></div>
+        <div class="heat-tip"><div class="h">🌡️ If HR won't settle</div><div class="b">On a brutal morning, it's completely valid to make this a walk-heavy session or move it indoors to the treadmill. Adapt, don't grind.</div></div>
+      </div>
+      <div class="blk core">
+        <div class="lbl">🎯 Core circuit <span class="dur">12 min</span></div>
+        <div class="ex-grid">
+          <div class="ex-row core">Plank <span>· 3 × 45 sec</span></div>
+          <div class="ex-row core">Side plank <span>· 2 × 30 sec/side</span></div>
+          <div class="ex-row core">Dead-bug <span>· 3 × 12/side</span></div>
+          <div class="ex-row core">Bicycle crunch <span>· 2 × 15/side</span></div>
+          <div class="ex-row core">Hollow hold <span>· 3 × 25 sec</span></div>
+          <div class="ex-row core">Leg raises <span>· 2 × 12</span></div>
+        </div>
+      </div>
+      <div class="blk fuel"><div class="lbl">🍎 Post</div><div class="det">2 eggs + toast + ½ avocado + orange. Rehydrate hard. (Maintenance.)</div></div>
+    </div>
+  </div>
+
+  <!-- THURSDAY -->
+  <div class="day" data-c="str">
+    <div class="day-hdr">
+      <div><div class="day-name">Thursday</div><div class="day-date">Jul 30</div><span class="cal-badge low">🔵 mild deficit</span></div>
+      <div class="day-focus">Strength B + Recovery Spin</div>
+    </div>
+    <div class="day-body">
+      <div class="blk fuel"><div class="lbl">🍎 Wake + fuel <span class="time-flag">🌅 flexible (indoor)</span></div><div class="det">16 oz water. Banana, 15 min before.</div></div>
+      <div class="blk str">
+        <div class="lbl">💪 Strength B + Core <span class="dur">20 min</span></div>
+        <div class="ex-grid">
+          <div class="ex-row">Reverse lunge <span>· 3 × 8/side</span></div>
+          <div class="ex-row knee">Step-ups <span>· 3 × 10/side</span></div>
+          <div class="ex-row knee">Glute bridge <span>· 3 × 15</span></div>
+          <div class="ex-row">Calf raise (slow) <span>· 3 × 15</span></div>
+          <div class="ex-row core">Pallof press <span>· 3 × 10/side</span></div>
+          <div class="ex-row core">Bird-dog <span>· 3 × 10/side</span></div>
+        </div>
+      </div>
+      <div class="blk z1"><div class="lbl">🚴 Recovery spin · IC4 indoor <span class="dur">25 min</span></div><div class="ttl">Zwift Z1 · AC comfort — a heat break</div><div class="det">HR ≤115, watts &lt;88. Indoor by design: gives your body a cool-training day mid-week.</div></div>
+      <div class="blk fuel"><div class="lbl">🍎 Post + prep</div><div class="det">Greek yogurt + berries + granola. <strong>Tonight: lay out long-run gear, freeze 2 bottles, pack swim bag.</strong></div></div>
+    </div>
+  </div>
+
+  <!-- FRIDAY — LONG RUN -->
+  <div class="day" data-c="long">
+    <div class="day-hdr">
+      <div><div class="day-name">Friday</div><div class="day-date">Jul 31</div><span class="cal-badge high">🔴 maintenance</span></div>
+      <div class="day-focus">LONG RUN · 70 min (heat-managed)</div>
+    </div>
+    <div class="day-body">
+      <div class="blk heat"><div class="lbl">🌡️ 5:00 AM · Wake + PRE-COOL <span class="time-flag">⏰ earliest start</span></div><div class="det">16 oz cold water + electrolyte on waking. 1 cup oats + honey + ½ banana + almond butter. 5–10 min in AC. <strong>Out by 5:30, finish by ~6:45 — before the worst heat.</strong></div></div>
+      <div class="blk knee"><div class="lbl">🦵 Glute primer <span class="dur">3 min</span></div><div class="det">Bridges × 15 · clamshells × 12/side · hip-flexor opener.</div></div>
+      <div class="blk pt"><div class="lbl">🩺 Dynamic warm-up <span class="dur">8 min</span></div><div class="det">Leg swings · lunges × 10 · A-skips · butt kicks · 4 strides at 150.</div></div>
+      <div class="blk long">
+        <div class="lbl">🏃 Long Run-Walk · 5:30 AM <span class="dur">70 min — CAP</span></div>
+        <div class="ttl">Effort &amp; HR only · pace WILL be slow in heat — that's fine</div>
+        <div class="rw-banner"><div class="h">🌊 HEAT SETTING: run → 138 → walk → 126 · cadence 150 · STOP AT 70</div><div class="b">Do NOT chase a pace number. A 14-min/mi long run at controlled HR in July heat is the same training stimulus as a much faster cool-weather run. Time on feet at controlled effort is the goal.</div></div>
+        <div class="heat-tip"><div class="h">🌡️ Heat fueling on the run</div><div class="b">Carry frozen bottle (thaws as you go = cold water throughout). Electrolyte + water every 20 min. Pour some on your neck/head. Sodium 500–700mg this hour+. If dizzy/chilled/goosebumps → STOP, walk, cool down — those are heat-illness warnings.</div></div>
+      </div>
+      <div class="blk pt"><div class="lbl">🩺 Post · recovery + cool-down <span class="dur">15 min</span></div><div class="det">Walk 5 min → cool shower or cold towel → legs up wall 5 min → foam roll → pigeon 90s/side.</div></div>
+      <div class="blk gun"><div class="lbl">🔫 Massage gun · full <span class="dur">10 min</span></div><div class="det">Quads 90s → calves 90s → hamstrings 60s → glutes 60s per side.</div></div>
+      <div class="blk fuel"><div class="lbl">🍎 Post</div><div class="det">Recovery shake within 20 min. Full meal within 90. <strong>Rehydrate to pale-yellow urine</strong> — weigh before/after, replace each lost lb with 16 oz. Swim tomorrow.</div></div>
+    </div>
+  </div>
+
+  <!-- SATURDAY — SWIM -->
+  <div class="day" data-c="swim">
+    <div class="day-hdr">
+      <div><div class="day-name">Saturday</div><div class="day-date">Aug 1</div><span class="cal-badge high">🔴 maintenance</span></div>
+      <div class="day-focus">🏊 Swim Class</div>
+    </div>
+    <div class="day-body">
+      <div class="blk swim">
+        <div class="lbl">🏊 Swim session · confirmed</div>
+        <div class="ttl">Technique continues — apply last week's "one thing"</div>
+        <div class="det">
+          <strong>Bring forward</strong> whatever the coach gave you as homework last session.<br>
+          <strong>Focus:</strong> continuous exhale underwater, long relaxed strokes, calm when tired.<br>
+          <strong>Bonus:</strong> the pool is your one naturally cool session — enjoy training without the heat penalty.
+        </div>
+      </div>
+      <div class="blk fuel"><div class="lbl">🍎 Pre-swim (90 min before)</div><div class="det">Toast + banana + honey, or ½ oats jar. Nothing heavy within an hour. Hydrate — you still sweat in the pool.</div></div>
+      <div class="blk pt"><div class="lbl">🩺 Before getting in <span class="dur">5 min</span></div><div class="det">Arm circles × 15 each way · shoulder rolls × 10 · trunk rotations · practice exhale breaths.</div></div>
+      <div class="blk gun"><div class="lbl">🔫 Massage gun · post <span class="dur">5 min</span></div><div class="det">Lats 60s/side → rear delts 45s/side → traps 45s/side. Lowest speed. Never the neck.</div></div>
+      <div class="blk fuel"><div class="lbl">🍎 Post</div><div class="det">Protein + carbs within 30 min. Real meal after — swim hunger hits late.</div></div>
+    </div>
+  </div>
+
+  <!-- SUNDAY -->
+  <div class="day" data-c="rest">
+    <div class="day-hdr">
+      <div><div class="day-name">Sunday</div><div class="day-date">Aug 2</div><span class="cal-badge low">🔵 mild deficit</span></div>
+      <div class="day-focus">Full Rest</div>
+    </div>
+    <div class="day-body">
+      <div class="blk rest">
+        <div class="lbl">🛌 Complete rest</div>
+        <div class="ttl">Heat training is extra-taxing — recovery matters more, not less.</div>
+        <div class="det"><strong>Optional:</strong> 20–30 min easy evening walk (after sundown). <strong>Required:</strong> 8+ hr sleep, desk-mobility reset. Hydrate all day.</div>
+      </div>
+      <div class="blk gun"><div class="lbl">🔫 Massage gun · gentle <span class="dur">8 min</span></div><div class="det">Quads, calves, glutes, lats — 45–60s each, lowest speed. Legs up the wall 10 min.</div></div>
+      <div class="blk fuel"><div class="lbl">🍎 Fuel + Week 32 prep</div><div class="det">3 meals, protein 120–155g. Oats jars, freeze bottles for next week. <strong>Note: did earlier starts + heat protocols bring HR back down?</strong> That guides Week 32.</div></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- HEAT ADAPTATION PROTOCOLS -->
+<section class="sec">
+  <h2>🌡️ Heat Adaptation Protocols — Aubrey Summer</h2>
+  <p class="sub">Your priority for the next 6–8 weeks. Training through Texas heat is uncomfortable but it builds real fitness — more plasma volume, earlier sweating, lower HR at effort. Do these consistently and the same runs feel easier within 2–3 weeks.</p>
+  <div class="heat-grid">
+    <div class="heat-c">
+      <div class="n">⏰ Timing (biggest lever)</div>
+      <div class="w"><strong>5:30 AM out the door</strong> on run days; long run by 5:30, done by ~6:45. Every 30 min earlier = several bpm lower HR. If you can't go early, go indoors — don't run in mid-morning July heat.</div>
+    </div>
+    <div class="heat-c">
+      <div class="n">❄️ Pre-cooling</div>
+      <div class="w"><strong>Before:</strong> 12–16 oz cold/icy fluid + a few min in AC. <strong>During:</strong> frozen bottle in hand, ice bandana on neck, pour water on head/neck. Cooling the skin lowers both perceived effort and real HR.</div>
+    </div>
+    <div class="heat-c">
+      <div class="n">🧂 Hydration + sodium</div>
+      <div class="w"><strong>16 oz on waking.</strong> 500–700 mg sodium/hr of sweating via electrolyte mix (not plain water). Weigh before/after long runs; replace each lost lb with ~16 oz. Pale-yellow urine = hydrated.</div>
+    </div>
+    <div class="heat-c">
+      <div class="n">📉 Effort, not pace</div>
+      <div class="w"><strong>Pace is meaningless in summer.</strong> A slow run at controlled HR in heat = the same stimulus as a faster cool run. Judge every session by HR + feel. Your fast winter pace is being built underneath these slow summer numbers.</div>
+    </div>
+    <div class="heat-c">
+      <div class="n">🚶 Walk sooner</div>
+      <div class="w">Heat setting: run→138 / walk→126 (2 bpm lower than usual) for a bigger cooling buffer. Walking more in heat isn't weakness — it's the method regulating you correctly.</div>
+    </div>
+    <div class="heat-c">
+      <div class="n">⚠️ Heat-illness red flags</div>
+      <div class="w"><strong>STOP if:</strong> dizzy, nauseous, headache, goosebumps or chills in heat, stop sweating, confusion, or HR won't come down on walk breaks. These are serious — cool down immediately, hydrate, don't push through.</div>
+    </div>
+  </div>
+</section>
+
+<!-- MOTIVATION / TOP 1% -->
+<div class="motiv">
+  <h2>🏆 Where you stand — the comparison that matters</h2>
+  <p>You asked how you compare to the top 1% and how they started. Here's the honest, useful answer: <strong>the elites' raw numbers are irrelevant to you right now — but how they TRAIN is the mirror, and you already look like them.</strong></p>
+  <p>The best endurance athletes on earth spend ~80% of training easy, in Zone 2 — the exact polarized approach you've built. Most amateurs never progress because they run everything too hard; you've spent months learning restraint. Elites are religious about consistency (you've strung together 7+ complete weeks), obsessive about recovery, sleep, and fueling (all built into your plan), and they respect their bodies' signals (your walk-more-in-heat instinct this week is textbook pro self-awareness).</p>
+  <p>And how did the greats start? Almost universally unremarkably — many were adult-onset athletes who couldn't swim a pool length when they began, exactly where your swim is now. The through-line in every story isn't early talent; it's <strong>years of patient, mostly-easy aerobic work without getting injured.</strong> The ones who make it are the ones who stay healthy long enough to accumulate the work. Your entire approach — cadence fix, disciplined caps, heat-smart pacing, one-new-stress-per-week — is a durability strategy. <strong>You're 24 weeks in, building deep aerobic base correctly, in brutal heat, adding two new sports, and staying healthy. That's not behind — that's exactly what the patient version of this journey looks like at month six.</strong></p>
+</div>
+
+<!-- WEEK AT A GLANCE -->
+<section class="sec">
+  <h2>Week 31 at a glance</h2>
+  <table class="ntbl">
+    <thead><tr><th>Day</th><th>Session</th><th>Start</th><th>Heat note</th></tr></thead>
+    <tbody>
+      <tr><td>Mon</td><td>Run-walk 35 + Strength A</td><td>5:30 AM</td><td>pre-cool, ice in hand</td></tr>
+      <tr><td>Tue</td><td>RS5 ride #2 (40–45 min)</td><td>6:00 AM</td><td>more continuous pedaling</td></tr>
+      <tr><td>Wed</td><td>Run-walk 40 + Core</td><td>5:30 AM</td><td>gentle intervals, treadmill OK</td></tr>
+      <tr><td>Thu</td><td>Strength B + indoor spin</td><td>flexible</td><td>AC recovery day</td></tr>
+      <tr><td>Fri</td><td>Long run 70 (cap)</td><td>5:30 AM</td><td>earliest start, frozen bottle</td></tr>
+      <tr><td>Sat</td><td>Swim class</td><td>as sched.</td><td>your cool session</td></tr>
+      <tr><td>Sun</td><td>Rest</td><td>—</td><td>recovery matters more in heat</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<div class="section-title">The 3 things that define Week 31</div>
+<div class="tips">
+  <div class="tip">
+    <div class="n">01</div>
+    <div class="h">Reclaim the 5:30 AM start</div>
+    <div class="b">The single biggest fix for your HR. Cooler air = lower heart rate at the same effort. You've done it before; the heat makes it non-negotiable now. Finish the long run before 7 AM.</div>
+  </div>
+  <div class="tip">
+    <div class="n">02</div>
+    <div class="h">Effort and HR — never pace</div>
+    <div class="b">Summer pace is slow on purpose. A 14-min/mile at controlled HR in July heat builds the same engine as a faster cool-weather run. Stop judging yourself by the pace number until fall.</div>
+  </div>
+  <div class="tip">
+    <div class="n">03</div>
+    <div class="h">Pre-cool, sodium, ice</div>
+    <div class="b">Cold fluid + AC before, frozen bottle and electrolytes during, 500–700mg sodium/hr. Small heat tactics that meaningfully lower HR and keep you safe. Watch the red flags.</div>
+  </div>
+</div>
+
+<footer>HOUSTON MARATHON 2027 · 24 WEEKS TO RACE DAY · WEEK 31 · HEAT ADAPTATION BLOCK · BUILD THE ENGINE IN THE OVEN</footer>
+</div>
+</body>
+</html>
