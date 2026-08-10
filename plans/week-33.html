@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Week 33 · Aug 10–16, 2026 · Two Group Rides</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,700;0,900;1,700&family=JetBrains+Mono:wght@400;600&family=Inter+Tight:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0b0d12;--bg2:#10131b;--ink:#f5f1e8;--soft:#a8a594;--line:#1f2330;
+  --z1:#3aa17a;--z2:#3b82f6;--str:#a855f7;--long:#ef6c4d;
+  --rest:#52525b;--pt:#14b8a6;--fuel:#eab308;--core:#ec4899;--dawn:#fbbf24;
+  --swim:#22d3ee;--gun:#f97316;--knee:#a3e635;--bike:#818cf8;--heat:#fb7185;--group:#f472b6;
+  --win:#22c55e;--fix:#ef4444;--warn:#f59e0b;
+  --r:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:'Inter Tight',sans-serif;
+  background:radial-gradient(1100px 500px at 75% -5%,rgba(129,140,248,.09),transparent 60%),
+             radial-gradient(800px 400px at -5% 35%,rgba(58,161,122,.05),transparent 55%),var(--bg);
+  color:var(--ink);line-height:1.5;min-height:100vh;padding:36px 20px 80px;
+}
+.wrap{max-width:1180px;margin:0 auto}
+.hero{border:1px solid var(--line);border-radius:var(--r);padding:28px;background:linear-gradient(135deg,#0e1320,#12131f);position:relative;overflow:hidden;margin-bottom:18px}
+.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(700px 300px at 90% 0%,rgba(129,140,248,.14),transparent);pointer-events:none}
+.eyebrow{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--soft);margin-bottom:10px}
+h1{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(28px,5vw,52px);letter-spacing:-.02em;line-height:1.02;margin-bottom:8px}
+h1 em{font-style:italic;color:#a5b4fc;font-weight:400}
+.hero-sub{color:var(--soft);font-size:14px;max-width:770px;line-height:1.6}
+.stat-row{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:20px;position:relative;z-index:1}
+.stat{border:1px solid var(--line);border-radius:10px;padding:12px 14px;background:rgba(255,255,255,.02)}
+.stat .k{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--soft)}
+.stat .v{font-family:'Fraunces',serif;font-size:20px;font-weight:700;margin-top:3px;line-height:1}
+.stat .d{font-size:11px;color:var(--win);margin-top:2px;font-family:'JetBrains Mono',monospace}
+.stat .d.warn{color:#fbbf24}.stat .d.bike{color:#a5b4fc}.stat .d.rest{color:#c4b5fd}
+
+.review-strip{border:1px solid var(--line);border-radius:var(--r);background:var(--bg2);padding:18px 20px;margin-bottom:16px}
+.review-strip h2{font-family:'Fraunces',serif;font-size:19px;margin-bottom:12px}
+.rev-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.rev-c{border:1px solid var(--line);border-radius:8px;padding:12px;background:rgba(255,255,255,.02)}
+.rev-c .icon{font-size:18px;margin-bottom:4px}
+.rev-c .h{font-weight:600;font-size:13px;margin-bottom:3px}
+.rev-c .d{font-size:11px;color:var(--soft);line-height:1.4}
+.rev-c.win{border-color:rgba(34,197,94,.25)}
+
+.pace-banner{
+  border:2px solid rgba(129,140,248,.45);background:linear-gradient(135deg,rgba(129,140,248,.09),rgba(58,161,122,.04));
+  border-radius:var(--r);padding:20px 24px;margin-bottom:16px;
+}
+.pace-banner h2{font-family:'Fraunces',serif;font-size:22px;color:#a5b4fc;margin-bottom:8px;letter-spacing:-.01em;display:flex;align-items:center;gap:10px}
+.pace-banner p{font-size:13.5px;line-height:1.6;color:var(--ink);margin-bottom:8px}
+.pace-banner p strong{color:#a5b4fc}
+.pace-verdict{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.pv{border:1px solid var(--line);border-radius:8px;padding:12px 14px;background:rgba(0,0,0,.2)}
+.pv .h{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--soft);margin-bottom:4px}
+.pv .b{font-size:12.5px;line-height:1.45}
+.pv.yes{border-color:rgba(34,197,94,.4)}.pv.yes .v{color:#86efac;font-weight:700}
+.pv.maybe{border-color:rgba(245,158,11,.4)}.pv.maybe .v{color:#fbbf24;font-weight:700}
+
+.callout{border-radius:10px;padding:14px 18px;margin-bottom:14px;display:flex;gap:14px;align-items:flex-start}
+.callout.green{border:1px solid rgba(34,197,94,.3);background:rgba(34,197,94,.06)}
+.callout.rose{border:1px solid rgba(251,113,133,.3);background:rgba(251,113,133,.06)}
+.callout.indigo{border:1px solid rgba(129,140,248,.3);background:rgba(129,140,248,.06)}
+.callout.violet{border:1px solid rgba(196,181,253,.3);background:rgba(196,181,253,.06)}
+.callout .ico{font-size:22px;flex-shrink:0;margin-top:2px}
+.callout h3{font-family:'Fraunces',serif;font-size:17px;margin-bottom:4px}
+.callout.green h3{color:#86efac}.callout.rose h3{color:#fda4af}.callout.indigo h3{color:#a5b4fc}.callout.violet h3{color:#c4b5fd}
+.callout p{font-size:13px;line-height:1.55;color:var(--ink)}
+.callout p strong{color:#fde68a}
+
+.section-title{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--soft);margin:22px 0 12px;display:flex;align-items:center;gap:10px}
+.section-title::after{content:"";flex:1;height:1px;background:var(--line)}
+
+.legend{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.chip{display:inline-flex;align-items:center;gap:7px;padding:6px 12px;border:1px solid var(--line);border-radius:30px;font-size:11px;font-family:'JetBrains Mono',monospace;letter-spacing:.05em;background:var(--bg2)}
+.dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+
+.days{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-bottom:20px}
+.day{border:1px solid var(--line);border-radius:var(--r);background:var(--bg2);overflow:hidden;display:flex;flex-direction:column}
+.day-hdr{padding:13px 17px 11px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:flex-end;gap:10px;position:relative}
+.day-hdr::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--dc,#fff)}
+.day-name{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--soft)}
+.day-date{font-family:'Fraunces',serif;font-size:24px;font-weight:700;line-height:1;margin-top:2px}
+.day-focus{text-align:right;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;padding:4px 8px;border-radius:4px;background:rgba(255,255,255,.04);border:1px solid var(--line);color:var(--soft);max-width:180px}
+.cal-badge{font-family:'JetBrains Mono',monospace;font-size:9px;padding:2px 6px;border-radius:3px;margin-top:3px;display:inline-block}
+.cal-badge.high{background:rgba(239,108,77,.12);color:#fca97f}
+.cal-badge.low{background:rgba(59,130,246,.12);color:#7dd3fc}
+.cal-badge.rest{background:rgba(196,181,253,.12);color:#c4b5fd}
+.day-body{padding:14px 17px 16px;flex:1;display:flex;flex-direction:column;gap:11px}
+
+.blk{border-left:3px solid var(--bc,#fff);padding:9px 13px;background:rgba(255,255,255,.012);border-radius:0 8px 8px 0}
+.blk .lbl{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--soft);display:flex;justify-content:space-between;align-items:center;margin-bottom:3px}
+.blk .dur{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink);background:rgba(255,255,255,.06);padding:2px 6px;border-radius:3px}
+.blk .ttl{font-size:13px;font-weight:600;margin-bottom:4px}
+.blk .det{font-size:12px;color:var(--soft);line-height:1.55}
+.blk .det strong{color:var(--ink)}
+.blk.z2{--bc:var(--z2)}.blk.z1{--bc:var(--z1)}.blk.str{--bc:var(--str)}
+.blk.long{--bc:var(--long)}.blk.rest{--bc:var(--rest)}.blk.pt{--bc:var(--pt)}
+.blk.fuel{--bc:var(--fuel)}.blk.core{--bc:var(--core)}.blk.swim{--bc:var(--swim)}.blk.gun{--bc:var(--gun)}.blk.knee{--bc:var(--knee)}.blk.bike{--bc:var(--bike)}.blk.heat{--bc:var(--heat)}.blk.group{--bc:var(--group)}
+.day[data-c="z2"]{--dc:var(--z2)}.day[data-c="run"]{--dc:var(--z1)}
+.day[data-c="str"]{--dc:var(--str)}.day[data-c="long"]{--dc:var(--long)}
+.day[data-c="rest"]{--dc:var(--rest)}.day[data-c="swim"]{--dc:var(--swim)}.day[data-c="bike"]{--dc:var(--bike)}.day[data-c="group"]{--dc:var(--group)}
+
+.ex-grid{display:grid;grid-template-columns:1fr 1fr;gap:3px 12px;margin-top:6px}
+.ex-row{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink)}
+.ex-row span{color:var(--soft)}
+.ex-row.core{color:#f9a8d4}.ex-row.core span{color:rgba(249,168,212,.7)}
+.ex-row.knee{color:#bef264}.ex-row.knee span{color:rgba(190,242,100,.7)}
+
+.rw-banner{border:1px solid rgba(6,182,212,.4);background:rgba(6,182,212,.06);border-radius:8px;padding:10px 12px;margin-bottom:6px}
+.rw-banner .h{font-weight:700;font-size:12px;color:#67e8f9;margin-bottom:2px}
+.rw-banner .b{font-size:11px;color:var(--soft);line-height:1.45}
+.heat-tip{border:1px solid rgba(251,113,133,.4);background:rgba(251,113,133,.06);border-radius:8px;padding:10px 12px;margin-top:6px}
+.heat-tip .h{font-weight:700;font-size:12px;color:#fda4af;margin-bottom:2px}
+.heat-tip .b{font-size:11px;color:var(--soft);line-height:1.45}
+.cad-tip{border:1px solid rgba(163,230,53,.4);background:rgba(163,230,53,.06);border-radius:8px;padding:10px 12px;margin-bottom:6px}
+.cad-tip .h{font-weight:700;font-size:12px;color:#bef264;margin-bottom:2px}
+.cad-tip .b{font-size:11px;color:var(--soft);line-height:1.45}
+.group-tip{border:1px solid rgba(129,140,248,.4);background:rgba(129,140,248,.06);border-radius:8px;padding:10px 12px;margin-bottom:6px}
+.group-tip .h{font-weight:700;font-size:12px;color:#a5b4fc;margin-bottom:2px}
+.group-tip .b{font-size:11px;color:var(--soft);line-height:1.45}
+.time-flag{display:inline-flex;align-items:center;gap:5px;font-family:'JetBrains Mono',monospace;font-size:10px;padding:2px 7px;border-radius:4px;background:rgba(251,113,133,.14);color:#fda4af;border:1px solid rgba(251,113,133,.35);margin-left:6px}
+
+.sec{border:1px solid var(--line);border-radius:var(--r);padding:18px 20px;background:var(--bg2);margin-bottom:16px}
+.sec h2{font-family:'Fraunces',serif;font-size:19px;font-weight:700;margin-bottom:6px}
+.sec .sub{font-size:13px;color:var(--soft);margin-bottom:12px;line-height:1.5}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.gc{border:1px solid rgba(129,140,248,.25);border-radius:10px;padding:14px;background:rgba(129,140,248,.04)}
+.gc .n{font-weight:600;font-size:13px;margin-bottom:5px;color:#a5b4fc}
+.gc .w{font-size:11px;color:var(--soft);line-height:1.5}
+.gc .w strong{color:var(--ink)}
+.gc.warn{border-color:rgba(239,68,68,.3);background:rgba(239,68,68,.04)}
+.gc.warn .n{color:#fca5a5}
+
+.ntbl{width:100%;border-collapse:collapse;font-size:12px}
+.ntbl th{text-align:left;padding:8px 12px;background:rgba(129,140,248,.07);font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#a5b4fc;border-bottom:1px solid var(--line)}
+.ntbl td{padding:9px 12px;border-bottom:1px dashed #1c2030;vertical-align:top}
+.ntbl td:first-child{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--soft);width:120px}
+
+.tips{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.tip{border:1px solid var(--line);border-radius:10px;padding:14px;background:rgba(255,255,255,.02)}
+.tip .n{font-family:'Fraunces',serif;font-size:32px;font-weight:900;color:#a5b4fc;line-height:1;margin-bottom:5px}
+.tip .h{font-weight:600;font-size:13px;margin-bottom:3px}
+.tip .b{font-size:12px;color:var(--soft);line-height:1.5}
+
+footer{margin-top:28px;text-align:center;color:var(--soft);font-size:11px;font-family:'JetBrains Mono',monospace;letter-spacing:.1em}
+
+@media(max-width:860px){
+  .days,.tips,.stat-row,.rev-grid,.grid3,.pace-verdict{grid-template-columns:1fr}
+  .stat-row{grid-template-columns:repeat(2,1fr)}
+  .rev-grid{grid-template-columns:1fr 1fr}
+  .ex-grid{grid-template-columns:1fr}
+  body{padding:18px 12px 60px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<section class="hero">
+  <div class="eyebrow">Week 33 · August 10–16, 2026 · Houston Marathon 2027 · 22 weeks out · Aubrey, TX</div>
+  <h1>Two rides.<br>Runs <em>protected</em>.</h1>
+  <p class="hero-sub">Week 32 confirmed two big things: your early-morning runs held the lowest, steadiest HR of the summer (129–131), and your first group ride went beautifully — 20 miles, real power data showing an easy NP ~106W with a near-perfect 49/51 leg balance. This week adds your second weekly ride (the Tuesday 27.5-miler), keeps three protected runs for the marathon, holds two rest days, and fixes the one thing the power data flagged: your pedaling cadence is too low. Spin lighter, protect the knee.</p>
+  <div class="stat-row">
+    <div class="stat"><div class="k">Structure</div><div class="v">3R·2B</div><div class="d bike">2 rides now</div></div>
+    <div class="stat"><div class="k">Rest Days</div><div class="v">2</div><div class="d rest">Wed + Sun</div></div>
+    <div class="stat"><div class="k">Tue Ride</div><div class="v">27.5 mi</div><div class="d warn">new longest</div></div>
+    <div class="stat"><div class="k">Sat Ride</div><div class="v">20 mi</div><div class="d bike">repeat</div></div>
+    <div class="stat"><div class="k">Bike Cadence</div><div class="v">54→80</div><div class="d">knee fix</div></div>
+  </div>
+</section>
+
+<div class="review-strip">
+  <h2>Week 32 scorecard — group ride + cleanest run week ✅</h2>
+  <div class="rev-grid">
+    <div class="rev-c win">
+      <div class="icon">🚴</div>
+      <div class="h">First group ride nailed</div>
+      <div class="d">20 mi, 764 ft climbing, NP ~106W = easy. 44% coasting = plenty in reserve. Handled climbs, felt good after. Big milestone, well managed.</div>
+    </div>
+    <div class="rev-c win">
+      <div class="icon">⚖️</div>
+      <div class="h">Legs are balanced 49/51</div>
+      <div class="d">Dual-power data: near-perfect L/R balance, right (PFPS) leg pulling its fair share. Only +2% under climbing load. No imbalance to fix.</div>
+    </div>
+    <div class="rev-c win">
+      <div class="icon">📉</div>
+      <div class="h">Steadiest run HR of summer</div>
+      <div class="d">All 3 runs 5:35–5:54 AM → HR 129–131 every time. Early starts locked in. 5th straight controlled 70-min long run.</div>
+    </div>
+    <div class="rev-c win">
+      <div class="icon">🔧</div>
+      <div class="h">One fix found: cadence</div>
+      <div class="d">Bike cadence ~54 rpm = grinding. Low cadence loads the knees. The fix (spin easier gears, 80+ rpm) is this week's key cycling focus.</div>
+    </div>
+  </div>
+</div>
+
+<!-- PACE ASSESSMENT -->
+<div class="pace-banner">
+  <h2>🚴 Can you hold the Tuesday ride? — the honest answer</h2>
+  <p><strong>Tuesday: "Too early for a Slurpee" — 27.5 mi, +669 ft, Frisco, 6:00 AM, C Pace.</strong> I checked the route against your Saturday data, and the terrain news is good — but there's one real unknown.</p>
+  <div class="pace-verdict">
+    <div class="pv yes">
+      <div class="h">Distance &amp; terrain</div>
+      <div class="v">✓ YES — you can ride it</div>
+      <div class="b">27.5 mi is +7.5 more than Saturday, but it's <strong>flatter</strong>: 24 ft/mi of climbing vs Saturday's 37 ft/mi (and less total climbing). Saturday's 20 was easy for you (NP 106W, 44% coasting). Your aerobic base handles ~2.5–3 hr easy. Distance is not the problem.</div>
+    </div>
+    <div class="pv maybe">
+      <div class="h">Holding "C Pace"</div>
+      <div class="v">? DEPENDS — confirm first</div>
+      <div class="b">Saturday you averaged 9.8 mph (novice, lots of coasting). If this group's C Pace runs 14–16 mph steady, that's faster than you've sustained. You can't yet confirm from data that you'll hold a fast group. <strong>The risk isn't the distance — it's redlining to hang on.</strong></div>
+    </div>
+  </div>
+  <p style="margin-top:12px;"><strong>The plan:</strong> Ride it — but <strong>message the ride leader first</strong> and ask what average speed C Pace holds. Go in with a "ride my own Zone 2, willing to sit up, drift off the back, or finish solo" mindset. Never redline to hold a wheel — Zone 3–4 is your injury trigger. If the group's too fast, ride your own 27.5 and let them go. Getting "dropped" on a training ride is completely fine; blowing your knee to keep up is not.</p>
+</div>
+
+<div class="callout violet">
+  <div class="ico">😴</div>
+  <div>
+    <h3>Recovery-first sequencing — a break after every hard day</h3>
+    <p>You asked for breaks between days to recover faster, so the week alternates hard/easy: <strong>Wednesday is your mid-week rest day, placed right after Tuesday's big 27.5-mile ride.</strong> Sunday is the mandatory second rest. Every hard session is followed by something easier or a rest day — no two big days stacked except the unavoidable Fri run → Sat ride, and the run is kept gentle for exactly that reason.</p>
+  </div>
+</div>
+
+<div class="callout green">
+  <div class="ico">🏃</div>
+  <div>
+    <h3>Three runs protected — the marathon stays the priority</h3>
+    <p>Two rides could easily crowd out running, but Houston is the A-goal, so <strong>three runs stay locked</strong>: two short (Mon, Thu) plus the Friday long run. Strength trims to one full session (Monday) this bike-heavy week, with the glute primer before every run keeping the knee work daily. That's the right in-season balance — running frequency preserved, bikes added, recovery guarded.</p>
+  </div>
+</div>
+
+<div class="callout indigo">
+  <div class="ico">🔧</div>
+  <div>
+    <h3>The cadence fix — your #1 cycling focus this week</h3>
+    <p>The power data showed you pedaling at ~54 rpm — that's grinding a big gear, and <strong>low cadence means high force per stroke, which loads the knees</strong> (exactly what we protect). On every ride this week: <strong>shift to an easier gear and spin faster — aim 80–90 rpm.</strong> Same speed, far less strain per pedal stroke. It'll feel "too easy" on the legs and slightly breathless at first — that's correct. Your knees will thank you.</p>
+  </div>
+</div>
+
+<div class="legend">
+  <span class="chip"><span class="dot" style="background:var(--z1)"></span>Run (run-walk)</span>
+  <span class="chip"><span class="dot" style="background:var(--group)"></span>Group Ride</span>
+  <span class="chip"><span class="dot" style="background:var(--str)"></span>Strength</span>
+  <span class="chip"><span class="dot" style="background:var(--heat)"></span>Heat protocol</span>
+  <span class="chip"><span class="dot" style="background:var(--knee)"></span>Glute / Cadence</span>
+  <span class="chip"><span class="dot" style="background:var(--rest)"></span>Rest</span>
+</div>
+
+<div class="section-title">Week 33 · Aug 10–16 · Two Rides, Protected Runs</div>
+
+<div class="days">
+
+  <!-- MONDAY -->
+  <div class="day" data-c="run">
+    <div class="day-hdr">
+      <div><div class="day-name">Monday</div><div class="day-date">Aug 10</div><span class="cal-badge low">🔵 mild deficit</span></div>
+      <div class="day-focus">Run-Walk + Strength A</div>
+    </div>
+    <div class="day-body">
+      <div class="blk heat"><div class="lbl">🌡️ 5:15 AM · Wake + PRE-COOL <span class="time-flag">⏰ 5:30 out</span></div><div class="det">16 oz cold water + electrolyte. 5 min AC. ½ oats or banana. Out by 5:30 — proven to hold HR at 129–131.</div></div>
+      <div class="blk knee"><div class="lbl">🦵 Glute primer <span class="dur">3 min</span></div><div class="det">Bridges × 15 · clamshells × 12/side · hip-flexor opener 20 sec/side.</div></div>
+      <div class="blk pt"><div class="lbl">🩺 Dynamic warm-up <span class="dur">6 min</span></div><div class="det">Leg swings · lunges × 8 · high knees · butt kicks · 3 strides at 150.</div></div>
+      <div class="blk z1">
+        <div class="lbl">🏃 Run-walk · 5:30 AM <span class="dur">35 min</span></div>
+        <div class="ttl">Easy · sets up the big Tuesday ride — don't overcook it</div>
+        <div class="rw-banner"><div class="h">🌊 HEAT SETTING: run → 138 → walk → 126 · cadence 150</div><div class="b">Keep it genuinely easy — tomorrow is your longest-ever ride. Gentle intervals, quick feet.</div></div>
+      </div>
+      <div class="blk str">
+        <div class="lbl">💪 Strength A + Core (the week's full session) <span class="dur">18 min</span></div>
+        <div class="ex-grid">
+          <div class="ex-row knee">Glute bridge <span>· 3 × 15</span></div>
+          <div class="ex-row knee">Clamshells <span>· 3 × 15/side</span></div>
+          <div class="ex-row knee">Side leg raise <span>· 3 × 12/side</span></div>
+          <div class="ex-row">Bodyweight squat <span>· 3 × 12</span></div>
+          <div class="ex-row core">Dead-bug <span>· 3 × 12/side</span></div>
+          <div class="ex-row core">Hollow hold <span>· 3 × 25 sec</span></div>
+        </div>
+      </div>
+      <div class="blk gun"><div class="lbl">🔫 Massage gun <span class="dur">6 min</span></div><div class="det">Quads 90s → calves 60s → glutes 60s per side. Off the kneecap. Legs fresh for tomorrow.</div></div>
+      <div class="blk fuel"><div class="lbl">🍎 Post + prep</div><div class="det">Oats + whey. <strong>Tonight: charge Garmin, fill 2 bottles, pack tube/pump/ID for the 27.5-mile ride.</strong></div></div>
+    </div>
+  </div>
+
+  <!-- TUESDAY — 27.5 MI RIDE -->
+  <div class="day" data-c="group">
+    <div class="day-hdr">
+      <div><div class="day-name">Tuesday</div><div class="day-date">Aug 11</div><span class="cal-badge high">🔴 maintenance</span></div>
+      <div class="day-focus">🚴 Ride #1 · 27.5 mi</div>
+    </div>
+    <div class="day-body">
+      <div class="blk group">
+        <div class="lbl">🚴 "Too early for a Slurpee" · C Pace · 6:00 AM</div>
+        <div class="ttl">27.5 mi · Frisco · +669 ft · your longest ride ever</div>
+        <div class="group-tip"><div class="h">Ride YOUR Zone 2 — the golden rule</div><div class="b">Message the ride leader beforehand: ask what avg speed C Pace holds. On the ride, keep effort easy/conversational (HR &lt;140, like Saturday's easy NP). If the group is faster than you can hold easy, LET THEM GO — ride your own 27.5, finish solo. Getting dropped is fine; redlining to hang on is not.</b></div></div>
+        <div class="cad-tip"><div class="h">🔧 Cadence focus: spin, don't grind</div><div class="b">Shift to easier gears and pedal 80–90 rpm (you were at ~54 last week). Especially on climbs — drop to the small ring and spin up rather than muscling a big gear. This is the knee-protection priority.</div></div>
+      </div>
+      <div class="blk heat"><div class="lbl">🌡️ 5:15 AM · Wake + fuel</div><div class="det">16 oz cold water + electrolyte. Proper breakfast: oats + banana + honey + toast (longest ride — fuel it). Rolling to the start for 6:00.</div></div>
+      <div class="blk heat"><div class="lbl">⛽ On the bike (~2.5–3 hr) <span class="dur">fuel + hydrate</span></div><div class="det"><strong>2 bottles</strong> electrolyte (500–700mg sodium/hr) · <strong>gel or chews every 45 min</strong> — this is longer than you've fueled on a bike before, so eat on schedule. It'll warm up after 7 AM.</div></div>
+      <div class="blk knee"><div class="lbl">🦵 Knee watch</div><div class="det">Longest ride = most strokes. Any front-knee ache → spin easier, check saddle height (heel-to-pedal method), note it. Don't grind through discomfort.</div></div>
+      <div class="blk gun"><div class="lbl">🔫 Massage gun · post <span class="dur">6 min</span></div><div class="det">Quads 90s → glutes 60s → calves 60s per side · hip flexors 30s LIGHT. Evening pass too.</div></div>
+      <div class="blk fuel"><div class="lbl">🍎 Post</div><div class="det">Protein + carbs within 30 min, then a full meal. Rehydrate hard. Tomorrow is rest — you've earned it.</div></div>
+    </div>
+  </div>
+
+  <!-- WEDNESDAY — REST -->
+  <div class="day" data-c="rest">
+    <div class="day-hdr">
+      <div><div class="day-name">Wednesday</div><div class="day-date">Aug 12</div><span class="cal-badge rest">🟣 rest day</span></div>
+      <div class="day-focus">REST DAY #1</div>
+    </div>
+    <div class="day-body">
+      <div class="blk rest">
+        <div class="lbl">😴 Full rest — placed after your biggest ride</div>
+        <div class="ttl">Recovery is where the adaptation banks. Take it fully.</div>
+        <div class="det">No training. This is the mid-week break you asked for, right after the 27.5-miler. <strong>Optional:</strong> gentle walk after sundown. <strong>Required:</strong> 8+ hr sleep, extra hydration + protein to rebuild.</div>
+      </div>
+      <div class="blk knee"><div class="lbl">🦵 Desk mobility reset <span class="dur">8 min</span></div><div class="det">Full desk routine once through — glute bridges, pelvic tilts, hip-flexor stretch, clamshells. Keeps knee + lower back happy.</div></div>
+      <div class="blk fuel"><div class="lbl">🍎 Fuel</div><div class="det">Normal balanced eating, protein 120–155g. Rehydrate from yesterday.</div></div>
+    </div>
+  </div>
+
+  <!-- THURSDAY -->
+  <div class="day" data-c="run">
+    <div class="day-hdr">
+      <div><div class="day-name">Thursday</div><div class="day-date">Aug 13</div><span class="cal-badge high">🔴 maintenance</span></div>
+      <div class="day-focus">Run-Walk + Core</div>
+    </div>
+    <div class="day-body">
+      <div class="blk heat"><div class="lbl">🌡️ 5:15 AM · Wake + PRE-COOL <span class="time-flag">⏰ 5:30 out</span></div><div class="det">16 oz cold water + electrolyte. 5 min AC. ½ oats + berries. Out by 5:30.</div></div>
+      <div class="blk knee"><div class="lbl">🦵 Glute primer <span class="dur">3 min</span></div><div class="det">Bridges × 15 · clamshells × 12/side · hip-flexor opener.</div></div>
+      <div class="blk pt"><div class="lbl">🩺 Dynamic warm-up <span class="dur">6 min</span></div><div class="det">Leg swings · lunges × 8 · high knees · butt kicks · 3 strides at 150.</div></div>
+      <div class="blk z1">
+        <div class="lbl">🏃 Run-walk · 5:30 AM <span class="dur">40 min</span></div>
+        <div class="ttl">Cadence focus · legs should feel fresh off Wed rest</div>
+        <div class="rw-banner"><div class="h">🌊 HEAT SETTING: run → 138 → walk → 126 · cadence 150</div><div class="b">Gentle intervals, quick light feet, GCT under 285 ms. Early start = low HR (proven).</div></div>
+      </div>
+      <div class="blk core">
+        <div class="lbl">🎯 Core circuit <span class="dur">12 min</span></div>
+        <div class="ex-grid">
+          <div class="ex-row core">Plank <span>· 3 × 45 sec</span></div>
+          <div class="ex-row core">Side plank <span>· 2 × 30 sec/side</span></div>
+          <div class="ex-row core">Dead-bug <span>· 3 × 12/side</span></div>
+          <div class="ex-row core">Bicycle crunch <span>· 2 × 15/side</span></div>
+          <div class="ex-row core">Hollow hold <span>· 3 × 25 sec</span></div>
+          <div class="ex-row core">Leg raises <span>· 2 × 12</span></div>
+        </div>
+      </div>
+      <div class="blk fuel"><div class="lbl">🍎 Post</div><div class="det">2 eggs + toast + ½ avocado + orange. (Maintenance.)</div></div>
+    </div>
+  </div>
+
+  <!-- FRIDAY — LONG RUN -->
+  <div class="day" data-c="long">
+    <div class="day-hdr">
+      <div><div class="day-name">Friday</div><div class="day-date">Aug 14</div><span class="cal-badge high">🔴 maintenance</span></div>
+      <div class="day-focus">LONG RUN · 70 min</div>
+    </div>
+    <div class="day-body">
+      <div class="blk heat"><div class="lbl">🌡️ 5:00 AM · Wake + PRE-COOL <span class="time-flag">⏰ earliest — proven low HR</span></div><div class="det">16 oz cold water + electrolyte. 1 cup oats + honey + ½ banana + almond butter. 5–10 min AC. Out by 5:30, done by ~6:45.</div></div>
+      <div class="blk knee"><div class="lbl">🦵 Glute primer <span class="dur">3 min</span></div><div class="det">Bridges × 15 · clamshells × 12/side · hip-flexor opener.</div></div>
+      <div class="blk pt"><div class="lbl">🩺 Dynamic warm-up <span class="dur">8 min</span></div><div class="det">Leg swings · lunges × 10 · A-skips · butt kicks · 4 strides at 150.</div></div>
+      <div class="blk long">
+        <div class="lbl">🏃 Long Run-Walk · 5:30 AM <span class="dur">70 min — CAP</span></div>
+        <div class="ttl">Keep it gentle — you ride 20 mi tomorrow. Effort &amp; HR only.</div>
+        <div class="rw-banner"><div class="h">🌊 HEAT SETTING: run → 138 → walk → 126 · cadence 150 · STOP AT 70</div><div class="b">6th straight 70-min long run. Because you ride tomorrow, err on the walk-more side today — leave the legs something. Don't chase pace.</div></div>
+        <div class="heat-tip"><div class="h">🌡️ Heat fueling</div><div class="b">Frozen bottle, electrolyte every 20 min, sodium 500–700mg, water on neck/head. Dizzy/chills → STOP and cool.</div></div>
+      </div>
+      <div class="blk pt"><div class="lbl">🩺 Post · recovery <span class="dur">15 min</span></div><div class="det">Walk 5 min → cool shower → legs up wall → foam roll → pigeon 90s/side. Keep it gentle — riding tomorrow.</div></div>
+      <div class="blk gun"><div class="lbl">🔫 Massage gun · full <span class="dur">10 min</span></div><div class="det">Quads 90s → calves 90s → hamstrings 60s → glutes 60s per side. Don't skip — fresh legs for the ride.</div></div>
+      <div class="blk fuel"><div class="lbl">🍎 Post</div><div class="det">Recovery shake within 20 min, full meal within 90. <strong>Hydrate hard — 20-mile ride tomorrow.</strong></div></div>
+    </div>
+  </div>
+
+  <!-- SATURDAY — 20 MI GROUP RIDE -->
+  <div class="day" data-c="group">
+    <div class="day-hdr">
+      <div><div class="day-name">Saturday</div><div class="day-date">Aug 15</div><span class="cal-badge high">🔴 maintenance</span></div>
+      <div class="day-focus">🚴 Ride #2 · 20 mi</div>
+    </div>
+    <div class="day-body">
+      <div class="blk group">
+        <div class="lbl">🚴 STCC McKinney Novice · "Wilmeth 20" · 8:00 AM</div>
+        <div class="ttl">20 mi · +746 ft · the ride you already conquered</div>
+        <div class="group-tip"><div class="h">You've done this exact one — now refine it</div><div class="b">Same route, same novice pace you handled well. This week's upgrade: <strong>hold 80–90 rpm cadence</strong> (not last week's 54), and practice group skills — steady line, signals, sit at the back in Zone 2. Legs will be slightly tired from Friday; ride within yourself.</div></div>
+        <div class="cad-tip"><div class="h">🔧 Cadence + knee</div><div class="b">Spin the climbs in easier gears rather than grinding. You climbed fine last week at 54 rpm — at 80 rpm it'll be easier on the knee and you'll finish fresher.</div></div>
+      </div>
+      <div class="blk heat"><div class="lbl">🌡️ Pre-ride (90 min before)</div><div class="det">Breakfast: oats + banana + honey + toast. 16 oz water + electrolyte. 2 bottles on the bike.</div></div>
+      <div class="blk gun"><div class="lbl">🔫 Massage gun · post <span class="dur">6 min</span></div><div class="det">Quads 90s → glutes 60s → calves 60s per side · hip flexors 30s LIGHT. Evening pass too — two-ride week, legs earned it.</div></div>
+      <div class="blk fuel"><div class="lbl">🍎 Post</div><div class="det">Protein + carbs within 30 min, full meal after. Rehydrate. Tomorrow is complete rest.</div></div>
+    </div>
+  </div>
+
+  <!-- SUNDAY — REST -->
+  <div class="day" data-c="rest">
+    <div class="day-hdr">
+      <div><div class="day-name">Sunday</div><div class="day-date">Aug 16</div><span class="cal-badge rest">🟣 rest day</span></div>
+      <div class="day-focus">REST DAY #2 (mandatory)</div>
+    </div>
+    <div class="day-body">
+      <div class="blk rest">
+        <div class="lbl">😴 Complete rest — mandatory</div>
+        <div class="ttl">First two-ride week done. Big week — absorb it fully.</div>
+        <div class="det">Nothing today. Two group rides + 3 runs is a real load. <strong>Optional:</strong> easy evening walk. <strong>Required:</strong> 8+ hr sleep, desk-mobility reset, full hydration.</div>
+      </div>
+      <div class="blk gun"><div class="lbl">🔫 Massage gun · gentle <span class="dur">8 min</span></div><div class="det">Quads, calves, glutes — 45–60s each, lowest speed. Legs up the wall 10 min.</div></div>
+      <div class="blk fuel"><div class="lbl">🍎 Fuel + Week 34 prep</div><div class="det">3 meals, protein 120–155g. <strong>Note: how did the 27.5 ride go? Could you hold C pace? How did the knee handle two rides + higher cadence?</strong> That shapes Week 34.</div></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- TWO-RIDE LOAD & CADENCE -->
+<section class="sec">
+  <h2>🚴 Making Two Rides Work — Load, Pace & Cadence</h2>
+  <p class="sub">You asked if you can sustain 2 rides/week alongside running and strength. Short answer: yes — this structure does it safely. Here's the logic and the guardrails.</p>
+  <div class="grid3">
+    <div class="gc">
+      <div class="n">✓ Why it works</div>
+      <div class="w"><strong>2 rides + 3 runs + 2 rest days.</strong> Rides land Tue &amp; Sat with a rest day (Wed) or run days between. Bikes are zero-impact aerobic volume — great for your knee. Saturday's data proved the rides sit at easy effort, so they add base without deep fatigue.</div>
+    </div>
+    <div class="gc">
+      <div class="n">🏃 Marathon stays #1</div>
+      <div class="w">Running held at <strong>3 days</strong> (Mon, Thu, Fri long). Strength trimmed to 1 full session this bike-heavy week — that's a fair in-season trade. If bikes ever start eating into run quality, runs win: Houston is the goal, the tri is the horizon.</div>
+    </div>
+    <div class="gc">
+      <div class="n">🔧 Cadence is the knee key</div>
+      <div class="w">Your ~54 rpm grind is the one thing to fix. <strong>80–90 rpm in easier gears</strong> = less force per stroke = protected knees + fresher legs for running. Feels too easy at first; that's right. Watch it live on the Garmin.</div>
+    </div>
+    <div class="gc warn" style="grid-column:1/-1">
+      <div class="n">⚠️ Before Tuesday — confirm the pace</div>
+      <div class="w"><strong>Message the ride leader and ask what average speed "C Pace" holds.</strong> If it's ~12–13 mph, you'll be comfortable. If it's 15–16+, plan to ride your own effort and let the group go — do NOT redline to hang on. Also confirm: is it no-drop? what to carry for flats? start location? Your Saturday 9.8 mph avg was novice pace with heavy coasting — a steady C-pace group may be quicker, so go in with a self-sufficient, ride-your-own-race plan.</div>
+    </div>
+  </div>
+</section>
+
+<!-- WEEK AT A GLANCE -->
+<section class="sec">
+  <h2>Week 33 at a glance</h2>
+  <table class="ntbl">
+    <thead><tr><th>Day</th><th>Session</th><th>Start</th><th>Note</th></tr></thead>
+    <tbody>
+      <tr><td>Mon</td><td>Run-walk 35 + Strength A</td><td>5:30 AM</td><td>easy, prep for Tue</td></tr>
+      <tr><td>Tue</td><td>Ride 27.5 mi (C pace)</td><td>6:00 AM</td><td>longest ever · spin 80+ rpm</td></tr>
+      <tr><td>Wed</td><td>REST DAY #1</td><td>—</td><td>recover from big ride</td></tr>
+      <tr><td>Thu</td><td>Run-walk 40 + Core</td><td>5:30 AM</td><td>fresh legs</td></tr>
+      <tr><td>Fri</td><td>Long run 70 (cap)</td><td>5:30 AM</td><td>gentle, ride tomorrow</td></tr>
+      <tr><td>Sat</td><td>Ride 20 mi (McKinney)</td><td>8:00 AM</td><td>repeat · 80+ rpm</td></tr>
+      <tr><td>Sun</td><td>REST DAY #2 (mandatory)</td><td>—</td><td>absorb the big week</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<div class="section-title">The 3 things that define Week 33</div>
+<div class="tips">
+  <div class="tip">
+    <div class="n">01</div>
+    <div class="h">Ride your own Zone 2 Tuesday</div>
+    <div class="b">You can handle 27.5 flatter miles — the question is group pace. Confirm C-pace speed first, then ride your own effort. Let them go if they're fast. Dropped is fine; redlined is not.</div>
+  </div>
+  <div class="tip">
+    <div class="n">02</div>
+    <div class="h">Spin, don't grind (80–90 rpm)</div>
+    <div class="b">The power data's one flag: 54 rpm is too low and loads the knee. Easier gears, faster spin, same speed. This single change protects the knee and leaves fresher legs for running.</div>
+  </div>
+  <div class="tip">
+    <div class="n">03</div>
+    <div class="h">Recovery between hard days</div>
+    <div class="b">Wednesday rest after the big Tuesday ride, Sunday off after the two-ride week. You asked for breaks to recover faster — they're built in. Two rides work because the easy days are truly easy.</div>
+  </div>
+</div>
+
+<footer>HOUSTON MARATHON 2027 · 22 WEEKS TO RACE DAY · WEEK 33 · TWO RIDES · RUNS PROTECTED · SPIN DON'T GRIND</footer>
+</div>
+</body>
+</html>
