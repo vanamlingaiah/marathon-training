@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Week 34 · Aug 17–23, 2026 · Fit-First Week</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,700;0,900;1,700&family=JetBrains+Mono:wght@400;600&family=Inter+Tight:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0b0d12;--bg2:#10131b;--ink:#f5f1e8;--soft:#a8a594;--line:#1f2330;
+  --z1:#3aa17a;--z2:#3b82f6;--str:#a855f7;--long:#ef6c4d;
+  --rest:#52525b;--pt:#14b8a6;--fuel:#eab308;--core:#ec4899;--dawn:#fbbf24;
+  --swim:#22d3ee;--gun:#f97316;--knee:#a3e635;--bike:#818cf8;--heat:#fb7185;--fit:#f59e0b;
+  --win:#22c55e;--fix:#ef4444;--warn:#f59e0b;
+  --r:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:'Inter Tight',sans-serif;
+  background:radial-gradient(1100px 500px at 75% -5%,rgba(34,211,238,.08),transparent 60%),
+             radial-gradient(800px 400px at -5% 35%,rgba(245,158,11,.05),transparent 55%),var(--bg);
+  color:var(--ink);line-height:1.5;min-height:100vh;padding:36px 20px 80px;
+}
+.wrap{max-width:1180px;margin:0 auto}
+.hero{border:1px solid var(--line);border-radius:var(--r);padding:28px;background:linear-gradient(135deg,#0e1320,#0d1a1f);position:relative;overflow:hidden;margin-bottom:18px}
+.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(700px 300px at 90% 0%,rgba(34,211,238,.13),transparent);pointer-events:none}
+.eyebrow{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--soft);margin-bottom:10px}
+h1{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(28px,5vw,52px);letter-spacing:-.02em;line-height:1.02;margin-bottom:8px}
+h1 em{font-style:italic;color:#67e8f9;font-weight:400}
+.hero-sub{color:var(--soft);font-size:14px;max-width:770px;line-height:1.6}
+.stat-row{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:20px;position:relative;z-index:1}
+.stat{border:1px solid var(--line);border-radius:10px;padding:12px 14px;background:rgba(255,255,255,.02)}
+.stat .k{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--soft)}
+.stat .v{font-family:'Fraunces',serif;font-size:20px;font-weight:700;margin-top:3px;line-height:1}
+.stat .d{font-size:11px;color:var(--win);margin-top:2px;font-family:'JetBrains Mono',monospace}
+.stat .d.warn{color:#fbbf24}.stat .d.swim{color:#67e8f9}.stat .d.bike{color:#a5b4fc}.stat .d.fit{color:#fcd34d}
+
+.review-strip{border:1px solid var(--line);border-radius:var(--r);background:var(--bg2);padding:18px 20px;margin-bottom:16px}
+.review-strip h2{font-family:'Fraunces',serif;font-size:19px;margin-bottom:12px}
+.rev-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.rev-c{border:1px solid var(--line);border-radius:8px;padding:12px;background:rgba(255,255,255,.02)}
+.rev-c .icon{font-size:18px;margin-bottom:4px}
+.rev-c .h{font-weight:600;font-size:13px;margin-bottom:3px}
+.rev-c .d{font-size:11px;color:var(--soft);line-height:1.4}
+.rev-c.win{border-color:rgba(34,197,94,.25)}
+.rev-c.warn{border-color:rgba(245,158,11,.25)}
+
+.fit-banner{border:2px solid rgba(245,158,11,.45);background:linear-gradient(135deg,rgba(245,158,11,.09),rgba(129,140,248,.04));border-radius:var(--r);padding:20px 24px;margin-bottom:16px}
+.fit-banner h2{font-family:'Fraunces',serif;font-size:22px;color:#fcd34d;margin-bottom:8px;letter-spacing:-.01em}
+.fit-banner p{font-size:13.5px;line-height:1.6;color:var(--ink);margin-bottom:8px}
+.fit-banner p strong{color:#fcd34d}
+.fit-asks{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.fa{border:1px solid var(--line);border-radius:8px;padding:12px 14px;background:rgba(0,0,0,.2)}
+.fa .h{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#fcd34d;margin-bottom:5px}
+.fa .b{font-size:12px;line-height:1.5;color:var(--soft)}
+.fa .b strong{color:var(--ink)}
+
+.callout{border-radius:10px;padding:14px 18px;margin-bottom:14px;display:flex;gap:14px;align-items:flex-start}
+.callout.green{border:1px solid rgba(34,197,94,.3);background:rgba(34,197,94,.06)}
+.callout.cyan{border:1px solid rgba(34,211,238,.3);background:rgba(34,211,238,.06)}
+.callout.amber{border:1px solid rgba(245,158,11,.3);background:rgba(245,158,11,.06)}
+.callout .ico{font-size:22px;flex-shrink:0;margin-top:2px}
+.callout h3{font-family:'Fraunces',serif;font-size:17px;margin-bottom:4px}
+.callout.green h3{color:#86efac}.callout.cyan h3{color:#67e8f9}.callout.amber h3{color:#fde68a}
+.callout p{font-size:13px;line-height:1.55;color:var(--ink)}
+.callout p strong{color:#fde68a}
+
+.section-title{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--soft);margin:22px 0 12px;display:flex;align-items:center;gap:10px}
+.section-title::after{content:"";flex:1;height:1px;background:var(--line)}
+
+.legend{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.chip{display:inline-flex;align-items:center;gap:7px;padding:6px 12px;border:1px solid var(--line);border-radius:30px;font-size:11px;font-family:'JetBrains Mono',monospace;letter-spacing:.05em;background:var(--bg2)}
+.dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+
+.days{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-bottom:20px}
+.day{border:1px solid var(--line);border-radius:var(--r);background:var(--bg2);overflow:hidden;display:flex;flex-direction:column}
+.day-hdr{padding:13px 17px 11px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:flex-end;gap:10px;position:relative}
+.day-hdr::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--dc,#fff)}
+.day-name{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--soft)}
+.day-date{font-family:'Fraunces',serif;font-size:24px;font-weight:700;line-height:1;margin-top:2px}
+.day-focus{text-align:right;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;padding:4px 8px;border-radius:4px;background:rgba(255,255,255,.04);border:1px solid var(--line);color:var(--soft);max-width:180px}
+.cal-badge{font-family:'JetBrains Mono',monospace;font-size:9px;padding:2px 6px;border-radius:3px;margin-top:3px;display:inline-block}
+.cal-badge.high{background:rgba(239,108,77,.12);color:#fca97f}
+.cal-badge.low{background:rgba(59,130,246,.12);color:#7dd3fc}
+.cal-badge.rest{background:rgba(196,181,253,.12);color:#c4b5fd}
+.day-body{padding:14px 17px 16px;flex:1;display:flex;flex-direction:column;gap:11px}
+
+.blk{border-left:3px solid var(--bc,#fff);padding:9px 13px;background:rgba(255,255,255,.012);border-radius:0 8px 8px 0}
+.blk .lbl{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--soft);display:flex;justify-content:space-between;align-items:center;margin-bottom:3px}
+.blk .dur{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink);background:rgba(255,255,255,.06);padding:2px 6px;border-radius:3px}
+.blk .ttl{font-size:13px;font-weight:600;margin-bottom:4px}
+.blk .det{font-size:12px;color:var(--soft);line-height:1.55}
+.blk .det strong{color:var(--ink)}
+.blk.z1{--bc:var(--z1)}.blk.str{--bc:var(--str)}
+.blk.long{--bc:var(--long)}.blk.rest{--bc:var(--rest)}.blk.pt{--bc:var(--pt)}
+.blk.fuel{--bc:var(--fuel)}.blk.core{--bc:var(--core)}.blk.swim{--bc:var(--swim)}.blk.gun{--bc:var(--gun)}.blk.knee{--bc:var(--knee)}.blk.bike{--bc:var(--bike)}.blk.heat{--bc:var(--heat)}.blk.fit{--bc:var(--fit)}
+.day[data-c="run"]{--dc:var(--z1)}
+.day[data-c="long"]{--dc:var(--long)}
+.day[data-c="rest"]{--dc:var(--rest)}.day[data-c="swim"]{--dc:var(--swim)}.day[data-c="bike"]{--dc:var(--bike)}
+
+.ex-grid{display:grid;grid-template-columns:1fr 1fr;gap:3px 12px;margin-top:6px}
+.ex-row{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink)}
+.ex-row span{color:var(--soft)}
+.ex-row.core{color:#f9a8d4}.ex-row.core span{color:rgba(249,168,212,.7)}
+.ex-row.knee{color:#bef264}.ex-row.knee span{color:rgba(190,242,100,.7)}
+
+.rw-banner{border:1px solid rgba(6,182,212,.4);background:rgba(6,182,212,.06);border-radius:8px;padding:10px 12px;margin-bottom:6px}
+.rw-banner .h{font-weight:700;font-size:12px;color:#67e8f9;margin-bottom:2px}
+.rw-banner .b{font-size:11px;color:var(--soft);line-height:1.45}
+.heat-tip{border:1px solid rgba(251,113,133,.4);background:rgba(251,113,133,.06);border-radius:8px;padding:10px 12px;margin-top:6px}
+.heat-tip .h{font-weight:700;font-size:12px;color:#fda4af;margin-bottom:2px}
+.heat-tip .b{font-size:11px;color:var(--soft);line-height:1.45}
+.cad-tip{border:1px solid rgba(163,230,53,.4);background:rgba(163,230,53,.06);border-radius:8px;padding:10px 12px;margin-bottom:6px}
+.cad-tip .h{font-weight:700;font-size:12px;color:#bef264;margin-bottom:2px}
+.cad-tip .b{font-size:11px;color:var(--soft);line-height:1.45}
+.neck-tip{border:1px solid rgba(245,158,11,.4);background:rgba(245,158,11,.06);border-radius:8px;padding:10px 12px;margin-bottom:6px}
+.neck-tip .h{font-weight:700;font-size:12px;color:#fcd34d;margin-bottom:2px}
+.neck-tip .b{font-size:11px;color:var(--soft);line-height:1.45}
+.time-flag{display:inline-flex;align-items:center;gap:5px;font-family:'JetBrains Mono',monospace;font-size:10px;padding:2px 7px;border-radius:4px;background:rgba(251,113,133,.14);color:#fda4af;border:1px solid rgba(251,113,133,.35);margin-left:6px}
+
+.sec{border:1px solid var(--line);border-radius:var(--r);padding:18px 20px;background:var(--bg2);margin-bottom:16px}
+.sec h2{font-family:'Fraunces',serif;font-size:19px;font-weight:700;margin-bottom:6px}
+.sec .sub{font-size:13px;color:var(--soft);margin-bottom:12px;line-height:1.5}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.gc{border:1px solid rgba(245,158,11,.25);border-radius:10px;padding:14px;background:rgba(245,158,11,.04)}
+.gc .n{font-weight:600;font-size:13px;margin-bottom:5px;color:#fcd34d}
+.gc .w{font-size:11px;color:var(--soft);line-height:1.5}
+.gc .w strong{color:var(--ink)}
+
+.ntbl{width:100%;border-collapse:collapse;font-size:12px}
+.ntbl th{text-align:left;padding:8px 12px;background:rgba(34,211,238,.07);font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#67e8f9;border-bottom:1px solid var(--line)}
+.ntbl td{padding:9px 12px;border-bottom:1px dashed #1c2030;vertical-align:top}
+.ntbl td:first-child{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--soft);width:120px}
+
+.tips{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.tip{border:1px solid var(--line);border-radius:10px;padding:14px;background:rgba(255,255,255,.02)}
+.tip .n{font-family:'Fraunces',serif;font-size:32px;font-weight:900;color:#67e8f9;line-height:1;margin-bottom:5px}
+.tip .h{font-weight:600;font-size:13px;margin-bottom:3px}
+.tip .b{font-size:12px;color:var(--soft);line-height:1.5}
+
+footer{margin-top:28px;text-align:center;color:var(--soft);font-size:11px;font-family:'JetBrains Mono',monospace;letter-spacing:.1em}
+
+@media(max-width:860px){
+  .days,.tips,.stat-row,.rev-grid,.grid3,.fit-asks{grid-template-columns:1fr}
+  .stat-row{grid-template-columns:repeat(2,1fr)}
+  .rev-grid{grid-template-columns:1fr 1fr}
+  .ex-grid{grid-template-columns:1fr}
+  body{padding:18px 12px 60px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<section class="hero">
+  <div class="eyebrow">Week 34 · August 17–23, 2026 · Houston Marathon 2027 · 21 weeks out · Aubrey, TX</div>
+  <h1>Fix the fit.<br>Keep <em>building</em>.</h1>
+  <p class="hero-sub">Week 33 was a big one: you held C-pace over 26 miles, your bike cadence climbed 59→66 rpm as targeted, and you swam twice — nearly tripling your longest swim. But the neck pain after every ride is the signal to act on now. This week is built around getting the bike fit sorted (Endure3 with Jason), keeping rides shorter and neck-cautious until it is, and settling into your preferred rhythm: 2 rides, 2 runs, 1 swim (Wed 9 AM), and real recovery.</p>
+  <div class="stat-row">
+    <div class="stat"><div class="k">Structure</div><div class="v">2R·2B·1S</div><div class="d swim">your rhythm</div></div>
+    <div class="stat"><div class="k">Priority</div><div class="v">Bike Fit</div><div class="d fit">Endure3 · Jason</div></div>
+    <div class="stat"><div class="k">Swim</div><div class="v">Wed 9 AM</div><div class="d swim">locked</div></div>
+    <div class="stat"><div class="k">Rides</div><div class="v">≤20 mi</div><div class="d warn">neck-cautious</div></div>
+    <div class="stat"><div class="k">Bike Cadence</div><div class="v">66→75</div><div class="d">keep climbing</div></div>
+  </div>
+</section>
+
+<div class="review-strip">
+  <h2>Week 33 scorecard — strong, and one clear signal ✅</h2>
+  <div class="rev-grid">
+    <div class="rev-c win"><div class="icon">🔧</div><div class="h">Cadence fix is working</div><div class="d">Pedaling cadence 59→62→66 rpm across the three rides, coasting cut from 44%→28%. Real movement toward the 80–90 target in one week.</div></div>
+    <div class="rev-c win"><div class="icon">🚴</div><div class="h">C-pace held over 26 mi</div><div class="d">~12.5 mph, HR 140 avg (upper Z2), NP 113W — sustained, not redlined. The pace question is answered: yes, you can hold it.</div></div>
+    <div class="rev-c win"><div class="icon">🏊</div><div class="h">Two swims — 950m Thursday</div><div class="d">First two-swim week. Thursday nearly tripled your longest swim. The third discipline is now a real habit, not a trial.</div></div>
+    <div class="rev-c warn"><div class="icon">🩹</div><div class="h">Neck pain after every ride</div><div class="d">The signal to act. PlayTri flagged the RS5's low integrated cockpit + long reach. A fit issue, not a fitness one — fix it now.</div></div>
+  </div>
+</div>
+
+<div class="fit-banner">
+  <h2>🔧 This week's #1 priority: the bike fit</h2>
+  <p><strong>Neck pain after every ride is a fit problem, not something to push through — and your plan to solve it is sound.</strong> The RS5's integrated cockpit sits low and the reach is long, forcing an aggressive forward lean that over-extends your neck. PlayTri's read is mechanically correct. And your triathlon logic is smart: the integrated cockpit won't accept aero bars, so switching to a standard stem + handlebar fixes the neck pain AND unlocks the future aero setup — two problems, one fix. Getting Jason's second opinion at Endure3 before spending is exactly right.</p>
+  <div class="fit-asks">
+    <div class="fa"><div class="h">Ask for a fit-LED solution</div><div class="b">Not just a parts swap. Ask Jason to <strong>measure you first</strong> (reach, saddle height, stack, flexibility) then spec the stem/bar length + angle to match. A new bar at the wrong length just moves the problem.</div></div>
+    <div class="fa"><div class="h">Mention the triathlon goal</div><div class="b">Tell him you want a cockpit that will <strong>accept clip-on aero bars</strong> later. That way one change serves both the neck fix now and the tri position down the road.</div></div>
+  </div>
+</div>
+
+<div class="callout amber">
+  <div class="ico">🩹</div>
+  <div>
+    <h3>Until the fit is fixed — ride neck-cautious</h3>
+    <p>Rides this week stay in the <strong>≤20-mile range and I've avoided two long back-to-back ride days</strong>, because duration is what triggers your neck. On the bike: <strong>relax your shoulders, bend your elbows</strong> (locked arms send every bump to the neck), <strong>shift hand positions often</strong>, and raise the front end if any spacer adjustment exists. After rides: gentle neck mobility (chin tucks, slow rotations). And keep lifting cadence — less weight on the hands eases the neck too.</p>
+  </div>
+</div>
+
+<div class="callout cyan">
+  <div class="ico">🏊</div>
+  <div>
+    <h3>Swim is now a fixture — Wednesday 9 AM</h3>
+    <p>Two swims last week made it official: swimming is a real part of your training now. This week's session is locked for <strong>Wednesday 9 AM</strong>. Keep building what's working — you're up to ~950m and 45 min. Apply the coach's "one thing to practice," and remember the pool is your one cool, neck-friendly session (horizontal, no bar lean). Massage gun after: lats/delts/traps, lightest setting.</p>
+  </div>
+</div>
+
+<div class="callout green">
+  <div class="ico">🏃</div>
+  <div>
+    <h3>Two quality runs — your chosen rhythm</h3>
+    <p>You asked for 2 good runs, and that's the right call in a bike-heavy, swim-added week. Both stay quality: one mid-week run-walk and the Friday long run (holding 70). Fewer run days means each one counts — go early, run gentle, keep cadence at 150. The marathon base stays protected even at 2 days because the long run is preserved.</p>
+  </div>
+</div>
+
+<div class="legend">
+  <span class="chip"><span class="dot" style="background:var(--z1)"></span>Run (run-walk)</span>
+  <span class="chip"><span class="dot" style="background:var(--bike)"></span>Ride (neck-cautious)</span>
+  <span class="chip"><span class="dot" style="background:var(--swim)"></span>Swim</span>
+  <span class="chip"><span class="dot" style="background:var(--fit)"></span>Bike Fit</span>
+  <span class="chip"><span class="dot" style="background:var(--knee)"></span>Glute / Cadence</span>
+  <span class="chip"><span class="dot" style="background:var(--rest)"></span>Rest</span>
+</div>
+
+<div class="section-title">Week 34 · Aug 17–23 · 2 Rides · 2 Runs · 1 Swim</div>
+
+<div class="days">
+
+  <div class="day" data-c="run">
+    <div class="day-hdr"><div><div class="day-name">Monday</div><div class="day-date">Aug 17</div><span class="cal-badge low">🔵 mild deficit</span></div><div class="day-focus">Run-Walk + Strength A</div></div>
+    <div class="day-body">
+      <div class="blk heat"><div class="lbl">🌡️ 5:15 AM · Wake + PRE-COOL <span class="time-flag">⏰ 5:30 out</span></div><div class="det">16 oz cold water + electrolyte. 5 min AC. ½ oats or banana. Out by 5:30 — cooler = lower HR.</div></div>
+      <div class="blk knee"><div class="lbl">🦵 Glute primer <span class="dur">3 min</span></div><div class="det">Bridges × 15 · clamshells × 12/side · hip-flexor opener 20 sec/side.</div></div>
+      <div class="blk pt"><div class="lbl">🩺 Dynamic warm-up <span class="dur">6 min</span></div><div class="det">Leg swings · lunges × 8 · high knees · butt kicks · 3 strides at 150.</div></div>
+      <div class="blk z1"><div class="lbl">🏃 Run-walk · 5:30 AM <span class="dur">40 min</span></div><div class="ttl">One of your two quality runs — make it count</div><div class="rw-banner"><div class="h">🌊 HEAT SETTING: run → 138 → walk → 126 · cadence 150</div><div class="b">Gentle intervals, slow HR climb, quick light feet. Early start keeps HR ~128–131.</div></div></div>
+      <div class="blk str"><div class="lbl">💪 Strength A + Core <span class="dur">18 min</span></div>
+        <div class="ex-grid">
+          <div class="ex-row knee">Glute bridge <span>· 3 × 15</span></div>
+          <div class="ex-row knee">Clamshells <span>· 3 × 15/side</span></div>
+          <div class="ex-row knee">Side leg raise <span>· 3 × 12/side</span></div>
+          <div class="ex-row">Bodyweight squat <span>· 3 × 12</span></div>
+          <div class="ex-row core">Dead-bug <span>· 3 × 12/side</span></div>
+          <div class="ex-row core">Hollow hold <span>· 3 × 25 sec</span></div>
+        </div>
+        <div class="neck-tip"><div class="h">🩹 Add for the neck</div><div class="b">Chin tucks × 10 · scapular squeezes × 12 · gentle neck rotations. Strengthening the deep neck flexors + upper back helps the cycling posture.</div></div>
+      </div>
+      <div class="blk fuel"><div class="lbl">🍎 Post</div><div class="det">Oats + whey. Rehydrate 20+ oz.</div></div>
+    </div>
+  </div>
+
+  <div class="day" data-c="bike">
+    <div class="day-hdr"><div><div class="day-name">Tuesday</div><div class="day-date">Aug 18</div><span class="cal-badge low">🔵 mild deficit</span></div><div class="day-focus">🚴 Ride #1 · neck-cautious</div></div>
+    <div class="day-body">
+      <div class="blk bike"><div class="lbl">🔧 Pre-ride · ABC check</div><div class="det">Air, Brakes, Chain. <strong>Raise the front end if any spacer is available</strong> — even a small change helps the neck until the fit. Helmet, bottle, phone, ID.</div></div>
+      <div class="blk heat"><div class="lbl">🌡️ 5:45 AM · Wake + fuel <span class="time-flag">⏰ 6:00 roll</span></div><div class="det">16 oz cold water + electrolyte. Toast + ½ banana. Cool, quiet roads.</div></div>
+      <div class="blk bike"><div class="lbl">🚴 Ride · 6:00 AM <span class="dur">45–60 min · ≤18 mi</span></div><div class="ttl">Keep it moderate — neck-cautious, cadence-focused</div>
+        <div class="cad-tip"><div class="h">🔧 Cadence: 66 → aim 72–75 rpm</div><div class="b">You climbed to 66 last week — nudge toward 75 in easier gears. Spin the climbs, don't grind. Higher cadence = less weight on the hands = less neck load.</div></div>
+        <div class="neck-tip"><div class="h">🩹 Neck protocol on the bike</div><div class="b">Relax shoulders, bend elbows, change hand positions every few minutes, look up by rolling shoulders back (not craning the neck). If neck pain starts, sit up / cut it short — don't push into it. Solo or easy C-pace, HR &lt;140.</div></div>
+      </div>
+      <div class="blk gun"><div class="lbl">🔫 Massage gun · post <span class="dur">6 min</span></div><div class="det">Quads 90s → glutes 60s → calves 60s/side. <strong>Plus: upper traps + between shoulder blades, LIGHT</strong> — helps ride-related neck tension. Never the front/sides of the neck.</div></div>
+      <div class="blk fuel"><div class="lbl">🍎 Post</div><div class="det">Smoothie: whey + milk + ½ banana + spinach. Gentle neck mobility.</div></div>
+    </div>
+  </div>
+
+  <div class="day" data-c="swim">
+    <div class="day-hdr"><div><div class="day-name">Wednesday</div><div class="day-date">Aug 19</div><span class="cal-badge high">🔴 maintenance</span></div><div class="day-focus">🏊 Swim · 9 AM</div></div>
+    <div class="day-body">
+      <div class="blk swim"><div class="lbl">🏊 Swim session · 9:00 AM (confirmed)</div><div class="ttl">Build on 950m — technique + steady swimming</div>
+        <div class="det"><strong>You're at ~950m / 45 min</strong> — a real base now. Keep the relaxed, continuous-exhale focus.<br><strong>Apply the coach's "one thing."</strong> If tired, slow down and lengthen the stroke rather than thrashing.<br><strong>Bonus:</strong> horizontal + no bar lean = the pool is a genuine break for your neck this week.</div>
+      </div>
+      <div class="blk fuel"><div class="lbl">🍎 Pre-swim (90 min before, ~7:30)</div><div class="det">Toast + banana + honey, or ½ oats jar. Nothing heavy within an hour. Hydrate.</div></div>
+      <div class="blk pt"><div class="lbl">🩺 Before getting in <span class="dur">5 min</span></div><div class="det">Arm circles × 15 each way · shoulder rolls × 10 · gentle neck rotations · practice exhale breaths.</div></div>
+      <div class="blk gun"><div class="lbl">🔫 Massage gun · post <span class="dur">5 min</span></div><div class="det">Lats 60s/side → rear delts 45s/side → upper traps 45s/side. Lowest speed. Never the neck itself.</div></div>
+      <div class="blk fuel"><div class="lbl">🍎 Post</div><div class="det">Protein + carbs within 30 min. (Maintenance day.)</div></div>
+    </div>
+  </div>
+
+  <div class="day" data-c="rest">
+    <div class="day-hdr"><div><div class="day-name">Thursday</div><div class="day-date">Aug 20</div><span class="cal-badge rest">🟣 rest / fit day</span></div><div class="day-focus">REST + Bike Fit window</div></div>
+    <div class="day-body">
+      <div class="blk fit"><div class="lbl">🔧 Ideal day for the Endure3 fit appointment</div><div class="ttl">Book Jason this week if you can — it's the week's real priority</div><div class="det">A rest day is the perfect time for the fit (no training to work around). <strong>Bring:</strong> the bike, your cycling shoes, and your ride notes (neck pain after every ride, ~2 hr rides, triathlon/aero-bar goal). <strong>Ask for:</strong> a fit-led stem/bar spec that accepts clip-on aero bars later.</div></div>
+      <div class="blk rest"><div class="lbl">😴 Otherwise: full recovery</div><div class="det">If the fit isn't today, this is a genuine rest day. <strong>Optional:</strong> easy evening walk. <strong>Required:</strong> 8+ hr sleep, desk-mobility reset.</div></div>
+      <div class="blk knee"><div class="lbl">🩹 Neck + posture routine <span class="dur">6 min</span></div><div class="det">Chin tucks × 10 · scapular squeezes × 12 · doorway chest stretch 30s · upper-trap stretch 30s/side. Counters both desk time and bike lean.</div></div>
+      <div class="blk fuel"><div class="lbl">🍎 Fuel</div><div class="det">Balanced eating, protein 120–155g. Prep long-run gear for tomorrow.</div></div>
+    </div>
+  </div>
+
+  <div class="day" data-c="long">
+    <div class="day-hdr"><div><div class="day-name">Friday</div><div class="day-date">Aug 21</div><span class="cal-badge high">🔴 maintenance</span></div><div class="day-focus">LONG RUN · 70 min</div></div>
+    <div class="day-body">
+      <div class="blk heat"><div class="lbl">🌡️ 5:00 AM · Wake + PRE-COOL <span class="time-flag">⏰ earliest — go before 5:30</span></div><div class="det">16 oz cold water + electrolyte. 1 cup oats + honey + ½ banana + almond butter. 5–10 min AC. <strong>Out by 5:30</strong> — last week's 6:50 start was warm; earlier = ~128 HR.</div></div>
+      <div class="blk knee"><div class="lbl">🦵 Glute primer <span class="dur">3 min</span></div><div class="det">Bridges × 15 · clamshells × 12/side · hip-flexor opener.</div></div>
+      <div class="blk pt"><div class="lbl">🩺 Dynamic warm-up <span class="dur">8 min</span></div><div class="det">Leg swings · lunges × 10 · A-skips · butt kicks · 4 strides at 150.</div></div>
+      <div class="blk long"><div class="lbl">🏃 Long Run-Walk · 5:30 AM <span class="dur">70 min — CAP</span></div><div class="ttl">7th straight 70 · your metronome run · effort &amp; HR only</div>
+        <div class="rw-banner"><div class="h">🌊 HEAT SETTING: run → 138 → walk → 126 · cadence 150 · STOP AT 70</div><div class="b">HR's been a rock-steady 131 for weeks. Earlier start should pull it to ~128. Don't chase pace — the heat still owns the clock.</div></div>
+        <div class="heat-tip"><div class="h">🌡️ Heat fueling</div><div class="b">Frozen bottle, electrolyte every 20 min, sodium 500–700mg, water on neck/head. Dizzy/chills → STOP.</div></div>
+      </div>
+      <div class="blk pt"><div class="lbl">🩺 Post · recovery <span class="dur">15 min</span></div><div class="det">Walk 5 min → cool shower → legs up wall → foam roll → pigeon 90s/side.</div></div>
+      <div class="blk gun"><div class="lbl">🔫 Massage gun · full <span class="dur">10 min</span></div><div class="det">Quads 90s → calves 90s → hamstrings 60s → glutes 60s per side.</div></div>
+      <div class="blk fuel"><div class="lbl">🍎 Post</div><div class="det">Recovery shake within 20 min, full meal within 90. Hydrate — ride tomorrow.</div></div>
+    </div>
+  </div>
+
+  <div class="day" data-c="bike">
+    <div class="day-hdr"><div><div class="day-name">Saturday</div><div class="day-date">Aug 22</div><span class="cal-badge high">🔴 maintenance</span></div><div class="day-focus">🚴 Ride #2 · group</div></div>
+    <div class="day-body">
+      <div class="blk bike"><div class="lbl">🚴 Group ride · 20 mi · 8:00 AM</div><div class="ttl">The McKinney novice ride you know — neck-aware</div>
+        <div class="cad-tip"><div class="h">🔧 Cadence + spin the climbs</div><div class="b">Hold 72–75 rpm, easier gears on the hills. You climbed fine at 59–66 rpm before; higher cadence will feel better and protect the knee.</div></div>
+        <div class="neck-tip"><div class="h">🩹 If the fit ISN'T done yet</div><div class="b">Ride it, but manage the neck actively: relax/bend elbows, change hand positions, sit up periodically. If neck pain builds like previous weeks, cut it short — 15 easy miles is fine. Don't grind out the full 20 in pain.</div></div>
+      </div>
+      <div class="blk heat"><div class="lbl">🌡️ Pre-ride (90 min before)</div><div class="det">Breakfast: oats + banana + honey + toast. 16 oz water + electrolyte. 2 bottles on the bike.</div></div>
+      <div class="blk gun"><div class="lbl">🔫 Massage gun · post <span class="dur">6 min</span></div><div class="det">Quads/glutes/calves + upper traps &amp; between shoulder blades (LIGHT). Never the neck itself.</div></div>
+      <div class="blk fuel"><div class="lbl">🍎 Post</div><div class="det">Protein + carbs within 30 min, full meal after. Rehydrate.</div></div>
+    </div>
+  </div>
+
+  <div class="day" data-c="rest">
+    <div class="day-hdr"><div><div class="day-name">Sunday</div><div class="day-date">Aug 23</div><span class="cal-badge rest">🟣 rest day</span></div><div class="day-focus">REST (mandatory)</div></div>
+    <div class="day-body">
+      <div class="blk rest"><div class="lbl">😴 Complete rest — mandatory</div><div class="ttl">2 rides + 2 runs + swim done. Recovery is the point.</div><div class="det">Nothing today. <strong>Optional:</strong> easy evening walk. <strong>Required:</strong> 8+ hr sleep, desk-mobility + neck routine, full hydration.</div></div>
+      <div class="blk gun"><div class="lbl">🔫 Massage gun · gentle <span class="dur">8 min</span></div><div class="det">Quads, calves, glutes, lats, upper traps — 45–60s each, lowest speed. Legs up the wall 10 min.</div></div>
+      <div class="blk fuel"><div class="lbl">🍎 Fuel + Week 35 prep</div><div class="det">3 meals, protein 120–155g. <strong>Note: did the fit happen? Is the neck better? Did cadence reach 75?</strong> That shapes Week 35 — and whether rides can lengthen again.</div></div>
+    </div>
+  </div>
+
+</div>
+
+<section class="sec">
+  <h2>🚴 STCC Ride Picks — matched to your profile</h2>
+  <p class="sub">I couldn't load the live calendar (members-only + bot-protected), but based on your current level here's what to pick from their Upcoming Events — and what to skip for now.</p>
+  <div class="grid3">
+    <div class="gc"><div class="n">✓ Pick these</div><div class="w"><strong>C-pace rides, 20–28 mi</strong>, early start (6–8 AM). The "Easy Like Tuesday Morning" C-pace and the Saturday McKinney novice are ideal templates — you've held both. No-drop rides preferred.</div></div>
+    <div class="gc"><div class="n">✗ Skip for now</div><div class="w"><strong>A/B-pace rides</strong> (too fast — you'd redline, and Zone 3–4 is your injury trigger). And <strong>40+ mile rides</strong> until the neck fit is fixed and you've built more saddle time.</div></div>
+    <div class="gc"><div class="n">⚠ Confirm first</div><div class="w">STCC's newer rides are <strong>members-only, pre-register online, no on-site signup, no planned drop-back</strong>. Confirm your membership, register in advance, and have a pickup contact (matters while the neck is a question mark).</div></div>
+  </div>
+  <p style="font-size:12px;color:var(--soft);margin-top:10px;line-height:1.5">Paste me the actual event names + distances (or RideWithGPS links) from their calendar and I'll pick the two best for the week specifically.</p>
+</section>
+
+<section class="sec">
+  <h2>Week 34 at a glance</h2>
+  <table class="ntbl">
+    <thead><tr><th>Day</th><th>Session</th><th>Start</th><th>Note</th></tr></thead>
+    <tbody>
+      <tr><td>Mon</td><td>Run-walk 40 + Strength A</td><td>5:30 AM</td><td>quality run #1</td></tr>
+      <tr><td>Tue</td><td>Ride ≤18 mi (neck-cautious)</td><td>6:00 AM</td><td>cadence 72–75</td></tr>
+      <tr><td>Wed</td><td>Swim 9:00 AM</td><td>9:00 AM</td><td>locked · neck-friendly</td></tr>
+      <tr><td>Thu</td><td>REST + bike fit window</td><td>—</td><td>book Endure3 if possible</td></tr>
+      <tr><td>Fri</td><td>Long run 70 (cap)</td><td>5:30 AM</td><td>quality run #2 · go early</td></tr>
+      <tr><td>Sat</td><td>Ride 20 mi group</td><td>8:00 AM</td><td>cut short if neck flares</td></tr>
+      <tr><td>Sun</td><td>REST (mandatory)</td><td>—</td><td>recover fully</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<div class="section-title">The 3 things that define Week 34</div>
+<div class="tips">
+  <div class="tip"><div class="n">01</div><div class="h">Get the bike fit sorted</div><div class="b">The neck pain is a fit issue — book Endure3 with Jason. Ask for a fit-led stem/bar spec that also accepts aero bars later. Two problems, one fix. This is the week's real priority.</div></div>
+  <div class="tip"><div class="n">02</div><div class="h">Ride neck-cautious until then</div><div class="b">Rides stay ≤20 mi, no back-to-back long days. Relax shoulders, bend elbows, shift hands, keep spinning higher cadence. If the neck flares, sit up or cut it short — don't push through.</div></div>
+  <div class="tip"><div class="n">03</div><div class="h">Your rhythm: 2 rides, 2 runs, 1 swim</div><div class="b">The structure you asked for, and it's well-judged. Swim's now a fixture (Wed 9 AM), two quality runs protect the marathon base, and the extra rest days let a bike-heavy week absorb properly.</div></div>
+</div>
+
+<footer>HOUSTON MARATHON 2027 · 21 WEEKS TO RACE DAY · WEEK 34 · FIX THE FIT · 2 RIDES · 2 RUNS · 1 SWIM</footer>
+</div>
+</body>
+</html>
