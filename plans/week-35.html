@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Week 35 · Aug 24–30, 2026 · Hotter'N Hell Event Week</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,700;0,900;1,700&family=JetBrains+Mono:wght@400;600&family=Inter+Tight:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0b0d12;--bg2:#10131b;--ink:#f5f1e8;--soft:#a8a594;--line:#1f2330;
+  --z1:#3aa17a;--z2:#3b82f6;--str:#a855f7;--long:#ef6c4d;
+  --rest:#52525b;--pt:#14b8a6;--fuel:#eab308;--core:#ec4899;
+  --swim:#22d3ee;--gun:#f97316;--knee:#a3e635;--bike:#818cf8;--heat:#fb7185;--event:#f43f5e;--nut:#34d399;
+  --win:#22c55e;--fix:#ef4444;--warn:#f59e0b;
+  --r:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:'Inter Tight',sans-serif;
+  background:radial-gradient(1100px 500px at 75% -5%,rgba(244,63,94,.10),transparent 60%),
+             radial-gradient(800px 400px at -5% 35%,rgba(251,113,133,.06),transparent 55%),var(--bg);
+  color:var(--ink);line-height:1.5;min-height:100vh;padding:36px 20px 80px;
+}
+.wrap{max-width:1180px;margin:0 auto}
+.hero{border:1px solid var(--line);border-radius:var(--r);padding:28px;background:linear-gradient(135deg,#1a0e13,#12131f);position:relative;overflow:hidden;margin-bottom:18px}
+.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(700px 300px at 90% 0%,rgba(244,63,94,.16),transparent);pointer-events:none}
+.eyebrow{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--soft);margin-bottom:10px}
+h1{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(28px,5vw,52px);letter-spacing:-.02em;line-height:1.02;margin-bottom:8px}
+h1 em{font-style:italic;color:#fda4af;font-weight:400}
+.hero-sub{color:var(--soft);font-size:14px;max-width:770px;line-height:1.6}
+.stat-row{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:20px;position:relative;z-index:1}
+.stat{border:1px solid var(--line);border-radius:10px;padding:12px 14px;background:rgba(255,255,255,.02)}
+.stat .k{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--soft)}
+.stat .v{font-family:'Fraunces',serif;font-size:20px;font-weight:700;margin-top:3px;line-height:1}
+.stat .d{font-size:11px;color:var(--win);margin-top:2px;font-family:'JetBrains Mono',monospace}
+.stat .d.warn{color:#fbbf24}.stat .d.event{color:#fda4af}.stat .d.rest{color:#c4b5fd}
+
+.review-strip{border:1px solid var(--line);border-radius:var(--r);background:var(--bg2);padding:18px 20px;margin-bottom:16px}
+.review-strip h2{font-family:'Fraunces',serif;font-size:19px;margin-bottom:12px}
+.rev-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.rev-c{border:1px solid var(--line);border-radius:8px;padding:12px;background:rgba(255,255,255,.02)}
+.rev-c .icon{font-size:18px;margin-bottom:4px}
+.rev-c .h{font-weight:600;font-size:13px;margin-bottom:3px}
+.rev-c .d{font-size:11px;color:var(--soft);line-height:1.4}
+.rev-c.win{border-color:rgba(34,197,94,.25)}
+
+.event-banner{border:2px solid rgba(244,63,94,.5);background:linear-gradient(135deg,rgba(244,63,94,.11),rgba(251,113,133,.04));border-radius:var(--r);padding:22px 24px;margin-bottom:16px}
+.event-banner h2{font-family:'Fraunces',serif;font-size:23px;color:#fda4af;margin-bottom:8px;letter-spacing:-.01em}
+.event-banner p{font-size:13.5px;line-height:1.6;color:var(--ink);margin-bottom:8px}
+.event-banner p strong{color:#fda4af}
+.event-meta{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
+.event-meta div{font-family:'JetBrains Mono',monospace;font-size:11px;padding:5px 11px;border-radius:5px;background:rgba(244,63,94,.1);color:#fda4af;border:1px solid rgba(244,63,94,.3)}
+
+.split-box{border:2px solid rgba(245,158,11,.5);background:rgba(245,158,11,.07);border-radius:12px;padding:18px 20px;margin-top:14px}
+.split-box .h{font-family:'Fraunces',serif;font-size:18px;color:#fcd34d;margin-bottom:6px}
+.split-box p{font-size:13px;line-height:1.6;color:var(--ink)}
+.split-box p strong{color:#fde68a}
+
+.callout{border-radius:10px;padding:14px 18px;margin-bottom:14px;display:flex;gap:14px;align-items:flex-start}
+.callout.green{border:1px solid rgba(34,197,94,.3);background:rgba(34,197,94,.06)}
+.callout.rose{border:1px solid rgba(251,113,133,.3);background:rgba(251,113,133,.06)}
+.callout.red{border:1px solid rgba(239,68,68,.35);background:rgba(239,68,68,.07)}
+.callout.violet{border:1px solid rgba(196,181,253,.3);background:rgba(196,181,253,.06)}
+.callout .ico{font-size:22px;flex-shrink:0;margin-top:2px}
+.callout h3{font-family:'Fraunces',serif;font-size:17px;margin-bottom:4px}
+.callout.green h3{color:#86efac}.callout.rose h3{color:#fda4af}.callout.red h3{color:#fca5a5}.callout.violet h3{color:#c4b5fd}
+.callout p{font-size:13px;line-height:1.55;color:var(--ink)}
+.callout p strong{color:#fde68a}
+
+.section-title{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--soft);margin:22px 0 12px;display:flex;align-items:center;gap:10px}
+.section-title::after{content:"";flex:1;height:1px;background:var(--line)}
+
+.legend{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.chip{display:inline-flex;align-items:center;gap:7px;padding:6px 12px;border:1px solid var(--line);border-radius:30px;font-size:11px;font-family:'JetBrains Mono',monospace;letter-spacing:.05em;background:var(--bg2)}
+.dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+
+.days{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-bottom:20px}
+.day{border:1px solid var(--line);border-radius:var(--r);background:var(--bg2);overflow:hidden;display:flex;flex-direction:column}
+.day.event-day{border:2px solid rgba(244,63,94,.5)}
+.day-hdr{padding:13px 17px 11px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:flex-end;gap:10px;position:relative}
+.day-hdr::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--dc,#fff)}
+.day-name{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--soft)}
+.day-date{font-family:'Fraunces',serif;font-size:24px;font-weight:700;line-height:1;margin-top:2px}
+.day-focus{text-align:right;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;padding:4px 8px;border-radius:4px;background:rgba(255,255,255,.04);border:1px solid var(--line);color:var(--soft);max-width:180px}
+.cal-badge{font-family:'JetBrains Mono',monospace;font-size:9px;padding:2px 6px;border-radius:3px;margin-top:3px;display:inline-block}
+.cal-badge.high{background:rgba(239,108,77,.12);color:#fca97f}
+.cal-badge.low{background:rgba(59,130,246,.12);color:#7dd3fc}
+.cal-badge.rest{background:rgba(196,181,253,.12);color:#c4b5fd}
+.cal-badge.carb{background:rgba(52,211,153,.12);color:#6ee7b7}
+.day-body{padding:14px 17px 16px;flex:1;display:flex;flex-direction:column;gap:11px}
+
+.blk{border-left:3px solid var(--bc,#fff);padding:9px 13px;background:rgba(255,255,255,.012);border-radius:0 8px 8px 0}
+.blk .lbl{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--soft);display:flex;justify-content:space-between;align-items:center;margin-bottom:3px}
+.blk .dur{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink);background:rgba(255,255,255,.06);padding:2px 6px;border-radius:3px}
+.blk .ttl{font-size:13px;font-weight:600;margin-bottom:4px}
+.blk .det{font-size:12px;color:var(--soft);line-height:1.55}
+.blk .det strong{color:var(--ink)}
+.blk.z1{--bc:var(--z1)}.blk.str{--bc:var(--str)}
+.blk.long{--bc:var(--long)}.blk.rest{--bc:var(--rest)}.blk.pt{--bc:var(--pt)}
+.blk.fuel{--bc:var(--fuel)}.blk.core{--bc:var(--core)}.blk.swim{--bc:var(--swim)}.blk.gun{--bc:var(--gun)}.blk.knee{--bc:var(--knee)}.blk.bike{--bc:var(--bike)}.blk.heat{--bc:var(--heat)}.blk.event{--bc:var(--event)}.blk.nut{--bc:var(--nut)}
+.day[data-c="run"]{--dc:var(--z1)}
+.day[data-c="rest"]{--dc:var(--rest)}.day[data-c="swim"]{--dc:var(--swim)}.day[data-c="bike"]{--dc:var(--bike)}.day[data-c="event"]{--dc:var(--event)}
+
+.rw-banner{border:1px solid rgba(6,182,212,.4);background:rgba(6,182,212,.06);border-radius:8px;padding:10px 12px;margin-bottom:6px}
+.rw-banner .h{font-weight:700;font-size:12px;color:#67e8f9;margin-bottom:2px}
+.rw-banner .b{font-size:11px;color:var(--soft);line-height:1.45}
+.nut-tip{border:1px solid rgba(52,211,153,.4);background:rgba(52,211,153,.06);border-radius:8px;padding:10px 12px;margin-top:6px}
+.nut-tip .h{font-weight:700;font-size:12px;color:#6ee7b7;margin-bottom:2px}
+.nut-tip .b{font-size:11px;color:var(--soft);line-height:1.45}
+.heat-tip{border:1px solid rgba(251,113,133,.4);background:rgba(251,113,133,.06);border-radius:8px;padding:10px 12px;margin-top:6px}
+.heat-tip .h{font-weight:700;font-size:12px;color:#fda4af;margin-bottom:2px}
+.heat-tip .b{font-size:11px;color:var(--soft);line-height:1.45}
+.time-flag{display:inline-flex;align-items:center;gap:5px;font-family:'JetBrains Mono',monospace;font-size:10px;padding:2px 7px;border-radius:4px;background:rgba(244,63,94,.14);color:#fda4af;border:1px solid rgba(244,63,94,.35);margin-left:6px}
+
+.sec{border:1px solid var(--line);border-radius:var(--r);padding:18px 20px;background:var(--bg2);margin-bottom:16px}
+.sec h2{font-family:'Fraunces',serif;font-size:19px;font-weight:700;margin-bottom:6px}
+.sec .sub{font-size:13px;color:var(--soft);margin-bottom:12px;line-height:1.5}
+
+.nut-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.nut-c{border:1px solid rgba(52,211,153,.28);border-radius:10px;padding:15px;background:rgba(52,211,153,.04)}
+.nut-c .n{font-weight:700;font-size:14px;margin-bottom:8px;color:#6ee7b7;display:flex;align-items:center;gap:8px}
+.nut-c ul{list-style:none;padding:0;margin:0}
+.nut-c li{font-size:12px;color:var(--soft);line-height:1.5;padding:3px 0 3px 16px;position:relative}
+.nut-c li::before{content:"▸";position:absolute;left:0;color:#34d399}
+.nut-c li strong{color:var(--ink)}
+
+.fuel-table{width:100%;border-collapse:collapse;font-size:12px;margin-top:8px}
+.fuel-table th{text-align:left;padding:8px 12px;background:rgba(52,211,153,.08);font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:#6ee7b7;border-bottom:1px solid var(--line)}
+.fuel-table td{padding:9px 12px;border-bottom:1px dashed #1c2030;vertical-align:top}
+.fuel-table td:first-child{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--soft);width:130px;white-space:nowrap}
+
+.stop-signs{border:2px solid rgba(239,68,68,.4);background:rgba(239,68,68,.06);border-radius:12px;padding:16px 20px;margin-top:14px}
+.stop-signs .h{font-family:'Fraunces',serif;font-size:17px;color:#fca5a5;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.stop-signs ul{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:1fr 1fr;gap:4px 16px}
+.stop-signs li{font-size:12px;color:var(--ink);line-height:1.5;padding:2px 0 2px 18px;position:relative}
+.stop-signs li::before{content:"⛔";position:absolute;left:0;font-size:10px}
+
+.ntbl{width:100%;border-collapse:collapse;font-size:12px}
+.ntbl th{text-align:left;padding:8px 12px;background:rgba(244,63,94,.07);font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#fda4af;border-bottom:1px solid var(--line)}
+.ntbl td{padding:9px 12px;border-bottom:1px dashed #1c2030;vertical-align:top}
+.ntbl td:first-child{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--soft);width:120px}
+
+.tips{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.tip{border:1px solid var(--line);border-radius:10px;padding:14px;background:rgba(255,255,255,.02)}
+.tip .n{font-family:'Fraunces',serif;font-size:32px;font-weight:900;color:#fda4af;line-height:1;margin-bottom:5px}
+.tip .h{font-weight:600;font-size:13px;margin-bottom:3px}
+.tip .b{font-size:12px;color:var(--soft);line-height:1.5}
+
+footer{margin-top:28px;text-align:center;color:var(--soft);font-size:11px;font-family:'JetBrains Mono',monospace;letter-spacing:.1em}
+
+@media(max-width:860px){
+  .days,.tips,.stat-row,.rev-grid,.nut-grid{grid-template-columns:1fr}
+  .stat-row{grid-template-columns:repeat(2,1fr)}
+  .rev-grid{grid-template-columns:1fr 1fr}
+  .stop-signs ul{grid-template-columns:1fr}
+  body{padding:18px 12px 60px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<section class="hero">
+  <div class="eyebrow">Week 35 · August 24–30, 2026 · Houston Marathon 2027 · 20 weeks out · EVENT WEEK</div>
+  <h1>Taper week.<br><em>Hotter'N Hell</em> Saturday.</h1>
+  <p class="hero-sub">Your first cycling event is here — the Hotter'N Hell 50-mile in Wichita Falls, Saturday at 7:05 AM. This week is a taper: minimal, easy sessions to arrive fresh, one short spin, and everything pointed at Saturday. The focus shifts from training to preparation — nutrition, hydration, heat strategy, and a clear, honest plan for riding smart and safe. You've built the fitness (a 29-mile ride at 14 mph just two weeks ago). Now the job is to execute with discipline and respect the heat.</p>
+  <div class="stat-row">
+    <div class="stat"><div class="k">This Week</div><div class="v">TAPER</div><div class="d event">stay fresh</div></div>
+    <div class="stat"><div class="k">Event</div><div class="v">Sat 7:05a</div><div class="d event">HHH 50 mi</div></div>
+    <div class="stat"><div class="k">Rides</div><div class="v">1 easy</div><div class="d">Tue spin</div></div>
+    <div class="stat"><div class="k">Priority</div><div class="v">Fuel + H₂O</div><div class="d warn">heat plan</div></div>
+    <div class="stat"><div class="k">Golden Rule</div><div class="v">Bail OK</div><div class="d event">at the split</div></div>
+  </div>
+</section>
+
+<div class="review-strip">
+  <h2>Week 34 scorecard — cadence fix landed, longest ride ever ✅</h2>
+  <div class="rev-grid">
+    <div class="rev-c win"><div class="icon">🔧</div><div class="h">Cadence 54 → 72 rpm</div><div class="d">The knee-protection fix took hold: pedaling cadence climbed all block, hitting 72 rpm on Tuesday — the closest to the 80–90 target yet.</div></div>
+    <div class="rev-c win"><div class="icon">🚴</div><div class="h">29 miles — new longest</div><div class="d">Tuesday: 29 mi at 14.0 mph, NP 122W, HR 145. Longest ride ever, at higher cadence. Directly proves you can sustain C-pace over distance.</div></div>
+    <div class="rev-c win"><div class="icon">🏃</div><div class="h">7th straight 70-min run</div><div class="d">Friday: 5.03 mi, exactly 70 min, HR 131 again. The run engine is metronomic — marathon base banking steadily.</div></div>
+    <div class="rev-c win"><div class="icon">📉</div><div class="h">HR control holding</div><div class="d">Every session in Zone 2 or controlled upper-Z2. The intensity discipline that prevents your injury cycles is firmly in place.</div></div>
+  </div>
+</div>
+
+<div class="event-banner">
+  <h2>🔥 Saturday: Hotter'N Hell 50-Mile · Wichita Falls · 7:05 AM</h2>
+  <p><strong>Your first cycling event.</strong> A well-supported, iconic ride — 19 rest stops, 800 medical volunteers, SAG wagons. You've built real fitness for this: a 29-mile ride at 14 mph just two weeks ago. The distance is a step up (50 is ~1.7× your longest), so the whole game Saturday is <strong>pace discipline, relentless fueling and hydration, and respecting the heat</strong> — this ride is famous for it, and you'll likely be finishing as it peaks toward 100°F.</p>
+  <div class="event-meta">
+    <div>📅 Sat Aug 29 · 7:05 AM</div>
+    <div>🚴 50 miles</div>
+    <div>📍 Wichita Falls (~2 hr drive)</div>
+    <div>🌡️ Heat = the #1 factor</div>
+    <div>❤️ Ride YOUR Zone 2</div>
+  </div>
+  <div class="split-box">
+    <div class="h">⚠️ The golden rule: decide honestly at the split</div>
+    <p>The routes share early miles, and the 50 passes the shorter turnaround. <strong>Ride toward the split and make an honest call there.</strong> Strong + cool + hydrated + neck quiet → continue to 50. Struggling, overheating, cramping, or neck flaring → <strong>take the shorter finish and count it a win.</strong> There is zero shame in the shorter route and real danger in pushing into heat illness. Building this checkpoint in is what makes the 50 a smart attempt, not a gamble. Use the SAG wagons and medical tents without hesitation — that's what they're for.</p>
+  </div>
+</div>
+
+<div class="callout violet">
+  <div class="ico">📉</div>
+  <div>
+    <h3>Why this week is so light — the taper</h3>
+    <p>You asked to do just one ride this week because early mornings and prep are tough right now — and for event week, that's exactly right anyway. <strong>Tapering means cutting volume while staying fresh.</strong> The fitness is already banked; nothing you do this week adds to it, but too much would leave you tired on Saturday. So: one short easy spin Tuesday to keep the legs turning, a couple of optional short shakeouts, and rest. Arrive Saturday rested and hungry to ride.</p>
+  </div>
+</div>
+
+<div class="callout green">
+  <div class="ico">🥗</div>
+  <div>
+    <h3>Nutrition is this week's real training</h3>
+    <p>For a 4+ hour effort in extreme heat, <strong>fueling and hydration matter more than any workout</strong>. The plan below builds hydration and carbs progressively through the week, dials in your race-morning meal, and gives you an exact on-the-bike fueling schedule. Get this right and you protect both your finish and your safety. Full nutrition section is below the daily plan.</p>
+  </div>
+</div>
+
+<div class="legend">
+  <span class="chip"><span class="dot" style="background:var(--bike)"></span>Easy Ride</span>
+  <span class="chip"><span class="dot" style="background:var(--z1)"></span>Shakeout Run</span>
+  <span class="chip"><span class="dot" style="background:var(--swim)"></span>Optional Swim</span>
+  <span class="chip"><span class="dot" style="background:var(--event)"></span>EVENT</span>
+  <span class="chip"><span class="dot" style="background:var(--nut)"></span>Nutrition focus</span>
+  <span class="chip"><span class="dot" style="background:var(--rest)"></span>Rest</span>
+</div>
+
+<div class="section-title">Week 35 · Aug 24–30 · Taper to the Event</div>
+
+<div class="days">
+
+  <!-- MONDAY -->
+  <div class="day" data-c="rest">
+    <div class="day-hdr"><div><div class="day-name">Monday</div><div class="day-date">Aug 24</div><span class="cal-badge rest">🟣 recover</span></div><div class="day-focus">Rest / easy shakeout</div></div>
+    <div class="day-body">
+      <div class="blk rest"><div class="lbl">😴 Rest or gentle movement</div><div class="ttl">Recover from Saturday's ride · start the taper</div><div class="det">Full rest is fine. If you want to move: an easy 25–30 min walk or very gentle run, nothing that fatigues you. The week's goal is freshness, not fitness.</div></div>
+      <div class="blk knee"><div class="lbl">🦵 Mobility + neck routine <span class="dur">8 min</span></div><div class="det">Glute bridges, clamshells, hip-flexor opener + chin tucks and scapular squeezes. Keep the desk-and-bike posture happy.</div></div>
+      <div class="blk nut"><div class="lbl">🥗 Nutrition</div><div class="det"><strong>Start hydrating now</strong> — the week before a hot event, hydration is cumulative. Normal balanced eating, protein 120–155g. Begin adding an electrolyte drink daily.</div></div>
+    </div>
+  </div>
+
+  <!-- TUESDAY — the one ride -->
+  <div class="day" data-c="bike">
+    <div class="day-hdr"><div><div class="day-name">Tuesday</div><div class="day-date">Aug 25</div><span class="cal-badge low">🔵 light</span></div><div class="day-focus">🚴 30mi group · EASY only</div></div>
+    <div class="day-body">
+      <div class="blk bike"><div class="lbl">🚴 30-mile group ride · 6:00 AM <span class="dur">~2–2.5 hr · EASY</span></div><div class="ttl">Your one ride — ride it as your last easy spin, not a workout</div>
+        <div class="rw-banner"><div class="h">⚠️ Four days before the event — keep it genuinely easy</div><div class="b">30 mi is ~your longest ride, just 4 days before the biggest event yet. It adds NO fitness now — the risk is a group pulling you into a hard effort. Sit at the back, Zone 2, HR &lt;140, spin 75+ rpm. If the pace lifts, let it go. Trimming to ~20 mi is the safer call. Easy 30 = recoverable by Saturday; hard 30 = not.</div></div>
+        <div class="nut-tip"><div class="h">🥗 Dress rehearsal — practice Saturday's habits</div><div class="b">Test your exact race-day gels + Scratch mix here (see Tuesday table below). Confirm nothing upsets your stomach, and rehearse drinking on a 15-min timer + eating every ~45 min. Same routine, scaled up Saturday.</div></div>
+      </div>
+      <div class="blk knee"><div class="lbl">🩹 Neck</div><div class="det">Relax shoulders, bend elbows, change hand positions often — rehearse the habits for Saturday's long hours.</div></div>
+      <div class="blk nut"><div class="lbl">🥗 Fuel</div><div class="det">Full Tuesday hydration table is in the nutrition section below. Bottom line: <strong>1 Scratch packet per bottle (not 2 in one)</strong>, 2 bottles + a 3rd if hot, and 1 gel/banana mid-ride.</div></div>
+    </div>
+  </div>
+
+  <!-- WEDNESDAY -->
+  <div class="day" data-c="swim">
+    <div class="day-hdr"><div><div class="day-name">Wednesday</div><div class="day-date">Aug 26</div><span class="cal-badge rest">🟣 easy/rest</span></div><div class="day-focus">Optional easy swim</div></div>
+    <div class="day-body">
+      <div class="blk swim"><div class="lbl">🏊 Optional easy swim <span class="dur">20–30 min</span></div><div class="ttl">Low-impact, neck-friendly, fully optional</div><div class="det">If you feel like moving, an easy relaxed swim is perfect taper work — zero leg fatigue, easy on the body. Keep it gentle and short. Or take full rest. No hard efforts.</div></div>
+      <div class="blk nut"><div class="lbl">🥗 Nutrition · carb ramp begins</div><div class="det"><strong>Start shifting the plate toward carbs</strong> (rice, pasta, oats, potatoes, fruit) over the next 3 days. Keep hydrating + electrolytes. Begin easing back on very high-fiber foods to keep the gut settled for race day.</div></div>
+      <div class="blk knee"><div class="lbl">🦵 Mobility + neck <span class="dur">8 min</span></div><div class="det">Full routine. Keep loose.</div></div>
+    </div>
+  </div>
+
+  <!-- THURSDAY -->
+  <div class="day" data-c="run">
+    <div class="day-hdr"><div><div class="day-name">Thursday</div><div class="day-date">Aug 27</div><span class="cal-badge low">🔵 light</span></div><div class="day-focus">Short shakeout run</div></div>
+    <div class="day-body">
+      <div class="blk z1"><div class="lbl">🏃 Easy shakeout · 5:30 AM <span class="dur">25–30 min</span></div><div class="ttl">Short, easy, just to stay loose — optional</div>
+        <div class="rw-banner"><div class="h">🌊 Keep it gentle · run-walk · cadence 150</div><div class="b">A short easy jog keeps the legs fresh without fatigue. HR &lt;135. If you'd rather rest fully before the event, that's completely fine too — listen to the body.</div></div>
+      </div>
+      <div class="blk nut"><div class="lbl">🥗 Nutrition</div><div class="det">Carb-forward meals continue. Hydrate steadily — your urine should be pale straw by now. Protein stays adequate for recovery.</div></div>
+      <div class="blk gun"><div class="lbl">🔫 Massage gun · light <span class="dur">6 min</span></div><div class="det">Quads, calves, glutes — gentle. Flush the legs, don't dig deep this close to the event.</div></div>
+    </div>
+  </div>
+
+  <!-- FRIDAY — day before -->
+  <div class="day" data-c="rest">
+    <div class="day-hdr"><div><div class="day-name">Friday</div><div class="day-date">Aug 28</div><span class="cal-badge carb">🟢 carb + prep</span></div><div class="day-focus">Rest · travel · prep</div></div>
+    <div class="day-body">
+      <div class="blk rest"><div class="lbl">😴 Rest + event prep day</div><div class="ttl">Legs up. Everything ready. Travel to Wichita Falls.</div><div class="det">No training (an optional 10–15 min easy spin to loosen the legs is fine). Drive up (~2 hr), settle in, pick up your packet, locate the start. Early night — sleep is your last training session.</div></div>
+      <div class="blk nut"><div class="lbl">🥗 Nutrition · the day-before plate</div><div class="det"><strong>Higher-carb, moderate portions all day</strong> (don't stuff — top off, don't overload). Familiar foods only, nothing new. Hydrate with electrolytes through the day. <strong>No alcohol.</strong> Dinner: pasta/rice + lean protein (chicken/fish) + easy veg, lower fiber.</div></div>
+      <div class="blk event"><div class="lbl">🎒 Pack tonight — checklist</div><div class="det">Bike + helmet · <strong>2 bottles + extra electrolyte mix</strong> · gels/chews · spare tube, levers, pump/CO₂ · phone + ID + cash · sunscreen · sunglasses · front + rear lights · kit laid out · Garmin + HR strap charged · cooler with post-ride recovery food/drink in the car.</div></div>
+    </div>
+  </div>
+
+  <!-- SATURDAY — EVENT -->
+  <div class="day event-day" data-c="event">
+    <div class="day-hdr"><div><div class="day-name">Saturday</div><div class="day-date">Aug 29</div><span class="cal-badge high">🔴 EVENT</span></div><div class="day-focus">🔥 HHH 50 · 7:05 AM</div></div>
+    <div class="day-body">
+      <div class="blk event"><div class="lbl">🔥 Hotter'N Hell 50-Mile <span class="dur">7:05 AM rollout</span></div><div class="ttl">Your first cycling event · ride smart, ride safe</div>
+        <div class="heat-tip"><div class="h">🌡️ The pacing rule that keeps you safe</div><div class="b">Ride YOUR Zone 2 from the gun — HR under ~140, conversational. Do NOT chase faster riders or surge early; the excitement + fresh legs make the first 15 miles feel deceptively easy. Bank calm early so you have reserves for the heat later. Spin 75+ rpm to protect the knee.</div></div>
+        <div class="split-box"><div class="h">⚠️ Decide honestly at the split</div><p>At the shorter-route turnaround, make the honest call: <strong>strong, cool, hydrated, neck OK → go on to 50. Otherwise → take the shorter finish, proudly.</strong> Bailing to the short route or a SAG wagon is smart, not weak.</p></div>
+      </div>
+      <div class="blk nut"><div class="lbl">🥗 Race morning (up ~4:30, eat by 4:45–5:00)</div><div class="det"><strong>Breakfast 2–2.5 hr before (familiar):</strong> oats + banana + honey + toast, or a bagel with honey. 16–20 oz water + electrolyte. Small top-up 30 min before: ½ banana or a few chews + sips of fluid.</div></div>
+      <div class="blk nut"><div class="lbl">⛽ On the bike — fuel + hydrate on a SCHEDULE</div><div class="det">Per hour: <strong>1 bottle + 1 Scratch packet</strong>, <strong>1 gel/banana every ~45 min</strong>, and <strong>1–2 salt tabs</strong> across the ride to reach 600–800mg sodium/hr. <strong>Refill BOTH bottles at EVERY rest stop</strong> (19 of them) — you can't carry the ~80–112 oz you'll need. Full numbers in the nutrition table below. Drink every 15 min on a timer, not by thirst.</div></div>
+      <div class="blk heat"><div class="lbl">🧊 Cool at every stop</div><div class="det">Use the rest stops generously — shade, ice down your jersey/neck, wet your kit, refill. A few extra minutes cooling beats overheating. This is a supported ride; take what it offers.</div></div>
+      <div class="blk gun"><div class="lbl">🔫 Post-event</div><div class="det">Rehydrate hard, protein + carbs within 30–45 min, get out of the sun, easy massage-gun flush at home. Big day — respect the recovery.</div></div>
+    </div>
+  </div>
+
+  <!-- SUNDAY -->
+  <div class="day" data-c="rest">
+    <div class="day-hdr"><div><div class="day-name">Sunday</div><div class="day-date">Aug 30</div><span class="cal-badge rest">🟣 recover</span></div><div class="day-focus">REST (mandatory)</div></div>
+    <div class="day-body">
+      <div class="blk rest"><div class="lbl">😴 Complete rest — you earned it</div><div class="ttl">First cycling event done. Absorb it.</div><div class="det">Nothing today. Gentle walk if you feel like it. Rehydrate all day, replenish protein + carbs, sleep well. Note how the day went — pacing, heat, fueling, the neck, whether you did 25 or 50 — it all shapes the return to normal training in Week 36.</div></div>
+      <div class="blk gun"><div class="lbl">🔫 Massage gun · gentle <span class="dur">8 min</span></div><div class="det">Quads, calves, glutes, upper traps — light, lowest speed. Legs up the wall 10 min.</div></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- FULL NUTRITION SECTION -->
+<section class="sec">
+  <h2>🥗 Nutrition — Event Week + The Endurance Ride</h2>
+  <p class="sub">This is the most important part of the week. A 50-mile ride in extreme heat is won or lost on fueling and hydration. Here's the full plan — the week's build, race morning, and the exact on-bike schedule.</p>
+
+  <div class="nut-grid">
+    <div class="nut-c">
+      <div class="n">📅 The Week (Mon–Fri)</div>
+      <ul>
+        <li><strong>Hydration is cumulative</strong> — start Monday. Add an electrolyte drink daily; aim for pale-straw urine by Thursday.</li>
+        <li><strong>Carb ramp from Wed</strong> — shift the plate toward rice, pasta, oats, potatoes, fruit. You're not "loading" hugely, just topping the tank over 3 days.</li>
+        <li><strong>Protein stays steady</strong> (120–155g/day) for recovery — chicken, eggs, Greek yogurt, fish.</li>
+        <li><strong>Ease off very high fiber</strong> Thu–Fri to keep the gut calm on race day.</li>
+        <li><strong>Sodium up</strong> as the week closes — you'll sweat heavily Saturday; prime the reservoir.</li>
+      </ul>
+    </div>
+    <div class="nut-c">
+      <div class="n">🌙 Day Before (Friday)</div>
+      <ul>
+        <li><strong>Carb-forward, moderate portions</strong> all day — top off, don't overstuff (overeating backfires).</li>
+        <li><strong>Familiar foods only</strong> — nothing new or exotic the day before.</li>
+        <li><strong>Hydrate with electrolytes</strong> steadily; carry a bottle and sip.</li>
+        <li><strong>Dinner:</strong> pasta or rice + lean protein + easy-to-digest veg. Lower fiber, lower fat.</li>
+        <li><strong>No alcohol.</strong> Early night — sleep matters more than any last workout.</li>
+      </ul>
+    </div>
+    <div class="nut-c">
+      <div class="n">🌅 Race Morning</div>
+      <ul>
+        <li><strong>Eat 2–2.5 hr before</strong> (up ~4:30, eat by 4:45–5:00 for a 7:05 start).</li>
+        <li><strong>Familiar breakfast:</strong> oats + banana + honey + toast, or bagel + honey + a little nut butter.</li>
+        <li><strong>16–20 oz water + electrolyte</strong> with breakfast.</li>
+        <li><strong>Top-up 30 min before:</strong> ½ banana or a few chews + sips of fluid.</li>
+        <li><strong>Nothing new, nothing greasy or super high-fiber.</strong></li>
+      </ul>
+    </div>
+    <div class="nut-c">
+      <div class="n">🏁 Post-Ride Recovery</div>
+      <ul>
+        <li><strong>Rehydrate aggressively</strong> — water + electrolytes; you'll finish depleted in the heat.</li>
+        <li><strong>Protein + carbs within 30–45 min</strong> — recovery shake, then a real meal.</li>
+        <li><strong>Keep sipping electrolytes</strong> for hours afterward.</li>
+        <li><strong>Get out of the sun</strong> and cool down properly before the drive home.</li>
+        <li><strong>Big meal + good sleep</strong> — the recovery is part of the event.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- SCRATCH MIX RULE -->
+  <div style="margin-top:16px;border:1px solid rgba(52,211,153,.35);background:rgba(52,211,153,.05);border-radius:10px;padding:14px 16px">
+    <div style="font-weight:700;font-size:13px;color:#6ee7b7;margin-bottom:5px">🧪 Scratch mixing rule — read first</div>
+    <div style="font-size:12px;color:var(--soft);line-height:1.55"><strong style="color:var(--ink)">One Scratch packet per bottle (20–22 oz) — never 2 in one bottle.</strong> Doubling the mix slows absorption, can upset your stomach, and leaves you short on fluid. So 2 packets = 2 bottles. Each Scratch ≈ 80 cal · 21g carb · 380mg sodium. Scratch is light on carbs for long rides, so you top up carbs with gels/bananas and sodium with a salt tab or aid-station snacks.</div>
+  </div>
+
+  <!-- TUESDAY 30MI TABLE -->
+  <div style="margin-top:16px">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#7dd3fc;margin-bottom:6px">⛽ Tuesday 30-Mile Ride (~2–2.5 hr) — precise & simple</div>
+    <table class="fuel-table" style="--x:1">
+      <thead><tr><th>When</th><th>What</th><th>Detail</th></tr></thead>
+      <tbody>
+        <tr><td>45–60 min before</td><td>12–16 oz water + ½ Scratch · ½ banana or toast+honey</td><td>top off, don't stuff</td></tr>
+        <tr><td>Hour 1 · mi 0–15</td><td>Bottle 1: 20–22 oz + <strong>1 Scratch packet</strong></td><td>2–3 gulps every 15 min</td></tr>
+        <tr><td>~60–75 min in</td><td><strong>1 gel or 1 banana</strong> (~25g carb)</td><td>packets alone are light on carbs</td></tr>
+        <tr><td>Hour 2 · mi 15–30</td><td>Bottle 2: 20–22 oz + <strong>1 Scratch packet</strong></td><td>same sipping rhythm</td></tr>
+        <tr><td>If hot / &gt;2 hr</td><td><strong>3rd bottle of plain water</strong> or a refill stop</td><td>+ 1 salt tab if salty sweater</td></tr>
+        <tr><td>After</td><td>16–24 oz fluid + protein/carb snack</td><td>rehydrate for the week</td></tr>
+      </tbody>
+    </table>
+    <div style="font-size:11px;color:var(--soft);margin-top:6px;line-height:1.5">Totals with 2 packets: ~44 oz fluid · 760mg sodium · ~42g carb + gel/banana. <strong style="color:#fda4af">Fluid is the tight number — carry a 3rd bottle if it's hot.</strong></div>
+  </div>
+
+  <!-- 50 MILE TABLE -->
+  <div style="margin-top:18px">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#fda4af;margin-bottom:6px">🔥 Saturday 50-Mile Event (~4.5 hr in heat) — the full plan</div>
+    <table class="fuel-table">
+      <thead><tr><th>When</th><th>What</th><th>Why</th></tr></thead>
+      <tbody>
+        <tr><td>2–2.5 hr before</td><td>Oats + banana + honey + toast · 16–20 oz water + ½ Scratch</td><td>fuel the tank early</td></tr>
+        <tr><td>30 min before</td><td>½ banana or a few chews + sips</td><td>top-up</td></tr>
+        <tr><td>Every hour ×4</td><td><strong>1 bottle (20–22 oz) + 1 Scratch packet</strong></td><td>base fluid + sodium</td></tr>
+        <tr><td>Every ~45 min</td><td><strong>1 gel or banana</strong> (~25g) — aim 4+ total</td><td>Scratch alone isn't enough carb</td></tr>
+        <tr><td>Across the ride</td><td><strong>1–2 salt tabs</strong> + aid-station pickles/chips</td><td>reach 600–800mg sodium/hr</td></tr>
+        <tr><td>EVERY rest stop</td><td><strong>Refill BOTH bottles</strong> + ice head/neck/jersey</td><td>44 oz on-bike ≠ enough; 19 stops exist</td></tr>
+      </tbody>
+    </table>
+    <div style="font-size:11px;color:var(--soft);margin-top:6px;line-height:1.5"><strong style="color:var(--ink)">4-hour targets:</strong> ~160–240g carb · ~2,400–3,200mg sodium · ~80–112 oz fluid (4–5+ bottles). <strong style="color:#fda4af">You cannot carry that fluid — refilling at every rest stop is mandatory, not optional.</strong> Carry ~4–5 Scratch packets, 5–6 gels, and a few salt tabs; use aid-station food to fill gaps.</div>
+  </div>
+
+  <div style="margin-top:14px;border:1px solid rgba(129,140,248,.3);background:rgba(129,140,248,.05);border-radius:10px;padding:13px 16px">
+    <div style="font-weight:700;font-size:12px;color:#a5b4fc;margin-bottom:4px">📊 Tuesday vs Saturday — the key difference</div>
+    <div style="font-size:12px;color:var(--soft);line-height:1.55">Tuesday's 2 packets + 1 gel works for 2 hours. <strong style="color:var(--ink)">Saturday needs roughly double per hour and 4–5× the total fluid.</strong> Same habits (drink every 15 min, eat every 45), scaled way up — and the refills are what make it possible. Tuesday is your rehearsal for the routine; don't under-fuel Saturday by copying Tuesday's amounts.</div>
+  </div>
+
+  <div class="stop-signs">
+    <div class="h">⛔ STOP and get help if you feel any of these (heat illness)</div>
+    <ul>
+      <li>Dizziness or lightheadedness</li>
+      <li>Nausea or headache</li>
+      <li>Goosebumps or chills in the heat</li>
+      <li>You stop sweating / skin goes dry</li>
+      <li>Muscle cramping</li>
+      <li>Confusion or feeling "off"</li>
+    </ul>
+    <p style="font-size:12px;color:var(--ink);margin-top:10px;line-height:1.5">Any of these → get off the bike, into shade, to a rest stop or medical tent. Flag a SAG wagon. This is not weakness — heat stroke is a genuine emergency, and every rest stop has trained help. Finishing the shorter route or getting a ride back is always the right call over pushing into danger.</p>
+  </div>
+</section>
+
+<!-- WEEK AT A GLANCE -->
+<section class="sec">
+  <h2>Week 35 at a glance</h2>
+  <table class="ntbl">
+    <thead><tr><th>Day</th><th>Session</th><th>Focus</th></tr></thead>
+    <tbody>
+      <tr><td>Mon Aug 24</td><td>Rest / easy walk</td><td>recover · start hydrating</td></tr>
+      <tr><td>Tue Aug 25</td><td>Easy spin 45–60 min (the one ride)</td><td>fuel dress-rehearsal</td></tr>
+      <tr><td>Wed Aug 26</td><td>Optional easy swim / rest</td><td>carb ramp begins</td></tr>
+      <tr><td>Thu Aug 27</td><td>Short shakeout run 25–30 min</td><td>stay loose · hydrate</td></tr>
+      <tr><td>Fri Aug 28</td><td>Rest · travel · prep</td><td>carb + pack + early night</td></tr>
+      <tr><td>Sat Aug 29</td><td>🔥 HHH 50-MILE · 7:05 AM</td><td>ride smart · fuel · decide at split</td></tr>
+      <tr><td>Sun Aug 30</td><td>REST (mandatory)</td><td>recover fully</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<div class="section-title">The 3 things that define event week</div>
+<div class="tips">
+  <div class="tip"><div class="n">01</div><div class="h">Fresh legs beat fit legs</div><div class="b">The fitness is already banked. This week is about arriving rested — one easy ride, light shakeouts, real rest. Don't add training stress; you can't improve fitness this week but you can blunt it by overdoing it.</div></div>
+  <div class="tip"><div class="n">02</div><div class="h">Fuel, hydrate, respect the heat</div><div class="b">A 4+ hour ride in Wichita Falls heat is won on nutrition. Hydrate all week, carb-ramp from Wednesday, and follow the on-bike schedule: 40–60g carbs, a bottle, and 600–800mg sodium every hour. Refill and cool at every stop.</div></div>
+  <div class="tip"><div class="n">03</div><div class="h">Decide honestly at the split</div><div class="b">Ride your Zone 2, bank calm early, and make an honest call at the turnaround. Strong and cool → 50. Struggling or overheating → the shorter finish, proudly. Bailing is smart; heat illness is an emergency. Either finish is a win.</div></div>
+</div>
+
+<footer>HOUSTON MARATHON 2027 · 20 WEEKS TO RACE DAY · WEEK 35 · HOTTER'N HELL EVENT WEEK · RIDE SMART · RESPECT THE HEAT</footer>
+</div>
+</body>
+</html>
