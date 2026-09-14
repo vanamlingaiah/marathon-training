@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Week 38 · Sep 14–20, 2026 · Simple Runs + Stretch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,700;0,900;1,700&family=JetBrains+Mono:wght@400;600&family=Inter+Tight:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0b0d12;--bg2:#10131b;--ink:#f5f1e8;--soft:#a8a594;--line:#1f2330;
+  --z1:#3aa17a;--z2:#3b82f6;--str:#a855f7;--long:#ef6c4d;
+  --rest:#52525b;--pt:#14b8a6;--fuel:#eab308;--core:#ec4899;
+  --swim:#22d3ee;--gun:#f97316;--knee:#a3e635;--bike:#818cf8;--stretch:#c084fc;--recover:#34d399;
+  --win:#22c55e;--warn:#f59e0b;
+  --r:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter Tight',sans-serif;background:radial-gradient(1100px 500px at 75% -5%,rgba(58,161,122,.09),transparent 60%),radial-gradient(800px 400px at -5% 35%,rgba(192,132,252,.05),transparent 55%),var(--bg);color:var(--ink);line-height:1.5;min-height:100vh;padding:36px 20px 80px}
+.wrap{max-width:1180px;margin:0 auto}
+.hero{border:1px solid var(--line);border-radius:var(--r);padding:28px;background:linear-gradient(135deg,#0d1a14,#15101c);position:relative;overflow:hidden;margin-bottom:18px}
+.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(700px 300px at 90% 0%,rgba(58,161,122,.13),transparent);pointer-events:none}
+.eyebrow{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--soft);margin-bottom:10px}
+h1{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(28px,5vw,52px);letter-spacing:-.02em;line-height:1.02;margin-bottom:8px}
+h1 em{font-style:italic;color:#86efac;font-weight:400}
+.hero-sub{color:var(--soft);font-size:14px;max-width:770px;line-height:1.6}
+.stat-row{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:20px;position:relative;z-index:1}
+.stat{border:1px solid var(--line);border-radius:10px;padding:12px 14px;background:rgba(255,255,255,.02)}
+.stat .k{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--soft)}
+.stat .v{font-family:'Fraunces',serif;font-size:20px;font-weight:700;margin-top:3px;line-height:1}
+.stat .d{font-size:11px;color:var(--win);margin-top:2px;font-family:'JetBrains Mono',monospace}
+.stat .d.warn{color:#fbbf24}.stat .d.str{color:#d8b4fe}.stat .d.rec{color:#6ee7b7}
+
+.review-strip{border:1px solid var(--line);border-radius:var(--r);background:var(--bg2);padding:18px 20px;margin-bottom:16px}
+.review-strip h2{font-family:'Fraunces',serif;font-size:19px;margin-bottom:12px}
+.rev-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.rev-c{border:1px solid var(--line);border-radius:8px;padding:12px;background:rgba(255,255,255,.02)}
+.rev-c .icon{font-size:18px;margin-bottom:4px}
+.rev-c .h{font-weight:600;font-size:13px;margin-bottom:3px}
+.rev-c .d{font-size:11px;color:var(--soft);line-height:1.4}
+.rev-c.win{border-color:rgba(34,197,94,.25)}
+
+.callout{border-radius:10px;padding:14px 18px;margin-bottom:14px;display:flex;gap:14px;align-items:flex-start}
+.callout.green{border:1px solid rgba(34,197,94,.3);background:rgba(34,197,94,.06)}
+.callout.purple{border:1px solid rgba(192,132,252,.3);background:rgba(192,132,252,.06)}
+.callout.emerald{border:1px solid rgba(52,211,153,.3);background:rgba(52,211,153,.06)}
+.callout .ico{font-size:22px;flex-shrink:0;margin-top:2px}
+.callout h3{font-family:'Fraunces',serif;font-size:17px;margin-bottom:4px}
+.callout.green h3{color:#86efac}.callout.purple h3{color:#d8b4fe}.callout.emerald h3{color:#6ee7b7}
+.callout p{font-size:13px;line-height:1.55;color:var(--ink)}
+.callout p strong{color:#fde68a}
+
+.section-title{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--soft);margin:22px 0 12px;display:flex;align-items:center;gap:10px}
+.section-title::after{content:"";flex:1;height:1px;background:var(--line)}
+
+.legend{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.chip{display:inline-flex;align-items:center;gap:7px;padding:6px 12px;border:1px solid var(--line);border-radius:30px;font-size:11px;font-family:'JetBrains Mono',monospace;letter-spacing:.05em;background:var(--bg2)}
+.dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+
+.days{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-bottom:20px}
+.day{border:1px solid var(--line);border-radius:var(--r);background:var(--bg2);overflow:hidden;display:flex;flex-direction:column}
+.day-hdr{padding:13px 17px 11px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:flex-end;gap:10px;position:relative}
+.day-hdr::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--dc,#fff)}
+.day-name{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--soft)}
+.day-date{font-family:'Fraunces',serif;font-size:24px;font-weight:700;line-height:1;margin-top:2px}
+.day-focus{text-align:right;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;padding:4px 8px;border-radius:4px;background:rgba(255,255,255,.04);border:1px solid var(--line);color:var(--soft);max-width:180px}
+.cal-badge{font-family:'JetBrains Mono',monospace;font-size:9px;padding:2px 6px;border-radius:3px;margin-top:3px;display:inline-block}
+.cal-badge.high{background:rgba(239,108,77,.12);color:#fca97f}
+.cal-badge.low{background:rgba(59,130,246,.12);color:#7dd3fc}
+.cal-badge.rest{background:rgba(196,181,253,.12);color:#c4b5fd}
+.day-body{padding:14px 17px 16px;flex:1;display:flex;flex-direction:column;gap:11px}
+
+.blk{border-left:3px solid var(--bc,#fff);padding:9px 13px;background:rgba(255,255,255,.012);border-radius:0 8px 8px 0}
+.blk .lbl{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--soft);display:flex;justify-content:space-between;align-items:center;margin-bottom:3px}
+.blk .dur{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink);background:rgba(255,255,255,.06);padding:2px 6px;border-radius:3px}
+.blk .ttl{font-size:13px;font-weight:600;margin-bottom:4px}
+.blk .det{font-size:12px;color:var(--soft);line-height:1.55}
+.blk .det strong{color:var(--ink)}
+.blk.z1{--bc:var(--z1)}.blk.rest{--bc:var(--rest)}.blk.pt{--bc:var(--pt)}
+.blk.fuel{--bc:var(--fuel)}.blk.knee{--bc:var(--knee)}.blk.bike{--bc:var(--bike)}.blk.swim{--bc:var(--swim)}.blk.gun{--bc:var(--gun)}.blk.stretch{--bc:var(--stretch)}.blk.recover{--bc:var(--recover)}
+.day[data-c="run"]{--dc:var(--z1)}.day[data-c="rest"]{--dc:var(--rest)}.day[data-c="swim"]{--dc:var(--swim)}.day[data-c="bike"]{--dc:var(--bike)}.day[data-c="stretch"]{--dc:var(--stretch)}
+
+.ex-grid{display:grid;grid-template-columns:1fr 1fr;gap:3px 12px;margin-top:6px}
+.ex-row{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink)}
+.ex-row span{color:var(--soft)}
+.ex-row.stretch{color:#d8b4fe}.ex-row.stretch span{color:rgba(216,180,254,.7)}
+.ex-row.knee{color:#bef264}.ex-row.knee span{color:rgba(190,242,100,.7)}
+
+.rw-banner{border:1px solid rgba(58,161,122,.4);background:rgba(58,161,122,.06);border-radius:8px;padding:10px 12px;margin-bottom:6px}
+.rw-banner .h{font-weight:700;font-size:12px;color:#86efac;margin-bottom:2px}
+.rw-banner .b{font-size:11px;color:var(--soft);line-height:1.45}
+.stretch-tip{border:1px solid rgba(192,132,252,.4);background:rgba(192,132,252,.06);border-radius:8px;padding:10px 12px;margin-top:6px}
+.stretch-tip .h{font-weight:700;font-size:12px;color:#d8b4fe;margin-bottom:2px}
+.stretch-tip .b{font-size:11px;color:var(--soft);line-height:1.45}
+.time-flag{display:inline-flex;align-items:center;gap:5px;font-family:'JetBrains Mono',monospace;font-size:10px;padding:2px 7px;border-radius:4px;background:rgba(58,161,122,.14);color:#86efac;border:1px solid rgba(58,161,122,.35);margin-left:6px}
+
+.sec{border:1px solid var(--line);border-radius:var(--r);padding:18px 20px;background:var(--bg2);margin-bottom:16px}
+.sec h2{font-family:'Fraunces',serif;font-size:19px;font-weight:700;margin-bottom:6px}
+.sec .sub{font-size:13px;color:var(--soft);margin-bottom:12px;line-height:1.5}
+.stretch-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.sg-c{border:1px solid rgba(192,132,252,.28);border-radius:10px;padding:15px;background:rgba(192,132,252,.04)}
+.sg-c .n{font-weight:700;font-size:14px;margin-bottom:8px;color:#d8b4fe;display:flex;align-items:center;gap:8px}
+.sg-c ul{list-style:none;padding:0;margin:0}
+.sg-c li{font-size:12px;color:var(--soft);line-height:1.5;padding:3px 0 3px 16px;position:relative}
+.sg-c li::before{content:"▸";position:absolute;left:0;color:#c084fc}
+.sg-c li strong{color:var(--ink)}
+
+.ntbl{width:100%;border-collapse:collapse;font-size:12px}
+.ntbl th{text-align:left;padding:8px 12px;background:rgba(58,161,122,.07);font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#86efac;border-bottom:1px solid var(--line)}
+.ntbl td{padding:9px 12px;border-bottom:1px dashed #1c2030;vertical-align:top}
+.ntbl td:first-child{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--soft);width:120px}
+
+.tips{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.tip{border:1px solid var(--line);border-radius:10px;padding:14px;background:rgba(255,255,255,.02)}
+.tip .n{font-family:'Fraunces',serif;font-size:32px;font-weight:900;color:#86efac;line-height:1;margin-bottom:5px}
+.tip .h{font-weight:600;font-size:13px;margin-bottom:3px}
+.tip .b{font-size:12px;color:var(--soft);line-height:1.5}
+
+footer{margin-top:28px;text-align:center;color:var(--soft);font-size:11px;font-family:'JetBrains Mono',monospace;letter-spacing:.1em}
+
+@media(max-width:860px){
+  .days,.tips,.stat-row,.rev-grid,.stretch-grid{grid-template-columns:1fr}
+  .stat-row{grid-template-columns:repeat(2,1fr)}
+  .rev-grid{grid-template-columns:1fr}
+  .ex-grid{grid-template-columns:1fr}
+  body{padding:18px 12px 60px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<section class="hero">
+  <div class="eyebrow">Week 38 · Sep 14–20, 2026 · Houston Marathon 2027 · 18 weeks out · Reset Week</div>
+  <h1>Simple runs.<br>Stretch &amp; <em>reset</em>.</h1>
+  <p class="hero-sub">Two endurance events in two weeks, both ridden with real Zone 2 discipline — Waco was a strong close to your summer cycling block. Now the timing is ideal: your bike's out until Saturday, your recovery clock reads 40 hours, and it's the natural moment to shift focus back toward running for Houston. This week is deliberately simple — easy runs, a real stretching focus, and enough rest to fully absorb Waco. No pressure, no big volume. Restore, loosen up, and gently rebuild the run habit.</p>
+  <div class="stat-row">
+    <div class="stat"><div class="k">This Week</div><div class="v">Runs+Stretch</div><div class="d rec">simple reset</div></div>
+    <div class="stat"><div class="k">Recovery</div><div class="v">40 hr</div><div class="d warn">respect it</div></div>
+    <div class="stat"><div class="k">Bike</div><div class="v">Out → Sat</div><div class="d str">optional Sat</div></div>
+    <div class="stat"><div class="k">Runs</div><div class="v">3 easy</div><div class="d">rebuild base</div></div>
+    <div class="stat"><div class="k">Focus</div><div class="v">Mobility</div><div class="d str">daily stretch</div></div>
+  </div>
+</section>
+
+<div class="review-strip">
+  <h2>Waco Wild West scorecard — a strong second event ✅</h2>
+  <div class="rev-grid">
+    <div class="rev-c win"><div class="icon">🤠</div><div class="h">44.6 mi, 64% Zone 2</div><div class="d">3h52m, HR 132 avg, zero Zone 4/5. Your second endurance event ridden with the same patient discipline. Well done.</div></div>
+    <div class="rev-c win"><div class="icon">📊</div><div class="h">Smart pacing curve</div><div class="d">HR by quarter 120→133→134→139 — started conservative, gentle rise, never redlined. Textbook long-ride pacing.</div></div>
+    <div class="rev-c win"><div class="icon">🚴</div><div class="h">Two 45-mi events banked</div><div class="d">HHH + Waco in two weeks, both controlled. Big endurance + confidence base for your triathlon goals. Great summer block.</div></div>
+  </div>
+</div>
+
+<div class="callout emerald">
+  <div class="ico">😌</div>
+  <div>
+    <h3>Respect the 40-hour recovery first</h3>
+    <p>Your Garmin recovery clock runs from Sunday's ride, so it clears around <strong>Tuesday morning</strong>. That's why Monday is rest and the first run waits until Tuesday, kept genuinely easy. A 4-hour event earns real recovery — pushing hard runs into it just digs a hole. Let Waco settle, then ease into the running.</p>
+  </div>
+</div>
+
+<div class="callout green">
+  <div class="ico">🏃</div>
+  <div>
+    <h3>Simple, easy runs — the pivot back to Houston</h3>
+    <p>With the cycling events done and the bike out until Saturday, this is the natural moment to shift focus back toward running for the marathon (18 weeks out). But we rebuild gently: <strong>three easy run-walk sessions</strong>, all conversational (HR under ~136, cadence 150). You've been running twice a week during the bike block, so this restores frequency first — we'll add distance in the coming weeks. Keep every run this week genuinely easy.</p>
+  </div>
+</div>
+
+<div class="callout purple">
+  <div class="ico">🧘</div>
+  <div>
+    <h3>Stretching is a real focus this week</h3>
+    <p>You asked for stretches, and it's perfectly timed — weeks of cycling posture plus two long rides tighten up hips, hip flexors, calves, and the upper back/neck. This week has a <strong>full daily mobility routine</strong>: dynamic before runs, static after, plus dedicated hip/calf/glute work. Restoring range of motion now keeps the knee happy and sets up better running form as volume returns. The full routine is in its own section below.</p>
+  </div>
+</div>
+
+<div class="legend">
+  <span class="chip"><span class="dot" style="background:var(--z1)"></span>Easy Run</span>
+  <span class="chip"><span class="dot" style="background:var(--stretch)"></span>Stretch / Mobility</span>
+  <span class="chip"><span class="dot" style="background:var(--swim)"></span>Optional Swim</span>
+  <span class="chip"><span class="dot" style="background:var(--bike)"></span>Optional Ride (Sat)</span>
+  <span class="chip"><span class="dot" style="background:var(--rest)"></span>Rest</span>
+</div>
+
+<div class="section-title">Week 38 · Sep 14–20 · Simple Runs + Stretch</div>
+
+<div class="days">
+
+  <div class="day" data-c="rest">
+    <div class="day-hdr"><div><div class="day-name">Monday</div><div class="day-date">Sep 14</div><span class="cal-badge rest">🟣 recover</span></div><div class="day-focus">Rest + gentle stretch</div></div>
+    <div class="day-body">
+      <div class="blk recover"><div class="lbl">😌 Full rest — Waco recovery</div><div class="ttl">Recovery clock still running — let it clear</div><div class="det">No running today (recovery reads 40 hr from Sunday). Optional easy 20–30 min walk to loosen the legs. Hydrate, protein 120–155g, sleep well.</div></div>
+      <div class="blk stretch"><div class="lbl">🧘 Gentle full-body stretch <span class="dur">12 min</span></div><div class="det">Slow static stretches — the post-Waco reset (see full routine below). Hold each 30 sec, breathe, don't force.</div></div>
+      <div class="blk gun"><div class="lbl">🔫 Massage gun · gentle <span class="dur">8 min</span></div><div class="det">Quads, calves, glutes, hip flexors (light), upper traps. Lowest speed. Flush the ride out of the legs.</div></div>
+    </div>
+  </div>
+
+  <div class="day" data-c="run">
+    <div class="day-hdr"><div><div class="day-name">Tuesday</div><div class="day-date">Sep 15</div><span class="cal-badge low">🔵 easy</span></div><div class="day-focus">Easy run + stretch</div></div>
+    <div class="day-body">
+      <div class="blk stretch"><div class="lbl">🧘 Dynamic warm-up <span class="dur">6 min</span></div><div class="det">Leg swings · walking lunges × 8 · high knees · butt kicks · hip circles · ankle rolls. Loosen before you run.</div></div>
+      <div class="blk knee"><div class="lbl">🦵 Glute primer <span class="dur">3 min</span></div><div class="det">Bridges × 15 · clamshells × 12/side · hip-flexor opener.</div></div>
+      <div class="blk z1"><div class="lbl">🏃 Easy run-walk · 5:30 AM <span class="dur">30 min</span></div><div class="ttl">First run back — very easy, feel it out</div><div class="rw-banner"><div class="h">🌊 Gentle · run→138 / walk→126 · cadence 150</div><div class="b">Recovery just cleared — keep this genuinely easy, HR &lt;136. Short and relaxed. If the legs feel heavy from Waco, walk more. Just re-grooving the run habit.</div></div></div>
+      <div class="blk stretch"><div class="lbl">🧘 Post-run static stretch <span class="dur">10 min</span></div><div class="det">Full lower-body static routine (below). This is the priority today — hips, calves, hamstrings, quads, glutes.</div></div>
+      <div class="blk fuel"><div class="lbl">🍎 Post</div><div class="det">Oats + whey. Rehydrate.</div></div>
+    </div>
+  </div>
+
+  <div class="day" data-c="swim">
+    <div class="day-hdr"><div><div class="day-name">Wednesday</div><div class="day-date">Sep 16</div><span class="cal-badge rest">🟣 easy</span></div><div class="day-focus">Optional swim + stretch</div></div>
+    <div class="day-body">
+      <div class="blk swim"><div class="lbl">🏊 Optional easy swim <span class="dur">25–35 min</span></div><div class="ttl">Low-impact, keeps the habit — fully optional</div><div class="det">If it fits, an easy relaxed swim is great active recovery and keeps your third discipline alive. Or take full rest — this is a light week. No hard efforts.</div></div>
+      <div class="blk stretch"><div class="lbl">🧘 Mobility routine <span class="dur">12 min</span></div><div class="det">Full stretch + mobility session (below). Extra attention to hip flexors and upper back after the cycling block.</div></div>
+      <div class="blk fuel"><div class="lbl">🍎 Fuel</div><div class="det">Normal balanced eating, protein 120–155g. Hydrate.</div></div>
+    </div>
+  </div>
+
+  <div class="day" data-c="run">
+    <div class="day-hdr"><div><div class="day-name">Thursday</div><div class="day-date">Sep 17</div><span class="cal-badge low">🔵 easy</span></div><div class="day-focus">Easy run + stretch</div></div>
+    <div class="day-body">
+      <div class="blk stretch"><div class="lbl">🧘 Dynamic warm-up <span class="dur">6 min</span></div><div class="det">Leg swings · lunges × 8 · high knees · butt kicks · hip circles · 3 easy strides.</div></div>
+      <div class="blk knee"><div class="lbl">🦵 Glute primer <span class="dur">3 min</span></div><div class="det">Bridges × 15 · clamshells × 12/side · hip-flexor opener.</div></div>
+      <div class="blk z1"><div class="lbl">🏃 Easy run-walk · 5:30 AM <span class="dur">35 min</span></div><div class="ttl">Slightly longer than Tuesday — still easy</div><div class="rw-banner"><div class="h">🌊 Gentle · run→138 / walk→126 · cadence 150</div><div class="b">Legs should feel better than Tuesday. Still conversational, HR &lt;136, quick light feet. Building frequency, not intensity.</div></div></div>
+      <div class="blk stretch"><div class="lbl">🧘 Post-run static stretch <span class="dur">10 min</span></div><div class="det">Full lower-body routine. Hold each 30 sec.</div></div>
+      <div class="blk fuel"><div class="lbl">🍎 Post</div><div class="det">2 eggs + toast + fruit. Rehydrate.</div></div>
+    </div>
+  </div>
+
+  <div class="day" data-c="stretch">
+    <div class="day-hdr"><div><div class="day-name">Friday</div><div class="day-date">Sep 18</div><span class="cal-badge rest">🟣 rest</span></div><div class="day-focus">Rest + mobility</div></div>
+    <div class="day-body">
+      <div class="blk rest"><div class="lbl">😴 Rest day</div><div class="ttl">Recover between runs · easy walk optional</div><div class="det">No running. Optional easy walk. Keep the light week light — you're rebuilding gently and there may be a ride tomorrow.</div></div>
+      <div class="blk stretch"><div class="lbl">🧘 Full mobility session <span class="dur">15 min</span></div><div class="det">The week's dedicated stretch day — go through the whole routine below slowly and thoroughly. Add foam rolling: quads, IT band, calves, glutes, upper back.</div></div>
+      <div class="blk gun"><div class="lbl">🔫 Massage gun <span class="dur">8 min</span></div><div class="det">Full lower body + upper traps, moderate. Loosen anything still tight.</div></div>
+    </div>
+  </div>
+
+  <div class="day" data-c="run">
+    <div class="day-hdr"><div><div class="day-name">Saturday</div><div class="day-date">Sep 19</div><span class="cal-badge high">🔴 maintenance</span></div><div class="day-focus">Longer easy run (or ride)</div></div>
+    <div class="day-body">
+      <div class="blk stretch"><div class="lbl">🧘 Dynamic warm-up <span class="dur">8 min</span></div><div class="det">Full dynamic routine · leg swings · lunges × 10 · A-skips · butt kicks · 4 strides at 150.</div></div>
+      <div class="blk knee"><div class="lbl">🦵 Glute primer <span class="dur">3 min</span></div><div class="det">Bridges × 15 · clamshells × 12/side · hip-flexor opener.</div></div>
+      <div class="blk z1"><div class="lbl">🏃 Easy run-walk · 6:00 AM <span class="dur">45–50 min</span></div><div class="ttl">The week's longest — still easy, rebuilds toward the long run</div><div class="rw-banner"><div class="h">🌊 HEAT SETTING: run→138 / walk→126 · cadence 150</div><div class="b">Your longest run this week but still conversational (HR &lt;136). This gently rebuilds toward your 70-min long run in the weeks ahead. Don't push pace — easy is the point.</div></div></div>
+      <div class="blk bike"><div class="lbl">🚴 OR: easy ride if bike is back <span class="dur">optional</span></div><div class="det">If your bike's ready Saturday and you'd rather ride, an easy 60–75 min spin (cadence 75+) is a fine swap. Your call — run or ride, keep it easy either way.</div></div>
+      <div class="blk stretch"><div class="lbl">🧘 Post static stretch <span class="dur">12 min</span></div><div class="det">Full routine — you'll want it after the longest session of the week.</div></div>
+      <div class="blk fuel"><div class="lbl">🍎 Post</div><div class="det">Recovery shake + full meal. Rehydrate.</div></div>
+    </div>
+  </div>
+
+  <div class="day" data-c="rest">
+    <div class="day-hdr"><div><div class="day-name">Sunday</div><div class="day-date">Sep 20</div><span class="cal-badge rest">🟣 rest</span></div><div class="day-focus">REST (mandatory)</div></div>
+    <div class="day-body">
+      <div class="blk rest"><div class="lbl">😴 Complete rest — mandatory</div><div class="ttl">Reset week done · run habit re-established</div><div class="det">Nothing today. Easy walk if you like. 8+ hr sleep, full hydration. Note how the legs and knee feel after a run-focused week — that shapes how quickly we build run volume next.</div></div>
+      <div class="blk stretch"><div class="lbl">🧘 Gentle stretch <span class="dur">10 min</span></div><div class="det">Easy full-body routine. Keep the mobility gains going.</div></div>
+      <div class="blk fuel"><div class="lbl">🍎 Fuel + Week 39 prep</div><div class="det">3 meals, protein 120–155g. <strong>Next week: with the bike back, we rebalance — runs + rides + swim — and start progressively building the marathon base for Houston.</strong></div></div>
+    </div>
+  </div>
+
+</div>
+
+<section class="sec">
+  <h2>🧘 The Stretch &amp; Mobility Routine</h2>
+  <p class="sub">Your dedicated focus this week. Dynamic moves before runs (to warm up), static holds after (to lengthen). Hold each static stretch 30 seconds per side, breathe into it, never bounce or force. Extra attention to hips and hip flexors — they tighten most from cycling.</p>
+  <div class="stretch-grid">
+    <div class="sg-c">
+      <div class="n">🔥 Dynamic — before runs</div>
+      <ul>
+        <li><strong>Leg swings</strong> — front-to-back × 10/leg, side-to-side × 10/leg</li>
+        <li><strong>Walking lunges</strong> × 8/leg — open the hips</li>
+        <li><strong>High knees + butt kicks</strong> × 20 each</li>
+        <li><strong>Hip circles</strong> × 10 each direction</li>
+        <li><strong>Ankle rolls</strong> × 10 each</li>
+        <li><strong>3–4 easy strides</strong> at cadence 150 to finish</li>
+      </ul>
+    </div>
+    <div class="sg-c">
+      <div class="n">🧊 Static — after runs / rest days</div>
+      <ul>
+        <li><strong>Hip flexor lunge stretch</strong> 30s/side — key after cycling</li>
+        <li><strong>Pigeon pose</strong> 45s/side — deep glute/hip</li>
+        <li><strong>Standing quad stretch</strong> 30s/side</li>
+        <li><strong>Hamstring stretch</strong> (seated or standing) 30s/side</li>
+        <li><strong>Calf stretch</strong> (straight + bent knee) 30s/side each</li>
+        <li><strong>Figure-4 glute stretch</strong> 30s/side</li>
+      </ul>
+    </div>
+    <div class="sg-c">
+      <div class="n">🎯 Cycling-recovery extras</div>
+      <ul>
+        <li><strong>Doorway chest stretch</strong> 30s — opens the front after bent-over riding</li>
+        <li><strong>Upper-trap + neck stretch</strong> 30s/side — releases ride/desk tension</li>
+        <li><strong>Cat-cow</strong> × 10 — mobilizes the spine</li>
+        <li><strong>Thoracic rotations</strong> × 8/side — upper-back mobility</li>
+        <li><strong>Couch stretch</strong> 45s/side — deep hip flexor (go easy)</li>
+      </ul>
+    </div>
+    <div class="sg-c">
+      <div class="n">🧵 Foam roll (Fri + as needed)</div>
+      <ul>
+        <li><strong>Quads</strong> — slow passes, 30s/leg</li>
+        <li><strong>IT band</strong> — gentle, 30s/side</li>
+        <li><strong>Calves</strong> — 30s/leg</li>
+        <li><strong>Glutes</strong> — 30s/side</li>
+        <li><strong>Upper back</strong> — 30s (never lower back)</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="sec">
+  <h2>Week 38 at a glance</h2>
+  <table class="ntbl">
+    <thead><tr><th>Day</th><th>Session</th><th>Focus</th></tr></thead>
+    <tbody>
+      <tr><td>Mon Sep 14</td><td>Rest + gentle stretch</td><td>Waco recovery</td></tr>
+      <tr><td>Tue Sep 15</td><td>Easy run 30 min + stretch</td><td>first run back</td></tr>
+      <tr><td>Wed Sep 16</td><td>Optional swim + mobility</td><td>active recovery</td></tr>
+      <tr><td>Thu Sep 17</td><td>Easy run 35 min + stretch</td><td>build frequency</td></tr>
+      <tr><td>Fri Sep 18</td><td>Rest + full mobility session</td><td>dedicated stretch day</td></tr>
+      <tr><td>Sat Sep 19</td><td>Easy run 45–50 min (or ride)</td><td>longest · still easy</td></tr>
+      <tr><td>Sun Sep 20</td><td>REST (mandatory)</td><td>recover fully</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<div class="section-title">The 3 things that define Week 38</div>
+<div class="tips">
+  <div class="tip"><div class="n">01</div><div class="h">Keep every run easy</div><div class="b">Recovery reads 40 hr and you've done two big rides — this week is about re-grooving the run habit gently, not training hard. All runs conversational, HR under 136. Frequency first, distance later.</div></div>
+  <div class="tip"><div class="n">02</div><div class="h">Make stretching count</div><div class="b">You asked for it and it's well-timed. Cycling tightens hips, hip flexors, and the upper back — the daily routine restores range of motion, protects the knee, and sets up better running form as volume returns.</div></div>
+  <div class="tip"><div class="n">03</div><div class="h">The pivot back to Houston</div><div class="b">Summer cycling block is done (two events, both strong). With the bike out until Saturday, this is the natural moment to shift focus back to running. Easy this week, then we progressively rebuild the marathon base.</div></div>
+</div>
+
+<footer>HOUSTON MARATHON 2027 · 18 WEEKS TO RACE DAY · WEEK 38 · SIMPLE RUNS + STRETCH · RESET &amp; REBUILD</footer>
+</div>
+</body>
+</html>
