@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Week 43 · Oct 19–25, 2026 · Indoor Base Building</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,700;0,900;1,700&family=JetBrains+Mono:wght@400;600&family=Inter+Tight:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0b0d12;--bg2:#10131b;--ink:#f5f1e8;--soft:#a8a594;--line:#1f2330;
+  --z1:#3aa17a;--z2:#3b82f6;--str:#a855f7;--long:#ef6c4d;
+  --rest:#52525b;--pt:#14b8a6;--fuel:#eab308;--core:#ec4899;
+  --swim:#22d3ee;--gun:#f97316;--knee:#a3e635;--bike:#818cf8;--heat:#fb7185;
+  --win:#22c55e;--warn:#f59e0b;--flag:#ef4444;
+  --r:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter Tight',sans-serif;background:radial-gradient(1100px 500px at 75% -5%,rgba(58,161,122,.11),transparent 60%),radial-gradient(800px 400px at -5% 35%,rgba(129,140,248,.05),transparent 55%),var(--bg);color:var(--ink);line-height:1.5;min-height:100vh;padding:36px 20px 80px}
+.wrap{max-width:1180px;margin:0 auto}
+.hero{border:1px solid var(--line);border-radius:var(--r);padding:28px;background:linear-gradient(135deg,#0d1a14,#12131f);position:relative;overflow:hidden;margin-bottom:18px}
+.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(700px 300px at 90% 0%,rgba(58,161,122,.14),transparent);pointer-events:none}
+.eyebrow{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--soft);margin-bottom:10px}
+h1{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(28px,5vw,52px);letter-spacing:-.02em;line-height:1.02;margin-bottom:8px}
+h1 em{font-style:italic;color:#86efac;font-weight:400}
+.hero-sub{color:var(--soft);font-size:14px;max-width:780px;line-height:1.6}
+.stat-row{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:20px;position:relative;z-index:1}
+.stat{border:1px solid var(--line);border-radius:10px;padding:12px 14px;background:rgba(255,255,255,.02)}
+.stat .k{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--soft)}
+.stat .v{font-family:'Fraunces',serif;font-size:20px;font-weight:700;margin-top:3px;line-height:1}
+.stat .d{font-size:11px;color:var(--win);margin-top:2px;font-family:'JetBrains Mono',monospace}
+.stat .d.warn{color:#fbbf24}.stat .d.run{color:#86efac}.stat .d.bike{color:#a5b4fc}
+.review-strip{border:1px solid var(--line);border-radius:var(--r);background:var(--bg2);padding:18px 20px;margin-bottom:16px}
+.review-strip h2{font-family:'Fraunces',serif;font-size:19px;margin-bottom:12px}
+.rev-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.rev-c{border:1px solid var(--line);border-radius:8px;padding:12px;background:rgba(255,255,255,.02)}
+.rev-c .icon{font-size:18px;margin-bottom:4px}
+.rev-c .h{font-weight:600;font-size:13px;margin-bottom:3px}
+.rev-c .d{font-size:11px;color:var(--soft);line-height:1.4}
+.rev-c.win{border-color:rgba(34,197,94,.25)}
+.rev-c.flag{border-color:rgba(239,68,68,.3)}
+.banner{border:2px solid rgba(58,161,122,.45);background:linear-gradient(135deg,rgba(58,161,122,.10),rgba(129,140,248,.04));border-radius:var(--r);padding:22px 24px;margin-bottom:16px}
+.banner h2{font-family:'Fraunces',serif;font-size:22px;color:#86efac;margin-bottom:8px;letter-spacing:-.01em}
+.banner p{font-size:13.5px;line-height:1.6;color:var(--ink);margin-bottom:8px}
+.banner p strong{color:#86efac}
+.banner .split{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.sp{border:1px solid var(--line);border-radius:8px;padding:12px 14px;background:rgba(0,0,0,.2)}
+.sp .h{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:5px}
+.sp.hard .h{color:#a5b4fc}.sp.easy .h{color:#86efac}
+.sp .b{font-size:12px;line-height:1.5;color:var(--soft)}.sp .b strong{color:var(--ink)}
+.callout{border-radius:10px;padding:14px 18px;margin-bottom:14px;display:flex;gap:14px;align-items:flex-start}
+.callout.flag{border:1px solid rgba(239,68,68,.35);background:rgba(239,68,68,.06)}
+.callout.green{border:1px solid rgba(34,197,94,.3);background:rgba(34,197,94,.06)}
+.callout.knee{border:1px solid rgba(163,230,53,.3);background:rgba(163,230,53,.05)}
+.callout .ico{font-size:22px;flex-shrink:0;margin-top:2px}
+.callout h3{font-family:'Fraunces',serif;font-size:17px;margin-bottom:4px}
+.callout.flag h3{color:#fca5a5}.callout.green h3{color:#86efac}.callout.knee h3{color:#bef264}
+.callout p{font-size:13px;line-height:1.55;color:var(--ink)}
+.callout p strong{color:#fde68a}
+.section-title{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--soft);margin:22px 0 12px;display:flex;align-items:center;gap:10px}
+.section-title::after{content:"";flex:1;height:1px;background:var(--line)}
+.legend{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.chip{display:inline-flex;align-items:center;gap:7px;padding:6px 12px;border:1px solid var(--line);border-radius:30px;font-size:11px;font-family:'JetBrains Mono',monospace;letter-spacing:.05em;background:var(--bg2)}
+.dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.days{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-bottom:20px}
+.day{border:1px solid var(--line);border-radius:var(--r);background:var(--bg2);overflow:hidden;display:flex;flex-direction:column}
+.day-hdr{padding:13px 17px 11px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:flex-end;gap:10px;position:relative}
+.day-hdr::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--dc,#fff)}
+.day-name{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--soft)}
+.day-date{font-family:'Fraunces',serif;font-size:24px;font-weight:700;line-height:1;margin-top:2px}
+.day-focus{text-align:right;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;padding:4px 8px;border-radius:4px;background:rgba(255,255,255,.04);border:1px solid var(--line);color:var(--soft);max-width:170px}
+.cal-badge{font-family:'JetBrains Mono',monospace;font-size:9px;padding:2px 6px;border-radius:3px;margin-top:3px;display:inline-block}
+.cal-badge.high{background:rgba(239,108,77,.12);color:#fca97f}
+.cal-badge.low{background:rgba(59,130,246,.12);color:#7dd3fc}
+.cal-badge.rest{background:rgba(196,181,253,.12);color:#c4b5fd}
+.day-body{padding:14px 17px 16px;flex:1;display:flex;flex-direction:column;gap:11px}
+.blk{border-left:3px solid var(--bc,#fff);padding:9px 13px;background:rgba(255,255,255,.012);border-radius:0 8px 8px 0}
+.blk .lbl{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--soft);display:flex;justify-content:space-between;align-items:center;margin-bottom:3px}
+.blk .dur{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink);background:rgba(255,255,255,.06);padding:2px 6px;border-radius:3px}
+.blk .ttl{font-size:13px;font-weight:600;margin-bottom:4px}
+.blk .det{font-size:12px;color:var(--soft);line-height:1.55}
+.blk .det strong{color:var(--ink)}
+.blk.z1{--bc:var(--z1)}.blk.str{--bc:var(--str)}.blk.long{--bc:var(--long)}.blk.rest{--bc:var(--rest)}.blk.pt{--bc:var(--pt)}
+.blk.fuel{--bc:var(--fuel)}.blk.core{--bc:var(--core)}.blk.gun{--bc:var(--gun)}.blk.knee{--bc:var(--knee)}.blk.bike{--bc:var(--bike)}
+.day[data-c="run"]{--dc:var(--z1)}.day[data-c="long"]{--dc:var(--long)}.day[data-c="rest"]{--dc:var(--rest)}.day[data-c="bike"]{--dc:var(--bike)}
+.ex-grid{display:grid;grid-template-columns:1fr 1fr;gap:3px 12px;margin-top:6px}
+.ex-row{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink)}
+.ex-row span{color:var(--soft)}
+.ex-row.core{color:#f9a8d4}.ex-row.core span{color:rgba(249,168,212,.7)}
+.ex-row.knee{color:#bef264}.ex-row.knee span{color:rgba(190,242,100,.7)}
+.z2-banner{border:1px solid rgba(58,161,122,.4);background:rgba(58,161,122,.06);border-radius:8px;padding:10px 12px;margin-bottom:6px}
+.z2-banner .h{font-weight:700;font-size:12px;color:#86efac;margin-bottom:2px}
+.z2-banner .b{font-size:11px;color:var(--soft);line-height:1.45}
+.bike-tip{border:1px solid rgba(129,140,248,.4);background:rgba(129,140,248,.06);border-radius:8px;padding:10px 12px;margin-bottom:6px}
+.bike-tip .h{font-weight:700;font-size:12px;color:#a5b4fc;margin-bottom:2px}
+.bike-tip .b{font-size:11px;color:var(--soft);line-height:1.45}
+.sec{border:1px solid var(--line);border-radius:var(--r);padding:18px 20px;background:var(--bg2);margin-bottom:16px}
+.sec h2{font-family:'Fraunces',serif;font-size:19px;font-weight:700;margin-bottom:6px}
+.sec .sub{font-size:13px;color:var(--soft);margin-bottom:12px;line-height:1.5}
+.ntbl{width:100%;border-collapse:collapse;font-size:12px}
+.ntbl th{text-align:left;padding:8px 12px;background:rgba(58,161,122,.07);font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#86efac;border-bottom:1px solid var(--line)}
+.ntbl td{padding:9px 12px;border-bottom:1px dashed #1c2030;vertical-align:top}
+.ntbl td:first-child{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--soft);width:110px}
+.tips{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.tip{border:1px solid var(--line);border-radius:10px;padding:14px;background:rgba(255,255,255,.02)}
+.tip .n{font-family:'Fraunces',serif;font-size:32px;font-weight:900;color:#86efac;line-height:1;margin-bottom:5px}
+.tip .h{font-weight:600;font-size:13px;margin-bottom:3px}
+.tip .b{font-size:12px;color:var(--soft);line-height:1.5}
+footer{margin-top:28px;text-align:center;color:var(--soft);font-size:11px;font-family:'JetBrains Mono',monospace;letter-spacing:.1em}
+@media(max-width:860px){.days,.tips,.stat-row,.rev-grid,.banner .split{grid-template-columns:1fr}.stat-row{grid-template-columns:repeat(2,1fr)}.rev-grid{grid-template-columns:1fr 1fr}.ex-grid{grid-template-columns:1fr}body{padding:18px 12px 60px}}
+</style>
+</head>
+
+<body>
+<div class="wrap">
+
+<section class="hero">
+  <div class="eyebrow">Week 43 · Oct 19–25, 2026 · Houston Marathon 2027 · 13 weeks out · Base Building</div>
+  <h1>Build the base,<br><em>indoors</em>.</h1>
+  <p class="hero-sub">New setup, cleaner plan. Running moves to your garage treadmill — no cold air, no pollen, knee-friendly belt, and it already bumped your cadence to 150. The bike drops to easy D-pace (13–15 mph) with your face covered, so it finally becomes the recovery day it should be. The mission this block is simple and powerful: <strong>lots of easy Zone 2 volume to build your aerobic base</strong>, strength back for the knee and back, and complete-not-compete, injury-free, every step. First, though — only start once the cold has fully cleared.</p>
+  <div class="stat-row">
+    <div class="stat"><div class="k">Running</div><div class="v">Treadmill</div><div class="d run">garage · Z2</div></div>
+    <div class="stat"><div class="k">Bike</div><div class="v">D-pace</div><div class="d bike">13–15 mph</div></div>
+    <div class="stat"><div class="k">Run HR</div><div class="v">≤136</div><div class="d warn">set belt slow</div></div>
+    <div class="stat"><div class="k">Focus</div><div class="v">Base</div><div class="d run">easy volume</div></div>
+    <div class="stat"><div class="k">First</div><div class="v">Recover</div><div class="d warn">cold cleared?</div></div>
+  </div>
+</section>
+
+<div class="review-strip">
+  <h2>This week — one big confirmation, one lesson ✅⚠️</h2>
+  <div class="rev-grid">
+    <div class="rev-c flag"><div class="icon">🚴</div><div class="h">Tuesday bike was redlined</div><div class="d">HR 158 avg, 185 max, 66% in Zone 4–5, grinding into wind. Too hard — and likely lit up your back. D-pace fixes this.</div></div>
+    <div class="rev-c win"><div class="icon">🏃</div><div class="h">Treadmill = knee-friendly + cadence 150</div><div class="d">First garage run bumped cadence to 150 (from 132 outdoors). Softer belt, warm, no pollen. Great platform.</div></div>
+    <div class="rev-c flag"><div class="icon">🎯</div><div class="h">But it drifted to Zone 3</div><div class="d">HR 139, 87% Z3 — belt was set a touch fast (+ you were recovering). Lesson: lower the speed to hold ≤136.</div></div>
+    <div class="rev-c win"><div class="icon">✅</div><div class="h">Monday run was spot-on</div><div class="d">40 min, HR 130, 70% Zone 2 — exactly the easy base run we want. More of these.</div></div>
+  </div>
+</div>
+
+<div class="banner">
+  <h2>The base-building formula — why "easy" is the whole game</h2>
+  <p>Your aerobic base — the engine that carries you through 26.2 — is built almost entirely by <strong>easy, high-volume Zone 2</strong>, not hard efforts. The magic is consistency: show up, keep it easy, repeat. Over these weeks your Zone 2 pace quietly gets faster (you'll run more, walk less, at the same HR). That's the base growing. Every hard session you *avoid* now is an injury you don't get.</p>
+  <div class="split">
+    <div class="sp easy"><div class="h">🏃 Treadmill runs — all Zone 2</div><div class="b"><strong>Set the belt slow enough to hold HR ≤136.</strong> Walk breaks = lower the speed. Cadence 155+, 1% incline, fan on. The belt won't let you drift slower, so YOU control it.</div></div>
+    <div class="sp hard"><div class="h">🚴 Bike — easy D-pace only</div><div class="b"><strong>13–15 mph, HR in Zone 2.</strong> This is a recovery/aerobic day now — no chasing, no redlining. Cover your face for pollen + to warm the air. Spin 80+, don't grind.</div></div>
+  </div>
+</div>
+
+<div class="callout flag">
+  <div class="ico">🤒</div>
+  <div>
+    <h3>Before anything — is the cold fully gone?</h3>
+    <p>You were sick and on meds this week. <strong>Only start this plan once you're recovered</strong> — no fever, symptoms above-the-neck gone, energy back. If you're still run-down Monday/Tuesday, push everything later in the week or rest more; a few days don't matter 13 weeks out. And while still recovering, your HR runs high at easy effort — so go by feel (easy = easy), slow the belt, and don't chase pace.</p>
+  </div>
+</div>
+
+<div class="callout knee">
+  <div class="ico">🦵</div>
+  <div>
+    <h3>Back + knee — strength returns gently</h3>
+    <p>Your back flared this week (hard ride + 7 hr/day sitting). So strength comes back, but gently and back-focused: the <strong>McGill Big 3</strong> (curl-up, side plank, bird dog) + glutes — the exact fix for both your back and knee. And the daily habit that matters most: <strong>break up your sitting every 30–45 min</strong> at work (stand, walk, hip-flexor stretch). That does more for your back than any single exercise.</p>
+  </div>
+</div>
+
+<div class="legend">
+  <span class="chip"><span class="dot" style="background:var(--z1)"></span>Treadmill Run (Z2)</span>
+  <span class="chip"><span class="dot" style="background:var(--long)"></span>Long Run (treadmill)</span>
+  <span class="chip"><span class="dot" style="background:var(--bike)"></span>Bike (D-pace)</span>
+  <span class="chip"><span class="dot" style="background:var(--str)"></span>Strength</span>
+  <span class="chip"><span class="dot" style="background:var(--knee)"></span>Back / Glutes</span>
+  <span class="chip"><span class="dot" style="background:var(--rest)"></span>Rest</span>
+</div>
+
+<div class="section-title">Week 43 · Oct 19–25 · Indoor Base · Ease Back In</div>
+
+<div class="days">
+
+  <div class="day" data-c="run">
+    <div class="day-hdr"><div><div class="day-name">Monday</div><div class="day-date">Oct 19</div><span class="cal-badge low">🔵 mild deficit</span></div><div class="day-focus">Treadmill Run + Strength</div></div>
+    <div class="day-body">
+      <div class="blk knee"><div class="lbl">🦵 Glute primer <span class="dur">4 min</span></div><div class="det">Bridges × 15 · clamshells × 12/side · side leg raise · hip-flexor opener. Before every run.</div></div>
+      <div class="blk z1"><div class="lbl">🏃 Treadmill · easy <span class="dur">30–35 min</span></div><div class="ttl">Ease back in — short, truly easy (coming off illness)</div><div class="z2-banner"><div class="h">🎯 ZONE 2: set belt to hold HR ≤136 · cadence 155+ · 1% incline · fan on</div><div class="b">Start conservative after being sick. Set a slow belt speed; if HR climbs over 136, slow it down or drop to a walk. Go by feel — easy = easy.</div></div></div>
+      <div class="blk str"><div class="lbl">💪 Strength — McGill Big 3 + glutes <span class="dur">10 min</span></div>
+        <div class="ex-grid">
+          <div class="ex-row core">Modified curl-up <span>· 3×8s/side</span></div>
+          <div class="ex-row core">Side plank (from knees) <span>· 3×12s/side</span></div>
+          <div class="ex-row core">Bird dog <span>· 3×8/side</span></div>
+          <div class="ex-row knee">Single-leg glute bridge <span>· 3×10/side</span></div>
+          <div class="ex-row knee">Clamshells <span>· 3×15/side</span></div>
+        </div>
+      </div>
+      <div class="blk gun"><div class="lbl">🔫 Post <span class="dur">+ ICE</span></div><div class="det">Foam roll calves/quads. Ice knee 15 min if it spoke up. Legs-up-wall for the back.</div></div>
+    </div>
+  </div>
+
+  <div class="day" data-c="bike">
+    <div class="day-hdr"><div><div class="day-name">Tuesday</div><div class="day-date">Oct 20</div><span class="cal-badge low">🔵 easy</span></div><div class="day-focus">🚴 Bike · D-pace</div></div>
+    <div class="day-body">
+      <div class="blk bike"><div class="lbl">🚴 D-pace ride <span class="dur">13–15 mph · easy</span></div><div class="ttl">The big change — easy aerobic, NOT a workout</div>
+        <div class="bike-tip"><div class="h">🚴 Keep HR in Zone 2 (≤140), spin 80+</div><div class="b">Last Tuesday hit HR 158/185 — this week it should feel almost too easy. Sit in, don't chase, let the wind win. 13–15 mph, conversational. This is recovery, not competition.</div></div>
+        <div class="neck-tip"><div class="h">😷 Cover your face for pollen + cold air</div><div class="b">A buff / neck gaiter pulled over nose + mouth (or a cycling balaclava) filters pollen and warms the air you breathe — helps both the allergy and the "getting cold" feeling. If it's a bad-air or cold day, the indoor trainer is a fine swap.</div></div>
+      </div>
+      <div class="blk gun"><div class="lbl">🔫 Post</div><div class="det">Quads/glutes/calves + light upper-back. Legs-up-wall for the back.</div></div>
+    </div>
+  </div>
+
+  <div class="day" data-c="rest">
+    <div class="day-hdr"><div><div class="day-name">Wednesday</div><div class="day-date">Oct 21</div><span class="cal-badge rest">🟣 recover</span></div><div class="day-focus">Rest + Back Care</div></div>
+    <div class="day-body">
+      <div class="blk rest"><div class="lbl">😴 Rest</div><div class="ttl">Space between runs · let the back settle</div><div class="det">No running. Optional easy walk. Keeps the knee and back fresh between sessions.</div></div>
+      <div class="blk knee"><div class="lbl">🧘 Back + hip routine <span class="dur">15 min</span></div><div class="det">Cat-cow, pelvic tilts, knee-to-chest, child's pose, hip-flexor stretch, bird dog. Legs-up-the-wall 10 min. The desk-back antidote.</div></div>
+      <div class="blk fuel"><div class="lbl">🪑 Desk reminder</div><div class="det"><strong>Stand/walk every 30–45 min</strong> + hip-flexor stretch. This is the #1 fix for your sitting-related back pain — set a timer.</div></div>
+    </div>
+  </div>
+
+  <div class="day" data-c="run">
+    <div class="day-hdr"><div><div class="day-name">Thursday</div><div class="day-date">Oct 22</div><span class="cal-badge low">🔵 mild deficit</span></div><div class="day-focus">Treadmill Run + Core</div></div>
+    <div class="day-body">
+      <div class="blk knee"><div class="lbl">🦵 Glute primer <span class="dur">4 min</span></div><div class="det">Bridges · clamshells · side leg raise · hip-flexor opener.</div></div>
+      <div class="blk z1"><div class="lbl">🏃 Treadmill · easy <span class="dur">35–40 min</span></div><div class="ttl">Settle into the Zone 2 groove — belt controls you, you control the belt</div><div class="z2-banner"><div class="h">🎯 ZONE 2: belt set to hold HR ≤136 · cadence 155+ · fan on</div><div class="b">This is the run to practice holding ≤136 on the treadmill. Watch HR; the moment it creeps over 136, drop the speed. Walk breaks = lower belt. Quiet, light feet.</div></div></div>
+      <div class="blk core"><div class="lbl">💪 Core + glutes <span class="dur">10 min</span></div>
+        <div class="ex-grid">
+          <div class="ex-row core">Bird dog <span>· 3×8/side</span></div>
+          <div class="ex-row core">Dead-bug <span>· 3×10/side</span></div>
+          <div class="ex-row knee">Single-leg glute bridge <span>· 3×10/side</span></div>
+          <div class="ex-row core">Side plank <span>· 2×15s/side</span></div>
+        </div>
+      </div>
+      <div class="blk gun"><div class="lbl">🔫 Post <span class="dur">+ ICE</span></div><div class="det">Foam roll, massage gun. Ice knee 15 min if needed.</div></div>
+    </div>
+  </div>
+
+  <div class="day" data-c="rest">
+    <div class="day-hdr"><div><div class="day-name">Friday</div><div class="day-date">Oct 23</div><span class="cal-badge rest">🟣 rest</span></div><div class="day-focus">Rest — protect Saturday</div></div>
+    <div class="day-body">
+      <div class="blk rest"><div class="lbl">😴 Rest</div><div class="ttl">Fresh legs for the long run</div><div class="det">No training. Optional easy walk + light mobility. Friday stays protected.</div></div>
+      <div class="blk fuel"><div class="lbl">🍎 Fuel</div><div class="det">Carb-forward, hydrate. Set up the garage (water, fan, towel, show queued) for tomorrow.</div></div>
+    </div>
+  </div>
+
+  <div class="day" data-c="long">
+    <div class="day-hdr"><div><div class="day-name">Saturday</div><div class="day-date">Oct 24</div><span class="cal-badge high">🔴 maintenance</span></div><div class="day-focus">LONG RUN · 70 min (treadmill)</div></div>
+    <div class="day-body">
+      <div class="blk fuel"><div class="lbl">🌅 Pre</div><div class="det">Oats + banana + honey (or curd rice + banana). Water + electrolyte. Fan on, TV queued.</div></div>
+      <div class="blk knee"><div class="lbl">🦵 Glute primer + warm-up <span class="dur">10 min</span></div><div class="det">Full glute primer + easy 5-min walk warm-up on the belt before you run.</div></div>
+      <div class="blk long"><div class="lbl">🏃 Long run · treadmill <span class="dur">70 min — Zone 2</span></div><div class="ttl">Base long run — hold it EASY (last week drifted to Z3)</div>
+        <div class="z2-banner"><div class="h">🎯 STRICT ZONE 2: belt slow enough for HR ≤136 · cadence 155+ · walk breaks by lowering speed</div><div class="b">Same 70 min as last week, but this time keep it in Zone 2 — set the belt slower than feels natural and lower it whenever HR creeps up. Time-on-feet is the goal, not speed. This is how the base builds.</div></div>
+        <div class="det"><strong>Fuel from minute 20:</strong> dates or ½ banana + sips. Easy to do indoors — keep it beside you. <strong>Knee ≥3/10 → stop.</strong></div>
+      </div>
+      <div class="blk pt"><div class="lbl">🩺 Post <span class="dur">15 min</span></div><div class="det">Walk 5 min → legs up wall → foam roll → pigeon. Ice knee 15 min.</div></div>
+      <div class="blk fuel"><div class="lbl">🍎 Post (within 45 min)</div><div class="det">Carbs + protein: eggs + rice/roti + curd, or chicken + rice. Rehydrate.</div></div>
+    </div>
+  </div>
+
+  <div class="day" data-c="rest">
+    <div class="day-hdr"><div><div class="day-name">Sunday</div><div class="day-date">Oct 25</div><span class="cal-badge rest">🟣 rest</span></div><div class="day-focus">REST (mandatory)</div></div>
+    <div class="day-body">
+      <div class="blk rest"><div class="lbl">😴 Complete rest — mandatory</div><div class="ttl">Recovery builds the base</div><div class="det">Nothing today. Easy walk if you like. 8+ hr sleep, hydrate, legs-up-the-wall + back routine.</div></div>
+      <div class="blk fuel"><div class="lbl">🍎 Week 44 check-in</div><div class="det">Protein 120–140g. <strong>Report:</strong> cold fully gone? knee + back (0–10)? Were the treadmill runs in Zone 2 this time? That sets how we grow the base.</div></div>
+    </div>
+  </div>
+
+</div>
+
+<section class="sec">
+  <h2>🏃 Treadmill Zone 2 — the key skill this block</h2>
+  <p class="sub">The one thing to master: on a treadmill, the belt holds a fixed speed, so you can't slow down naturally when you tire. YOU have to manage it. Here's how.</p>
+  <table class="ntbl">
+    <thead><tr><th>Do this</th><th>Why</th></tr></thead>
+    <tbody>
+      <tr><td>Set belt SLOW to start</td><td>Easier to speed up than to realize you're in Zone 3. Begin ~4.0–4.5 mph and adjust.</td></tr>
+      <tr><td>Watch HR, not pace</td><td>Treadmill pace reads faster than it feels. The only number that matters is HR ≤136.</td></tr>
+      <tr><td>HR creeps over 136 → drop speed</td><td>Don't tough it out — lower the belt 0.3–0.5 mph until HR settles. This is the whole skill.</td></tr>
+      <tr><td>Walk breaks = lower the belt</td><td>Your run-walk still works: drop to a walk speed (~3.0–3.3), then back up to run.</td></tr>
+      <tr><td>1% incline + fan</td><td>1% matches outdoor effort; a fan stops you overheating (no breeze indoors).</td></tr>
+      <tr><td>Cadence 155+</td><td>The belt already helped you hit 150 — keep nudging. Quick, light, quiet feet protect the knee.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<div class="section-title">The 3 things that define Week 43</div>
+<div class="tips">
+  <div class="tip"><div class="n">01</div><div class="h">Recover first, then build</div><div class="b">Only start once the cold's fully gone. Then it's easy Zone 2 volume on the treadmill — consistency over intensity. That's how the marathon base is built.</div></div>
+  <div class="tip"><div class="n">02</div><div class="h">Easy means EASY — both sports</div><div class="b">Treadmill: set the belt to hold HR ≤136. Bike: D-pace 13–15 mph, Zone 2, face covered. Last week's Zone 4 ride is exactly what we're leaving behind.</div></div>
+  <div class="tip"><div class="n">03</div><div class="h">Strength + sitting breaks for the back</div><div class="b">McGill Big 3 + glutes, and stand/walk every 30–45 min at work. The back flare was sitting + a hard ride — fix both and it settles.</div></div>
+</div>
+
+<footer>HOUSTON MARATHON 2027 · 13 WEEKS TO RACE DAY · WEEK 43 · INDOOR BASE BUILDING · EASY IS THE ENGINE · COMPLETE NOT COMPETE</footer>
+</div>
+</body>
+</html>
